@@ -1,0 +1,43 @@
+// This is your Prisma schema file,
+// learn more about it in the docs: https://pris.ly/d/prisma-schema
+
+generator client {
+  provider        = "prisma-client-js"
+  previewFeatures = ["prismaSchemaFolder"]
+}
+
+datasource db {
+  provider = "sqlite"
+  url      = env("DATABASE_URL")
+}
+
+model ContactType {
+  id    Int     @id @default(autoincrement())
+  name  String
+  contacts Contacts[]
+  createdAt DateTime @default(now())
+  updatedAt DateTime @updatedAt
+}
+
+model Contacts {
+  id    Int     @id @default(autoincrement())
+  name  String
+  freguesia String
+  concelho String
+  nif String
+  ccNumber String
+  ccExpirationDate String
+  estadoCivil String
+  casadoSobRegime String
+  casadoComDomicilio String
+  matriculaComercial String
+  certidaoPermanente String
+  codigoRCBE String
+  sedeRCBE String
+  capitalSocial String
+  acto String
+  contactTypeId Int
+  contactType ContactType @relation(fields: [contactTypeId], references: [id])
+  createdAt DateTime @default(now())
+  updatedAt DateTime @updatedAt
+}

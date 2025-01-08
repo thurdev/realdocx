@@ -1,5 +1,5 @@
 <template>
-  <div class="flex w-full h-full gap-4 flex-col md:flex-row">
+  <div class="flex w-full h-[auto] gap-4 flex-col md:flex-row">
     <!-- Document generation center page -->
     <div
       class="flex-1 bg-white shadow-lg rounded-lg p-4 flex flex-col gap-4 dark:bg-zinc-900 dark:text-white"

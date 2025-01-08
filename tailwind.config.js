@@ -1,14 +1,14 @@
-const animate = require("tailwindcss-animate")
+const animate = require("tailwindcss-animate");
 
 /** @type {import('tailwindcss').Config} */
 module.exports = {
   darkMode: ["class"],
   content: [
-    './pages/**/*.{ts,tsx,vue}',
-    './components/**/*.{ts,tsx,vue}',
-    './app/**/*.{ts,tsx,vue}',
-    './src/**/*.{ts,tsx,vue}',
-	],
+    "./pages/**/*.{ts,tsx,vue}",
+    "./components/**/*.{ts,tsx,vue}",
+    "./app/**/*.{ts,tsx,vue}",
+    "./src/**/*.{ts,tsx,vue}",
+  ],
   prefix: "",
   theme: {
     container: {
@@ -19,6 +19,10 @@ module.exports = {
       },
     },
     extend: {
+      colors: {
+        sidebar: "hsl(240 5.9% 10%)",
+        "sidebar-accent": "hsl(240 3.7% 15.9%)",
+      },
       keyframes: {
         "accordion-down": {
           from: { height: 0 },
@@ -36,4 +40,4 @@ module.exports = {
     },
   },
   plugins: [animate],
-}
+};

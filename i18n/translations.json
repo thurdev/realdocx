@@ -4,13 +4,33 @@
       "en": "CPCV",
       "pt": "CPCV"
     },
-    "documents": {
-      "en": "Documents",
-      "pt": "Documentos"
+    "create": {
+      "en": "Create",
+      "pt": "Criar"
     },
-    "subscriptions": {
-      "en": "Subscriptions",
-      "pt": "Assinaturas"
+    "contacts": {
+      "en": "Contacts",
+      "pt": "Contatos"
+    },
+    "properties": {
+      "en": "Properties",
+      "pt": "Imóveis"
+    },
+    "logout": {
+      "en": "Logout",
+      "pt": "Encerrar Sessão"
+    },
+    "dark": {
+      "en": "Dark",
+      "pt": "Escuro"
+    },
+    "light": {
+      "en": "Light",
+      "pt": "Claro"
+    },
+    "language": {
+      "en": "Language",
+      "pt": "Idioma"
     }
   }
 }

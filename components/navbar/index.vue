@@ -11,16 +11,6 @@
         <i class="fa-light fa-bars"></i>
       </Button>
     </div>
-    <div>
-      <Button
-        variant="ghost"
-        class="dark:text-white text-[16px]"
-        @click="handleThemeMode"
-      >
-        <i class="fa-light fa-moon" v-if="colorMode.preference === 'dark'" />
-        <i class="fa-light fa-sun-bright" v-else />
-      </Button>
-    </div>
   </div>
 </template>
 
