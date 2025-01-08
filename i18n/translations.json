@@ -1,0 +1,16 @@
+{
+  "sidebar": {
+    "cpcv": {
+      "en": "CPCV",
+      "pt": "CPCV"
+    },
+    "documents": {
+      "en": "Documents",
+      "pt": "Documentos"
+    },
+    "subscriptions": {
+      "en": "Subscriptions",
+      "pt": "Assinaturas"
+    }
+  }
+}
