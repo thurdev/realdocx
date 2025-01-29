@@ -60,16 +60,16 @@
               "
             >
               <Avatar class="h-8 w-8 rounded-lg">
-                <AvatarImage :src="user?.avatar ?? ''" alt="User" />
+                <AvatarImage :src="user?.picture ?? ''" alt="User" />
                 <AvatarFallback>{{
-                  user?.email.charAt(0).toUpperCase() ?? "User"
+                  userAvatarFallback(user?.name ?? "") ?? "User"
                 }}</AvatarFallback>
               </Avatar>
               <div
                 class="dark:text-white flex items-center justify-between w-full"
               >
                 <div class="truncate text-xs">
-                  {{ user?.email?.split("@")?.[0] }}
+                  {{ user?.name }}
                 </div>
                 <div>
                   <i class="fal fa-angles-up-down"></i>
@@ -85,13 +85,13 @@
                 class="flex items-center gap-2 px-1 py-1.5 text-left text-sm"
               >
                 <Avatar class="h-8 w-8 rounded-lg">
-                  <AvatarImage :src="user?.avatar ?? ''" :alt="user?.email" />
+                  <AvatarImage :src="user?.picture ?? ''" :alt="user?.email" />
                   <AvatarFallback class="rounded-lg">
-                    {{ user?.email.charAt(0).toUpperCase() ?? "User" }}
+                    {{ userAvatarFallback(user?.name ?? "") ?? "User" }}
                   </AvatarFallback>
                 </Avatar>
                 <div class="grid flex-1 text-left text-sm leading-tight">
-                  <span class="truncate font-semibold">{{ user?.email }}</span>
+                  <span class="truncate font-semibold">{{ user?.name }}</span>
                 </div>
               </div>
             </DropdownMenuLabel>
@@ -188,12 +188,16 @@ const handleThemeMode = () => {
 };
 
 const handleLogout = async () => {
-  await $fetch("/api/logout");
+  await $fetch("/api/auth/logout");
   await clear();
   window.location.href = "/login";
 };
 
 const setLanguage = (lang: string) => {
   language.value = lang;
+};
+
+const userAvatarFallback = (name: string) => {
+  return name.split(" ")?.[0]?.charAt(0) + name.split(" ")?.[1]?.charAt(0);
 };
 </script>

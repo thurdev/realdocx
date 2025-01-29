@@ -8,6 +8,7 @@ export default defineNuxtConfig({
     "shadcn-nuxt",
     "nuxt-auth-utils",
     "@prisma/nuxt",
+    "nuxt-vue3-google-signin",
   ],
   colorMode: {
     classSuffix: "",
@@ -32,7 +33,21 @@ export default defineNuxtConfig({
           src: "https://kit.fontawesome.com/fc70af23fc.js",
           crossorigin: "anonymous",
         },
+        {
+          src: "https://unpkg.com/@splinetool/viewer@1.9.59/build/spline-viewer.js",
+          type: "module",
+        },
       ],
+    },
+  },
+  googleSignIn: {
+    clientId:
+      "1095108654667-4basuj8t8uiu2e0dft50ofij4olbc0q0.apps.googleusercontent.com",
+  },
+  vue: {
+    // custom element
+    compilerOptions: {
+      isCustomElement: (tag) => tag.startsWith("spline-viewer"),
     },
   },
 });

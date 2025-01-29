@@ -12,3 +12,10 @@ declare module "@vue/runtime-core" {
     $t: (key: string, locale?: string) => string;
   }
 }
+
+/// Vue 3 Component
+declare module "spline-vue/v3" {
+  import { DefineComponent } from "vue";
+  const component: DefineComponent<{}, {}, any>;
+  export default component;
+}

@@ -1,7 +1,6 @@
 // plugins/i18n.ts
 import translations from "@/i18n/translations.json";
 import { useLanguage } from "@/composable/useLanguage";
-import { watch } from "vue";
 
 export default defineNuxtPlugin({
   name: "i18n",
@@ -10,8 +9,8 @@ export default defineNuxtPlugin({
     const language = useLanguage();
 
     const $t = (key: string, locale?: string) => {
+      if (!key) return "";
       locale = locale || language.value;
-
       try {
         const keys = key.split(".");
         let value = translations as any;

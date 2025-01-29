@@ -3,5 +3,5 @@
 </template>
 
 <script setup lang="ts">
-navigateTo("/cpcv");
+navigateTo("/cpcv/contacts");
 </script>

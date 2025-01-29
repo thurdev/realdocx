@@ -32,5 +32,59 @@
       "en": "Language",
       "pt": "Idioma"
     }
+  },
+  "auth": {
+    "register": {
+      "title": {
+        "en": "Register",
+        "pt": "Registar"
+      }
+    }
+  },
+  "endpoints": {
+    "errors": {
+      "label": {
+        "en": "Whoops! Something went wrong.",
+        "pt": "Ups! Algo correu mal."
+      },
+      "register": {
+        "missingFields": {
+          "en": "Please fill all the fields",
+          "pt": "Por favor preencha todos os campos"
+        },
+        "userExists": {
+          "en": "User already exists.",
+          "pt": "Utilizador já existe."
+        }
+      },
+      "auth": {
+        "missingFields": {
+          "en": "Please fill all the fields",
+          "pt": "Por favor preencha todos os campos"
+        },
+        "userNotFound": {
+          "en": "User not found.",
+          "pt": "Utilizador não encontrado."
+        },
+        "googleAuth": {
+          "en": "Google authentication failed.",
+          "pt": "Autenticação Google falhou."
+        }
+      }
+    },
+    "success": {
+      "label": {
+        "en": "Success!",
+        "pt": "Sucesso!"
+      },
+      "userRegistered": {
+        "en": "User registered successfully.",
+        "pt": "Utilizador registado com sucesso."
+      },
+      "userAuthenticated": {
+        "en": "User authenticated successfully.",
+        "pt": "Utilizador autenticado com sucesso."
+      }
+    }
   }
 }

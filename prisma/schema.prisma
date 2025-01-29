@@ -11,33 +11,204 @@ datasource db {
   url      = env("DATABASE_URL")
 }
 
-model ContactType {
+model Users {
   id    Int     @id @default(autoincrement())
-  name  String
+  // User Data
+  name String?
+  email String @unique
+  password String
+  picture String?
+  phoneNumber String?
+  vatNumber String?
+  // Booleans
+  isEmailVerified Boolean @default(false)
+  isPhoneNumberVerified Boolean @default(false)
+  isBanned Boolean @default(false)
+  // Stripe
+  stripeCustomerId String?
+  // Company
+  companyName String?
+  companyAddress String?
+  companyCity String?
+  companyPostalCode String?
+  // Contacts
   contacts Contacts[]
+  // Contracts
+  contracts Contracts[]
+  // Transactions
+  transactions Transactions[]
   createdAt DateTime @default(now())
   updatedAt DateTime @updatedAt
 }
 
+enum ContactType {
+  individual
+  company
+}
+
+enum IdentityType {
+  citizenCard
+  oldIdCard
+  passport
+  drivingLicense
+  residencePermit
+  // TODO: Terminar isso
+  company
+}
+
+enum MaritalStatus {
+  single
+  married
+  divorced
+  widowed
+}
+
 model Contacts {
   id    Int     @id @default(autoincrement())
+  // Contact Info
   name  String
-  freguesia String
-  concelho String
-  nif String
-  ccNumber String
-  ccExpirationDate String
-  estadoCivil String
-  casadoSobRegime String
-  casadoComDomicilio String
-  matriculaComercial String
-  certidaoPermanente String
-  codigoRCBE String
-  sedeRCBE String
-  capitalSocial String
-  acto String
-  contactTypeId Int
-  contactType ContactType @relation(fields: [contactTypeId], references: [id])
+  vat String
+
+  // Marital
+  maritalStatus MaritalStatus
+  marriedUnderRegime String?
+
+  // Identity Card
+  identityType IdentityType
+  identityNumber String
+  identityExpirationDate DateTime
+  identityIssuer String
+
+
+
+
+  // Contact Address
+  address String // Company or Individual
+  neighborhood String // Company or Individual
+  state String // Company or Individual
+  city String // Company or Individual
+  postalCode String // Company or Individual
+
+  // Company
+  companyRegistration String // Registro Comercial
+  companyCode String // Certidao Permanente
+  companyRCBECode String // Codigo RCBE
+  companySocialCapital String // Capital Social
+
+  // ContactType
+  contactType ContactType
+
+  // User
+  ownerId Int
+  owner Users @relation(fields: [ownerId], references: [id])
+
+  // Contracts 
+  contactsContract ContractContacts[]
+
+  createdAt DateTime @default(now())
+  updatedAt DateTime @updatedAt
+}
+
+model Properties {
+  id    Int     @id @default(autoincrement())
+  // Property Info
+  fraction String // Compiscão (H)
+  floor String // Andar
+  destination String // Destino (Habitacao, Comercio, Serviços)
+  neighborhood String // Freguesia
+  address String // Morada
+  number String // Numero
+  city String // Localidade
+  postalCode String // Codigo Postal
+  matrixRegistration String // Inscricao Matricial
+  buildingDescriptionNumber String // Descrição do Prédio
+  buildingDescriptionRegistry String // Conservatoria do Registo Predial
+  luNumber String // Numero de LU (Licença de Utilização)
+  luDate DateTime // Data de LU (Licença de Utilização)
+  luIssuer String // Entidade Emissora da LU (Licença de Utilização)
+  ecLetter String // Letra do Certificado Energético
+  ecNumber String // Certificado Energético
+  ecValidUntil DateTime // Data do Certificado Energético
+
+  // charges (Despesas)
+  chargesType String // Tipo de Despesa
+  chargesBank String // Banco
+  chargesAP String // AP
+  chargesDate DateTime // Data de Despesa
+  
+
+  // Contracts
+  contracts Contracts[]
+
+  createdAt DateTime @default(now())
+  updatedAt DateTime @updatedAt
+}
+
+
+enum ContactsType {
+  seller
+  buyer
+  renter
+  landlord
+}
+
+model ContractContacts {
+  id Int @id @default(autoincrement())
+  // Contracts
+  contractId Int
+  contracts Contracts @relation(fields: [contractId], references: [id])
+
+  // Contacts
+  contactId Int
+  contacts Contacts @relation(fields: [contactId], references: [id])
+
+  // Contact Type
+  contactType ContactsType
+}
+
+enum ContractType {
+  buyOrSell  // Gets template of buy and sell (CPCV)
+  rent // Gets template of rent
+}
+model Contracts {
+  id Int @id @default(autoincrement())
+
+  // ContractType
+  contractType ContractType 
+  
+  // Contacts
+  contacts ContractContacts[]
+
+  // Properties
+  propertyId Int
+  property Properties @relation(fields: [propertyId], references: [id])
+
+  // User
+  generatedBy Int
+  user Users @relation(fields: [generatedBy], references: [id])
+
+  // Transaction
+  transactions Transactions[]
+}
+
+enum TransactionType {
+  credit
+  debit
+}
+
+model Transactions {
+  id    Int     @id @default(autoincrement())
+  amount Float
+  type TransactionType
+
+  // User
+  userId Int
+  user Users @relation(fields: [userId], references: [id])
+
+  // Contract
+  contractId Int
+  contract Contracts @relation(fields: [contractId], references: [id])
+
   createdAt DateTime @default(now())
   updatedAt DateTime @updatedAt
 }

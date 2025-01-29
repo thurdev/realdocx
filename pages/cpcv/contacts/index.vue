@@ -20,20 +20,72 @@
         <DialogDescription>
           Adicione um novo contato para a tua lista de contatos.
         </DialogDescription>
-
-        <Label>Nome</Label>
-        <Input label="Nome" />
-
-        <Label>Email</Label>
-        <Input label="Email" />
       </DialogHeader>
 
-      <DialogFooter> Salvar </DialogFooter>
+      <div class="flex gap-2">
+        <div class="flex-1">
+          <p>Informações Pessoais</p>
+          <Label>Nome</Label>
+          <Input label="Nome" />
+
+          <Label>Freguesia</Label>
+          <Input label="freguesia" />
+
+          <Label>Concelho</Label>
+          <Input label="Concelho" />
+
+          <Label>NIF</Label>
+          <Input label="NIF" />
+
+          <Label>Cartão Cidadão</Label>
+          <Input label="Cartão Cidadão" />
+
+          <Label>Cartão Cidadão Data de Validade</Label>
+          <Input label="Cartão Cidadão Data de Validade" />
+
+          <Label>Estado Civil</Label>
+          <Input label="Estado Civil" />
+
+          <Label>Casado sob regime</Label>
+          <Input label="Casado sob regime" />
+
+          <Label>Casado com domicilio</Label>
+          <Input label="Casado com domicilio" />
+        </div>
+
+        <div class="flex-1">
+          <p>Informações Profissionais</p>
+          <Label>Matricula Comercial</Label>
+          <Input label="Matricula Comercial" />
+
+          <Label>Certidao Permanente</Label>
+          <Input label="Certidao Permanente" />
+
+          <Label>Codigo RCBE</Label>
+          <Input label="Codigo RCBE" />
+
+          <Label>Sede RCBE</Label>
+          <Input label="Sede RCBE" />
+
+          <Label>Capital Social</Label>
+          <Input label="Capital Social" />
+
+          <Label>Acto</Label>
+          <Input label="Acto" />
+        </div>
+      </div>
+
+      <DialogFooter> <Button>Salvar</Button> </DialogFooter>
     </DialogContent>
   </Dialog>
 </template>
 
 <script setup lang="ts">
+definePageMeta({
+  layout: "authenticated",
+  middleware: "authenticated",
+});
+
 import {
   Card,
   CardContent,
