@@ -33,6 +33,28 @@
       "pt": "Idioma"
     }
   },
+  "cpcv": {
+    "contacts": {
+      "maritalStatus": {
+        "single": {
+          "en": "Single",
+          "pt": "Solteiro"
+        },
+        "married": {
+          "en": "Married",
+          "pt": "Casado"
+        },
+        "divorced": {
+          "en": "Divorced",
+          "pt": "Divorciado"
+        },
+        "widowed": {
+          "en": "Widowed",
+          "pt": "Viúvo"
+        }
+      }
+    }
+  },
   "auth": {
     "register": {
       "title": {
