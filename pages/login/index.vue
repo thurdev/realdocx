@@ -6,7 +6,7 @@
       ></spline-viewer>
     </div>
     <div
-      class="w-[100dvw] h-[100dvh] flex-1 bg-white flex items-center justify-center flex-col gap-4"
+      class="w-[100dvw] h-[100dvh] flex-1 bg-white dark:bg-zinc-950 flex items-center justify-center flex-col gap-4"
     >
       <h1
         class="text-black text-[48px] dark:text-white font-bold flex items-center justify-center gap-4"
@@ -28,26 +28,26 @@
         @keydown.enter="handleLogin"
       />
       <Button
-        class="w-full max-w-[342px]"
+        class="w-full max-w-[342px] !bg-blue-500 hover:!bg-blue-600 dark:text-white"
         @click="handleLogin"
         :disabled="!canSubmit"
       >
         <i class="fal fa-sign-in-alt"></i>
         Entrar
       </Button>
-      <p class="text-sm">Ou</p>
+      <p class="text-sm dark:text-white">Ou</p>
       <GoogleSignInButton
         @success="handleGoogleLoginSuccess"
         @error="handleGoogleLoginError"
       ></GoogleSignInButton>
 
-      <small
+      <small class="dark:text-white"
         >Ainda não tens conta?
         <NuxtLink to="/register" class="hover:underline"
           >Registar</NuxtLink
         ></small
       >
-      <div class="absolute bottom-[8px] flex gap-2">
+      <div class="dark:text-white absolute bottom-[8px] flex gap-2">
         <p>Política de privacidade</p>
         <p>|</p>
         <p>Termos de Uso</p>
