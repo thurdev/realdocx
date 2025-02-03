@@ -1,4 +1,18 @@
 {
+  "shared": {
+    "back": {
+      "en": "Back",
+      "pt": "Voltar"
+    },
+    "next": {
+      "en": "Next",
+      "pt": "Seguinte"
+    },
+    "save": {
+      "en": "Save",
+      "pt": "Guardar"
+    }
+  },
   "sidebar": {
     "cpcv": {
       "en": "CPCV",
@@ -35,22 +49,234 @@
   },
   "cpcv": {
     "contacts": {
-      "maritalStatus": {
-        "single": {
-          "en": "Single",
-          "pt": "Solteiro"
+      "modals": {
+        "contactType": {
+          "en": "Contact Type",
+          "pt": "Tipo de Contacto"
         },
-        "married": {
-          "en": "Married",
-          "pt": "Casado"
+        "contactTypeDescription": {
+          "en": "Select the type of contact you want to add",
+          "pt": "Selecione o tipo de contacto que desejas adicionar"
         },
-        "divorced": {
-          "en": "Divorced",
-          "pt": "Divorciado"
+        "types": {
+          "individual": {
+            "en": "Individual",
+            "pt": "Pessoa Singular"
+          },
+          "company": {
+            "en": "Company",
+            "pt": "Empresa"
+          }
         },
-        "widowed": {
-          "en": "Widowed",
-          "pt": "Viúvo"
+        "form": {
+          "steps": {
+            "1": {
+              "title": {
+                "individual": {
+                  "en": "Contact's data",
+                  "pt": "Dados do contacto"
+                },
+                "company": {
+                  "en": "Representative's data",
+                  "pt": "Dados do representante"
+                }
+              },
+              "description": {
+                "individual": {
+                  "en": "Fill in the contact's data",
+                  "pt": "Preencha os dados do contacto"
+                },
+                "company": {
+                  "en": "Fill in the representative's data",
+                  "pt": "Preencha os dados do representante"
+                }
+              }
+            },
+            "2": {
+              "title": {
+                "individual": {
+                  "en": "Contact's address",
+                  "pt": "Morada do contacto"
+                },
+                "company": {
+                  "en": "Company's address",
+                  "pt": "Morada da empresa"
+                }
+              },
+              "description": {
+                "individual": {
+                  "en": "Fill in the contact's address",
+                  "pt": "Preencha a morada do contacto"
+                },
+                "company": {
+                  "en": "Fill in the company's address",
+                  "pt": "Preencha a morada da empresa"
+                }
+              }
+            },
+            "3": {
+              "title": {
+                "individual": {
+                  "en": "Identification document",
+                  "pt": "Documento de identificação"
+                },
+                "company": {
+                  "en": "Representative's identification document",
+                  "pt": "Documento de identificação do representante"
+                }
+              },
+              "description": {
+                "individual": {
+                  "en": "Fill in the contact's identification document",
+                  "pt": "Preencha o documento de identificação do contacto"
+                },
+                "company": {
+                  "en": "Fill in the representative's identification document",
+                  "pt": "Preencha o documento de identificação do representante"
+                }
+              }
+            },
+            "4": {
+              "title": {
+                "company": {
+                  "en": "Company's data",
+                  "pt": "Dados da empresa"
+                }
+              },
+              "description": {
+                "company": {
+                  "en": "Fill in the company's data",
+                  "pt": "Preencha os dados da empresa"
+                }
+              }
+            }
+          },
+          "inputs": {
+            "district": {
+              "en": "District",
+              "pt": "Distrito"
+            },
+            "address": {
+              "en": "Address",
+              "pt": "Morada"
+            },
+            "city": {
+              "en": "City",
+              "pt": "Cidade"
+            },
+            "zipCode": {
+              "en": "Zip Code",
+              "pt": "Código Postal"
+            },
+            "neighborhood": {
+              "en": "Neighborhood",
+              "pt": "Freguesia"
+            },
+            "country": {
+              "en": "Country",
+              "pt": "País"
+            },
+            "nif": {
+              "en": "NIF",
+              "pt": "NIF"
+            },
+            "name": {
+              "en": "Name",
+              "pt": "Nome"
+            },
+            "marriedUnderRegime": {
+              "en": "Married under the regime of",
+              "pt": "Casado sob o regime de"
+            },
+            "selectMaritalStatus": {
+              "en": "Select the marital status",
+              "pt": "Selecione o estado civil"
+            },
+            "maritalStatus": {
+              "label": {
+                "en": "Marital Status",
+                "pt": "Estado Civil"
+              },
+              "single": {
+                "en": "Single",
+                "pt": "Solteiro"
+              },
+              "married": {
+                "en": "Married",
+                "pt": "Casado"
+              },
+              "divorced": {
+                "en": "Divorced",
+                "pt": "Divorciado"
+              },
+              "widowed": {
+                "en": "Widowed",
+                "pt": "Viúvo"
+              }
+            },
+            "documentType": {
+              "cc": {
+                "en": "Citizen Card",
+                "pt": "Cartão de Cidadão"
+              },
+              "bi": {
+                "en": "Identity Card",
+                "pt": "Bilhete de Identidade"
+              },
+              "passport": {
+                "en": "Passport",
+                "pt": "Passaporte"
+              },
+              "residencePermit": {
+                "en": "Residence Permit",
+                "pt": "Título de Residência"
+              },
+              "driverLicense": {
+                "en": "Driver License",
+                "pt": "Carta de Condução"
+              }
+            },
+            "selectTheDocumentType": {
+              "en": "Select the document type",
+              "pt": "Selecione o tipo de documento"
+            },
+            "documentNumber": {
+              "en": "Document Number",
+              "pt": "Número do Documento"
+            },
+            "documentExpirationDate": {
+              "en": "Document Expiration Date",
+              "pt": "Data de Validade do Documento"
+            },
+            "documentIssueDate": {
+              "en": "Document Issue Date",
+              "pt": "Data de Emissão do Documento"
+            },
+            "documentIssuingCountry": {
+              "en": "Document Issuing Country",
+              "pt": "País de Emissão do Documento"
+            },
+            "comercialRegistration": {
+              "en": "Comercial Registration",
+              "pt": "Registo Comercial"
+            },
+            "socialCapital": {
+              "en": "Social Capital",
+              "pt": "Capital Social"
+            },
+            "companyName": {
+              "en": "Company Name",
+              "pt": "Nome da Empresa"
+            },
+            "codeRCBE": {
+              "en": "RCBE Code",
+              "pt": "Código RCBE"
+            },
+            "permanentCertificate": {
+              "en": "Permanent Certificate",
+              "pt": "Certidão Permanente"
+            }
+          }
         }
       }
     }

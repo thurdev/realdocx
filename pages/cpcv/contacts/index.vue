@@ -44,10 +44,10 @@
               class="relative flex w-full items-start gap-6"
               :step="step.step"
             >
-              <!-- <StepperSeparator
-              v-if="step.step !== steps[steps.length - 1].step"
-              class="absolute left-[18px] top-[38px] block h-[105%] w-0.5 shrink-0 rounded-full bg-muted group-data-[state=completed]:bg-primary"
-            /> -->
+              <StepperSeparator
+                v-if="step.step !== steps[steps.length - 1].step"
+                class="absolute left-[18px] top-[38px] block h-[105%] w-0.5 shrink-0 rounded-full bg-gray-100 group-data-[state=completed]:bg-black"
+              />
 
               <StepperTrigger as-child>
                 <Button
@@ -92,18 +92,35 @@
             <!-- Detalhes Pessoais -->
             <div class="flex flex-col flex-1 gap-4" v-if="currentStep === 1">
               <div>
-                <Label>Nome</Label> <Input placeholder="Introduza o nome" />
+                <Label>{{ $t("cpcv.contacts.modals.form.inputs.name") }}</Label>
+                <Input
+                  :placeholder="$t('cpcv.contacts.modals.form.inputs.name')"
+                />
               </div>
 
               <div>
-                <Label>NIF</Label> <Input placeholder="Introduza o NIF" />
+                <Label>{{ $t("cpcv.contacts.modals.form.inputs.nif") }}</Label>
+                <Input
+                  :placeholder="$t('cpcv.contacts.modals.form.inputs.nif')"
+                />
               </div>
 
-              <div class="flex flex-col gap-2">
-                <Label>Estado Civil</Label>
+              <div
+                class="flex flex-col gap-2"
+                v-if="newCustomer.type !== CustomerType.Company"
+              >
+                <Label>{{
+                  $t("cpcv.contacts.modals.form.inputs.maritalStatus.label")
+                }}</Label>
                 <Select v-model="newCustomer.maritalStatus">
                   <SelectTrigger>
-                    <SelectValue placeholder="Selecione o Estado Civil" />
+                    <SelectValue
+                      :placeholder="
+                        $t(
+                          'cpcv.contacts.modals.form.inputs.selectMaritalStatus'
+                        )
+                      "
+                    />
                   </SelectTrigger>
                   <SelectContent>
                     <SelectGroup>
@@ -124,8 +141,14 @@
                     newCustomer.maritalStatus !== MaritalStatus.Single
                   "
                 >
-                  <Label>Casado sob regime</Label>
-                  <Input label="Casado sob regime" />
+                  <Label class="mt-2">{{
+                    $t("cpcv.contacts.modals.form.inputs.marriedUnderRegime")
+                  }}</Label>
+                  <Input
+                    :label="
+                      $t('cpcv.contacts.modals.form.inputs.marriedUnderRegime')
+                    "
+                  />
                 </template>
               </div>
             </div>
@@ -133,26 +156,57 @@
             <!-- Endereço -->
             <div class="flex flex-col flex-1 gap-4" v-if="currentStep === 2">
               <div>
-                <Label>Endereço</Label>
-                <Input placeholder="Introduza o endereço" />
+                <Label>{{
+                  $t("cpcv.contacts.modals.form.inputs.country")
+                }}</Label>
+                <Input
+                  :placeholder="$t('cpcv.contacts.modals.form.inputs.country')"
+                />
               </div>
 
               <div>
-                <Label>Freguesia</Label>
-                <Input placeholder="Introduza a freguesia" />
+                <Label>{{
+                  $t("cpcv.contacts.modals.form.inputs.district")
+                }}</Label>
+                <Input
+                  :placeholder="$t('cpcv.contacts.modals.form.inputs.district')"
+                />
               </div>
 
               <div>
-                <Label>Estado</Label> <Input placeholder="Introduza o estado" />
+                <Label>{{ $t("cpcv.contacts.modals.form.inputs.city") }}</Label>
+                <Input
+                  :placeholder="$t('cpcv.contacts.modals.form.inputs.city')"
+                />
               </div>
 
               <div>
-                <Label>Cidade</Label> <Input placeholder="Introduza a cidade" />
+                <Label>{{
+                  $t("cpcv.contacts.modals.form.inputs.neighborhood")
+                }}</Label>
+                <Input
+                  :placeholder="
+                    $t('cpcv.contacts.modals.form.inputs.neighborhood')
+                  "
+                />
               </div>
 
               <div>
-                <Label>Código Postal</Label>
-                <Input placeholder="Introduza o código postal" />
+                <Label>{{
+                  $t("cpcv.contacts.modals.form.inputs.address")
+                }}</Label>
+                <Input
+                  :placeholder="$t('cpcv.contacts.modals.form.inputs.address')"
+                />
+              </div>
+
+              <div>
+                <Label>{{
+                  $t("cpcv.contacts.modals.form.inputs.zipCode")
+                }}</Label>
+                <Input
+                  :placeholder="$t('cpcv.contacts.modals.form.inputs.zipCode')"
+                />
               </div>
             </div>
 
@@ -195,23 +249,45 @@
             <!-- Detalhes da Empresa -->
             <div class="flex flex-col flex-1 gap-4" v-if="currentStep === 4">
               <div>
-                <Label>Registro Comercial</Label>
-                <Input placeholder="Introduza o registro comercial" />
+                <Label>{{
+                  $t("cpcv.contacts.modals.form.inputs.comercialRegistration")
+                }}</Label>
+                <Input
+                  :placeholder="
+                    $t('cpcv.contacts.modals.form.inputs.comercialRegistration')
+                  "
+                />
               </div>
 
               <div>
-                <Label>Certidão Permanente</Label>
-                <Input placeholder="Introduza a certidão permanente" />
+                <Label>{{
+                  $t("cpcv.contacts.modals.form.inputs.permanentCertificate")
+                }}</Label>
+                <Input
+                  :placeholder="
+                    $t('cpcv.contacts.modals.form.inputs.permanentCertificate')
+                  "
+                />
               </div>
 
               <div>
-                <Label>Código RCBE</Label>
-                <Input placeholder="Introduza o código RCBE" />
+                <Label>{{
+                  $t("cpcv.contacts.modals.form.inputs.codeRCBE")
+                }}</Label>
+                <Input
+                  :placeholder="$t('cpcv.contacts.modals.form.inputs.codeRCBE')"
+                />
               </div>
 
               <div>
-                <Label>Capital Social</Label>
-                <Input placeholder="Introduza o capital social" />
+                <Label>{{
+                  $t("cpcv.contacts.modals.form.inputs.socialCapital")
+                }}</Label>
+                <Input
+                  :placeholder="
+                    $t('cpcv.contacts.modals.form.inputs.socialCapital')
+                  "
+                />
               </div>
             </div>
 
@@ -222,7 +298,7 @@
                 class="mt-4"
                 v-if="currentStep > 1"
               >
-                Voltar
+                {{ $t("shared.back") }}
               </Button>
               <Button @click="handleNextClick(nextStep)" class="mt-4">
                 {{ buttonNextLabel }}
@@ -237,9 +313,9 @@
   <Dialog v-model:open="dialogCreateContactOption">
     <DialogContent>
       <DialogHeader>
-        <DialogTitle>Tipo de Contato</DialogTitle>
+        <DialogTitle>{{ $t("cpcv.contacts.modals.contactType") }}</DialogTitle>
         <DialogDescription>
-          Selecione o tipo de contato que deseja adicionar.
+          {{ $t("cpcv.contacts.modals.contactTypeDescription") }}
         </DialogDescription>
 
         <div class="flex gap-2">
@@ -248,14 +324,14 @@
             @click="setNewCustomerType(CustomerType.Individual)"
           >
             <i class="text-3xl fa-light fa-user"></i>
-            Pessoa Física
+            {{ $t("cpcv.contacts.modals.types.individual") }}
           </div>
           <div
             class="flex flex-1 flex-col gap-4 items-center justify-center min-h-[128px] border-1 border rounded cursor-pointer hover:shadow-md transition-all hover:bg-gray-100"
             @click="setNewCustomerType(CustomerType.Company)"
           >
             <i class="text-3xl fal fa-user-tie"></i>
-            Empresa
+            {{ $t("cpcv.contacts.modals.types.company") }}
           </div>
         </div>
       </DialogHeader>
@@ -302,71 +378,92 @@ import {
   StepperTitle,
   StepperTrigger,
 } from "@/components/ui/stepper";
-
+const { $t } = useNuxtApp();
 import { Check, Circle, Dot } from "lucide-vue-next";
 
 import { CustomerType, MaritalStatus } from "./contacts.config";
 
+const newCustomer = ref({
+  type: "individual",
+  name: "",
+  vat: "",
+  maritalStatus: "",
+  marriedUnderRegime: "",
+});
+
 const stepCompany = {
   step: 4,
-  title: "Detalhes da empresa",
-  description: "Informações da empresa do novo contato",
+  title: $t(`cpcv.contacts.modals.form.steps.4.title.company`),
+  description: $t(`cpcv.contacts.modals.form.steps.4.description.company`),
 };
 
-const steps = ref([
-  {
-    step: 1,
-    title: "Detalhes pessoais",
-    description: "Informações pessoais do novo contato",
-  },
-  {
-    step: 2,
-    title: "Endereço",
-    description: "Informações de endereço do novo contato",
-  },
-  {
-    step: 3,
-    title: "Documento de identificação",
-    description: "Informações do documento de identificação do novo contato",
-  },
-]);
+const stepsList = ref<{ step: number; title: string; description: string }[]>(
+  []
+);
+const steps = computed(() => {
+  stepsList.value = [
+    {
+      step: 1,
+      title: $t(
+        `cpcv.contacts.modals.form.steps.1.title.${newCustomer.value.type}`
+      ),
+      description: $t(
+        `cpcv.contacts.modals.form.steps.1.description.${newCustomer.value.type}`
+      ),
+    },
+    {
+      step: 2,
+      title: $t(
+        `cpcv.contacts.modals.form.steps.2.title.${newCustomer.value.type}`
+      ),
+      description: $t(
+        `cpcv.contacts.modals.form.steps.2.description.${newCustomer.value.type}`
+      ),
+    },
+    {
+      step: 3,
+      title: $t(
+        `cpcv.contacts.modals.form.steps.3.title.${newCustomer.value.type}`
+      ),
+      description: $t(
+        `cpcv.contacts.modals.form.steps.3.description.${newCustomer.value.type}`
+      ),
+    },
+  ];
+
+  if (newCustomer.value.type === CustomerType.Individual) {
+    stepsList.value = stepsList.value.filter((step) => step.step !== 4);
+  } else if (stepsList.value.filter((step) => step.step === 4).length === 0) {
+    stepsList.value.push(stepCompany);
+  }
+
+  return stepsList.value;
+});
 const currentStep = ref(1);
 const dialogCreate = ref(false);
 const dialogCreateContactOption = ref(false);
 const maritalStatus = ref([
   {
     value: MaritalStatus.Single,
-    label: "cpcv.contacts.maritalStatus.single",
+    label: "cpcv.contacts.modals.form.inputs.maritalStatus.single",
   },
   {
     value: MaritalStatus.Married,
-    label: "cpcv.contacts.maritalStatus.married",
+    label: "cpcv.contacts.modals.form.inputs.maritalStatus.married",
   },
   {
     value: MaritalStatus.Divorced,
-    label: "cpcv.contacts.maritalStatus.divorced",
+    label: "cpcv.contacts.modals.form.inputs.maritalStatus.divorced",
   },
   {
     value: MaritalStatus.Widowed,
-    label: "cpcv.contacts.maritalStatus.widowed",
+    label: "cpcv.contacts.modals.form.inputs.maritalStatus.widowed",
   },
 ]);
-const newCustomer = {
-  type: "",
-  name: "",
-  vat: "",
-  maritalStatus: "",
-  marriedUnderRegime: "",
-};
 
 const setNewCustomerType = (type: CustomerType) => {
-  newCustomer.type = type;
+  newCustomer.value.type = type;
   dialogCreateContactOption.value = false;
-
-  if (type === CustomerType.Individual) {
-    // Remove company step
-    steps.value = steps.value.filter((step) => step.step !== 4);
-  }
 
   dialogCreate.value = true;
 };
@@ -391,17 +488,7 @@ const handleBackClick = (func: Function) => {
 
 const buttonNextLabel = computed(() => {
   return currentStep.value === steps.value[steps.value.length - 1].step
-    ? "Finalizar"
-    : "Próximo";
-});
-
-watch(dialogCreate, (value) => {
-  if (!value) {
-    currentStep.value = 1;
-  } else {
-    if (newCustomer.type === CustomerType.Company) {
-      steps.value.push(stepCompany);
-    }
-  }
+    ? $t("shared.save")
+    : $t("shared.next");
 });
 </script>
