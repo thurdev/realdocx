@@ -1,5 +1,6 @@
 <template>
   <div class="flex overflow-hidden max-h-[100dvh]">
+    <Toaster />
     <Sidebar></Sidebar>
     <div class="flex flex-col w-full">
       <Navbar></Navbar>
@@ -14,4 +15,5 @@
 
 <script setup lang="ts">
 definePageMeta({});
+import Toaster from "@/components/ui/toast/Toaster.vue";
 </script>

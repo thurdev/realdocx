@@ -35,6 +35,8 @@ model Users {
   contacts Contacts[]
   // Contracts
   contracts Contracts[]
+  // Properties
+  properties Properties[]
   // Transactions
   transactions Transactions[]
   createdAt DateTime @default(now())
@@ -82,11 +84,12 @@ model Contacts {
 
 
   // Contact Address
+  country String // Company or Individual
   address String // Company or Individual
   neighborhood String // Company or Individual
   state String // Company or Individual
   city String // Company or Individual
-  postalCode String // Company or Individual
+  zipCode String // Company or Individual
 
   // Company
   companyRegistration String // Registro Comercial
@@ -98,12 +101,14 @@ model Contacts {
   contactType ContactType
 
   // User
-  ownerId Int
-  owner Users @relation(fields: [ownerId], references: [id])
-
+  userId Int
+  user Users @relation(fields: [userId], references: [id])
+  
   // Contracts 
   contactsContract ContractContacts[]
 
+  deleted Boolean @default(false)
+  
   createdAt DateTime @default(now())
   updatedAt DateTime @updatedAt
 }
@@ -114,6 +119,7 @@ model Properties {
   fraction String // Compiscão (H)
   floor String // Andar
   destination String // Destino (Habitacao, Comercio, Serviços)
+  district String // Distrito
   neighborhood String // Freguesia
   address String // Morada
   number String // Numero
@@ -138,6 +144,10 @@ model Properties {
 
   // Contracts
   contracts Contracts[]
+
+  // User
+  userId Int
+  user Users @relation(fields: [userId], references: [id])
 
   createdAt DateTime @default(now())
   updatedAt DateTime @updatedAt
@@ -173,8 +183,9 @@ model Contracts {
   id Int @id @default(autoincrement())
 
   // ContractType
-  contractType ContractType 
-  
+  price Float
+  contractType ContractType
+
   // Contacts
   contacts ContractContacts[]
 

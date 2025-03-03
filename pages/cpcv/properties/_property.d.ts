@@ -1,0 +1,27 @@
+export type Property = {
+  id: number;
+  price: number;
+  fraction: string;
+  floor: string;
+  destination: string;
+  district: string;
+  neighborhood: string;
+  address: string;
+  number: string;
+  city: string;
+  postalCode: string;
+  matrixRegistration: string;
+  buildingDescriptionNumber: string;
+  buildingDescriptionRegistry: string;
+  luNumber: string;
+  luDate: string;
+  luIssuer: string;
+  ecLetter: string;
+  ecNumber: string;
+  ecValidUntil: string;
+  chargesType: string;
+  chargesBank: string;
+  chargesAP: string;
+  chargesDate: string;
+  createdAt: string;
+};

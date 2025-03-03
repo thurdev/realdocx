@@ -3,6 +3,10 @@ export enum MaritalStatus {
   Married = "married",
   Divorced = "divorced",
   Widowed = "widowed",
+
+  CommunityOfGoods = "communityOfGoods",
+  SeparationOfGoods = "separationOfGoods",
+  CommunityOfAcquests = "communityOfAcquests",
 }
 
 export enum CustomerType {

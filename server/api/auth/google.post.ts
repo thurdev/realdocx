@@ -48,7 +48,9 @@ export default defineEventHandler(async (event) => {
         "https://static.vecteezy.com/system/resources/previews/009/292/244/non_2x/default-avatar-icon-of-social-media-user-vector.jpg",
     },
     // Private data accessible only on server/ routes
-    secure: {},
+    secure: {
+      userId: user.id,
+    },
     // Any extra fields for the session data
     loggedInAt: new Date(),
   });

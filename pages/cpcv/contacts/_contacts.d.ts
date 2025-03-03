@@ -1,0 +1,23 @@
+export type Contact = {
+  id?: number;
+  name: string;
+  vat: string;
+  maritalStatus: MaritalStatus;
+  marriedUnderRegime: string;
+  identityType: string;
+  identityNumber: string;
+  identityExpirationDate: string;
+  identityIssuer: string;
+  country: string;
+  address: string;
+  neighborhood: string;
+  state: string;
+  city: string;
+  zipCode: string;
+  companyRegistration: string;
+  companyCode: string;
+  companyRCBECode: string;
+  companySocialCapital: string;
+  contactType: CustomerType;
+  createdAt?: string;
+};

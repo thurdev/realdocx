@@ -1,6 +1,6 @@
 <template>
   <div>
-    <Card class="max-w-[512px]">
+    <Card class="">
       <CardHeader>
         <CardTitle class="flex justify-between items-center">
           <h1>Lista de contatos</h1>
@@ -10,7 +10,9 @@
         </CardTitle>
       </CardHeader>
       <CardContent>
-        <Input />
+        <!-- <Input class="max-w-[256px]" /> -->
+
+        <DataTable :columns="columns" :data="contacts" />
       </CardContent>
     </Card>
   </div>
@@ -94,6 +96,7 @@
               <div>
                 <Label>{{ $t("cpcv.contacts.modals.form.inputs.name") }}</Label>
                 <Input
+                  v-model="newCustomer.name"
                   :placeholder="$t('cpcv.contacts.modals.form.inputs.name')"
                 />
               </div>
@@ -101,13 +104,14 @@
               <div>
                 <Label>{{ $t("cpcv.contacts.modals.form.inputs.nif") }}</Label>
                 <Input
+                  v-model="newCustomer.vat"
                   :placeholder="$t('cpcv.contacts.modals.form.inputs.nif')"
                 />
               </div>
 
               <div
                 class="flex flex-col gap-2"
-                v-if="newCustomer.type !== CustomerType.Company"
+                v-if="newCustomer.contactType !== CustomerType.Company"
               >
                 <Label>{{
                   $t("cpcv.contacts.modals.form.inputs.maritalStatus.label")
@@ -144,11 +148,29 @@
                   <Label class="mt-2">{{
                     $t("cpcv.contacts.modals.form.inputs.marriedUnderRegime")
                   }}</Label>
-                  <Input
-                    :label="
-                      $t('cpcv.contacts.modals.form.inputs.marriedUnderRegime')
-                    "
-                  />
+
+                  <Select v-model="newCustomer.marriedUnderRegime">
+                    <SelectTrigger>
+                      <SelectValue
+                        :placeholder="
+                          $t(
+                            'cpcv.contacts.modals.form.inputs.marriedUnderRegime'
+                          )
+                        "
+                      />
+                    </SelectTrigger>
+                    <SelectContent>
+                      <SelectGroup>
+                        <SelectItem
+                          v-for="regime in marriedUnderRegime"
+                          :key="regime.value"
+                          :value="regime.value"
+                        >
+                          {{ $t(regime.label) }}
+                        </SelectItem>
+                      </SelectGroup>
+                    </SelectContent>
+                  </Select>
                 </template>
               </div>
             </div>
@@ -160,6 +182,7 @@
                   $t("cpcv.contacts.modals.form.inputs.country")
                 }}</Label>
                 <Input
+                  v-model="newCustomer.country"
                   :placeholder="$t('cpcv.contacts.modals.form.inputs.country')"
                 />
               </div>
@@ -169,6 +192,7 @@
                   $t("cpcv.contacts.modals.form.inputs.district")
                 }}</Label>
                 <Input
+                  v-model="newCustomer.district"
                   :placeholder="$t('cpcv.contacts.modals.form.inputs.district')"
                 />
               </div>
@@ -176,6 +200,7 @@
               <div>
                 <Label>{{ $t("cpcv.contacts.modals.form.inputs.city") }}</Label>
                 <Input
+                  v-model="newCustomer.city"
                   :placeholder="$t('cpcv.contacts.modals.form.inputs.city')"
                 />
               </div>
@@ -185,6 +210,7 @@
                   $t("cpcv.contacts.modals.form.inputs.neighborhood")
                 }}</Label>
                 <Input
+                  v-model="newCustomer.neighborhood"
                   :placeholder="
                     $t('cpcv.contacts.modals.form.inputs.neighborhood')
                   "
@@ -196,6 +222,7 @@
                   $t("cpcv.contacts.modals.form.inputs.address")
                 }}</Label>
                 <Input
+                  v-model="newCustomer.address"
                   :placeholder="$t('cpcv.contacts.modals.form.inputs.address')"
                 />
               </div>
@@ -205,6 +232,7 @@
                   $t("cpcv.contacts.modals.form.inputs.zipCode")
                 }}</Label>
                 <Input
+                  v-model="newCustomer.zipCode"
                   :placeholder="$t('cpcv.contacts.modals.form.inputs.zipCode')"
                 />
               </div>
@@ -214,17 +242,23 @@
             <div class="flex flex-col flex-1 gap-4" v-if="currentStep === 3">
               <div>
                 <Label>Tipo de Documento</Label>
-                <Select>
+                <Select v-model="newCustomer.identityType">
                   <SelectTrigger>
                     <SelectValue placeholder="Selecione o tipo de documento" />
                   </SelectTrigger>
                   <SelectContent>
                     <SelectGroup>
-                      <SelectItem value="cc">Cartão de Cidadão</SelectItem>
-                      <SelectItem value="bi">Bilhete de Identidade</SelectItem>
-                      <SelectItem value="pass">Passaporte</SelectItem>
-                      <SelectItem value="residence">Residência</SelectItem>
-                      <SelectItem value="driver">Carta de Condução</SelectItem>
+                      <SelectItem value="citizenCard"
+                        >Cartão de Cidadão</SelectItem
+                      >
+                      <SelectItem value="oldIdCard"
+                        >Bilhete de Identidade</SelectItem
+                      >
+                      <SelectItem value="passport">Passaporte</SelectItem>
+                      <SelectItem value="drivingLicense">Residência</SelectItem>
+                      <SelectItem value="residencePermit"
+                        >Carta de Condução</SelectItem
+                      >
                     </SelectGroup>
                   </SelectContent>
                 </Select>
@@ -232,17 +266,27 @@
 
               <div>
                 <Label>Número do Documento</Label>
-                <Input placeholder="Introduza o número do documento" />
+                <Input
+                  v-model="newCustomer.identityNumber"
+                  placeholder="Introduza o número do documento"
+                />
               </div>
 
               <div>
                 <Label>Data de Emissão</Label>
-                <Input placeholder="Introduza a data de emissão" />
+                <Input
+                  type="date"
+                  v-model="newCustomer.identityExpirationDate"
+                  placeholder="Introduza a data de emissão"
+                />
               </div>
 
               <div>
                 <Label>Local de Emissão</Label>
-                <Input placeholder="Introduza o local de emissão" />
+                <Input
+                  v-model="newCustomer.identityIssuer"
+                  placeholder="Introduza o local de emissão"
+                />
               </div>
             </div>
 
@@ -253,6 +297,7 @@
                   $t("cpcv.contacts.modals.form.inputs.comercialRegistration")
                 }}</Label>
                 <Input
+                  v-model="newCustomer.companyRegistration"
                   :placeholder="
                     $t('cpcv.contacts.modals.form.inputs.comercialRegistration')
                   "
@@ -264,6 +309,7 @@
                   $t("cpcv.contacts.modals.form.inputs.permanentCertificate")
                 }}</Label>
                 <Input
+                  v-model="newCustomer.companyCode"
                   :placeholder="
                     $t('cpcv.contacts.modals.form.inputs.permanentCertificate')
                   "
@@ -275,6 +321,7 @@
                   $t("cpcv.contacts.modals.form.inputs.codeRCBE")
                 }}</Label>
                 <Input
+                  v-model="newCustomer.companyRCBECode"
                   :placeholder="$t('cpcv.contacts.modals.form.inputs.codeRCBE')"
                 />
               </div>
@@ -284,6 +331,7 @@
                   $t("cpcv.contacts.modals.form.inputs.socialCapital")
                 }}</Label>
                 <Input
+                  v-model="newCustomer.companySocialCapital"
                   :placeholder="
                     $t('cpcv.contacts.modals.form.inputs.socialCapital')
                   "
@@ -380,15 +428,32 @@ import {
 } from "@/components/ui/stepper";
 const { $t } = useNuxtApp();
 import { Check, Circle, Dot } from "lucide-vue-next";
-
 import { CustomerType, MaritalStatus } from "./contacts.config";
+import type { Contact } from "./_contacts";
 
-const newCustomer = ref({
-  type: "individual",
+const contacts = ref<Contact[]>([]);
+
+const newCustomer = ref<Contact>({
+  // database contact
   name: "",
   vat: "",
-  maritalStatus: "",
+  maritalStatus: MaritalStatus.Single,
   marriedUnderRegime: "",
+  identityType: "",
+  identityNumber: "",
+  identityExpirationDate: "",
+  identityIssuer: "",
+  country: "",
+  address: "",
+  neighborhood: "",
+  state: "",
+  city: "",
+  zipCode: "",
+  companyRegistration: "",
+  companyCode: "",
+  companyRCBECode: "",
+  companySocialCapital: "",
+  contactType: CustomerType.Individual,
 });
 
 const stepCompany = {
@@ -405,33 +470,33 @@ const steps = computed(() => {
     {
       step: 1,
       title: $t(
-        `cpcv.contacts.modals.form.steps.1.title.${newCustomer.value.type}`
+        `cpcv.contacts.modals.form.steps.1.title.${newCustomer.value.contactType}`
       ),
       description: $t(
-        `cpcv.contacts.modals.form.steps.1.description.${newCustomer.value.type}`
+        `cpcv.contacts.modals.form.steps.1.description.${newCustomer.value.contactType}`
       ),
     },
     {
       step: 2,
       title: $t(
-        `cpcv.contacts.modals.form.steps.2.title.${newCustomer.value.type}`
+        `cpcv.contacts.modals.form.steps.2.title.${newCustomer.value.contactType}`
       ),
       description: $t(
-        `cpcv.contacts.modals.form.steps.2.description.${newCustomer.value.type}`
+        `cpcv.contacts.modals.form.steps.2.description.${newCustomer.value.contactType}`
       ),
     },
     {
       step: 3,
       title: $t(
-        `cpcv.contacts.modals.form.steps.3.title.${newCustomer.value.type}`
+        `cpcv.contacts.modals.form.steps.3.title.${newCustomer.value.contactType}`
       ),
       description: $t(
-        `cpcv.contacts.modals.form.steps.3.description.${newCustomer.value.type}`
+        `cpcv.contacts.modals.form.steps.3.description.${newCustomer.value.contactType}`
       ),
     },
   ];
 
-  if (newCustomer.value.type === CustomerType.Individual) {
+  if (newCustomer.value.contactType === CustomerType.Individual) {
     stepsList.value = stepsList.value.filter((step) => step.step !== 4);
   } else if (stepsList.value.filter((step) => step.step === 4).length === 0) {
     stepsList.value.push(stepCompany);
@@ -460,17 +525,54 @@ const maritalStatus = ref([
     label: "cpcv.contacts.modals.form.inputs.maritalStatus.widowed",
   },
 ]);
+const marriedUnderRegime = ref([
+  {
+    value: MaritalStatus.CommunityOfGoods,
+    label:
+      "cpcv.contacts.modals.form.inputs.marriedUnderRegime.communityOfGoods",
+  },
+  {
+    value: MaritalStatus.SeparationOfGoods,
+    label:
+      "cpcv.contacts.modals.form.inputs.marriedUnderRegime.separationOfGoods",
+  },
+  {
+    value: MaritalStatus.CommunityOfAcquests,
+    label:
+      "cpcv.contacts.modals.form.inputs.marriedUnderRegime.communityOfAcquests",
+  },
+]);
 
 const setNewCustomerType = (type: CustomerType) => {
-  newCustomer.value.type = type;
+  newCustomer.value.contactType = type;
   dialogCreateContactOption.value = false;
 
   dialogCreate.value = true;
 };
 
-const handleNextClick = (func: Function) => {
+const handleNextClick = async (func: Function) => {
   if (currentStep.value === steps.value[steps.value.length - 1].step) {
-    // TODO: Save new contact
+    const response = await $fetch<{ success?: boolean }>(
+      "/api/contacts/create",
+      {
+        method: "POST",
+        body: newCustomer.value,
+      }
+    ).catch((err) => err.response);
+
+    if (response.success) {
+      dialogCreate.value = false;
+      contacts.value = [
+        ...contacts.value,
+        { ...newCustomer.value, id: contacts.value.length + 1 },
+      ];
+      toast({
+        title: "Contato criado!",
+        description: "O contato foi criado com sucesso",
+        variant: "success",
+      });
+    }
+
     return;
   }
 
@@ -491,4 +593,36 @@ const buttonNextLabel = computed(() => {
     ? $t("shared.save")
     : $t("shared.next");
 });
+
+import { onMounted, ref } from "vue";
+import { columns } from "./columns";
+import DataTable from "@/components/dataTable/DataTable.vue";
+import { useRoute } from "vue-router";
+
+import { useToast } from "@/components/ui/toast/use-toast";
+
+const { toast } = useToast();
+
+onMounted(async () => {
+  contacts.value = await $fetch<Contact[]>("/api/contacts");
+});
+
+const $route = useRoute();
+
+watch(
+  () => $route.query.deleted,
+  (deleted) => {
+    const id = Number(deleted);
+    if (id && id > 0) {
+      contacts.value = contacts.value.filter((contact) => contact.id !== id);
+      navigateTo("/cpcv/contacts");
+
+      toast({
+        title: "Contato apagado",
+        description: "O contato foi apagado com sucesso",
+        variant: "success",
+      });
+    }
+  }
+);
 </script>

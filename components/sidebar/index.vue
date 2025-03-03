@@ -121,6 +121,13 @@
                   {{ $t("sidebar.light") }}
                 </template>
               </DropdownMenuItem>
+              <DropdownMenuItem
+                @click="goTo('/cpcv/settings')"
+                class="cursor-pointer"
+              >
+                <i class="fa-light fa-cog" />
+                {{ $t("sidebar.settings") }}
+              </DropdownMenuItem>
             </DropdownMenuGroup>
             <DropdownMenuSeparator />
             <DropdownMenuItem class="cursor-pointer" @click="handleLogout">
@@ -191,6 +198,10 @@ const handleLogout = async () => {
   await $fetch("/api/auth/logout");
   await clear();
   window.location.href = "/login";
+};
+
+const goTo = (path: string) => {
+  navigateTo(path);
 };
 
 const setLanguage = (lang: string) => {

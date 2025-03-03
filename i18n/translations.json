@@ -186,7 +186,19 @@
             },
             "marriedUnderRegime": {
               "en": "Married under the regime of",
-              "pt": "Casado sob o regime de"
+              "pt": "Casado sob o regime de",
+              "communityOfGoods": {
+                "en": "Community of Goods",
+                "pt": "Comunhão de Bens"
+              },
+              "separationOfGoods": {
+                "en": "Separation of Goods",
+                "pt": "Separação de Bens"
+              },
+              "communityOfAcquests": {
+                "en": "Community of Acquests",
+                "pt": "Comunhão de Adquiridos"
+              }
             },
             "selectMaritalStatus": {
               "en": "Select the marital status",
