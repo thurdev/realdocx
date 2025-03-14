@@ -1,0 +1,7 @@
+---
+description: codebase
+globs: 
+alwaysApply: true
+---
+Always read code base for better response.
+For prisma I never create migrations, only db push or generate

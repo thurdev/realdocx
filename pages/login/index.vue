@@ -90,7 +90,7 @@ const handleLogin = async () => {
   let alertType: "success" | "errors" = "errors";
   if (response.includes("success")) {
     alertType = "success";
-    setTimeout(() => (window.location.href = "/cpcv/contacts"), 2000);
+    setTimeout(() => (window.location.href = "/contacts"), 2000);
   }
 
   toast({
@@ -116,7 +116,7 @@ const oAuthGoogle = async (credential?: string) => {
       description: $t(authResponse),
       variant: "success",
     });
-    setTimeout(() => (window.location.href = "/cpcv/contacts"), 2000);
+    setTimeout(() => (window.location.href = "/contacts"), 2000);
   } else {
     toast({
       title: $t(`endpoints.errors.label`),

@@ -207,18 +207,27 @@ enum TransactionType {
   debit
 }
 
+enum TransactionSubType {
+  contractCreation
+  contractEdit
+  contractDownload
+  manualCredit
+}
+
 model Transactions {
   id    Int     @id @default(autoincrement())
   amount Float
   type TransactionType
+  subType TransactionSubType
+  externalId Int?
 
   // User
   userId Int
   user Users @relation(fields: [userId], references: [id])
 
-  // Contract
-  contractId Int
-  contract Contracts @relation(fields: [contractId], references: [id])
+  // Contract (opcional)
+  contractId Int?
+  contract Contracts? @relation(fields: [contractId], references: [id])
 
   createdAt DateTime @default(now())
   updatedAt DateTime @updatedAt

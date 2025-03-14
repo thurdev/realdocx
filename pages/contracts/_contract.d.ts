@@ -1,4 +1,4 @@
-
+import { ContactType, ContractType } from "@prisma/client";
 
 export type ContractContact = {
   contactId: number;

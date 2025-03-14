@@ -125,14 +125,14 @@
                 </template>
               </DropdownMenuItem>
               <DropdownMenuItem
-                @click="goTo('/cpcv/settings')"
+                @click="goTo('/settings')"
                 class="cursor-pointer"
               >
                 <i class="fa-light fa-cog" />
                 {{ $t("sidebar.settings") }}
               </DropdownMenuItem>
               <DropdownMenuItem
-                @click="goTo('/cpcv/billing')"
+                @click="goTo('/wallet')"
                 class="cursor-pointer"
               >
                 <i class="fa-light fa-credit-card" />
