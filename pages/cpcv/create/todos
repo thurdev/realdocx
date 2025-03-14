@@ -1,0 +1,17 @@
+Tirar cpcv da sidebar ✅
+mudar sidebar criar para Contratos ✅
+card mudar para criar contratos ✅
+adicionar um select do lado do criar contratos para selecionar o tipo de contrato (cpcv ou rent) ✅
+mudar os textos dos selects no rent para arrendatário e senhorio (com base no contractType) ✅
+mudar os textos dos selects no cpcv para comprador e vendedor || ✅
+preview é em html para gerar o pdf (para poder ser editado) ✅
+adicionar imagem da property e do user nas respectivas tabelas. 
+
+A pagina /contracts é a pagina principal para ver todos os contratos, e ao clicar no criar nessa página vai para o /contracts/create
+
+e também fazer a pagina /contracts/[id] para ver o contrato
+
+
+arrumar os paths tirar /cpcv ser só /wallet /settings etc
+ao entrar na pagina de /contracts se nao tiver nada ir para o create direto
+o select de buyer e seller nao pode selecionar o mesmo contacto 2 vezes

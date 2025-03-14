@@ -24,15 +24,18 @@
 
     <!-- Sidebar Items -->
     <div class="mt-4 flex flex-col w-full h-[calc(100%-48px-16px)]">
-      <div v-for="group in sidebarItems" :key="group.title" class="pl-4 pr-4">
-        <h1 class="text-black dark:text-white">{{ $t(group.title) }}</h1>
+      <div
+        v-for="(group, groupIndex) in sidebarItems"
+        :key="groupIndex"
+        class="pl-4 pr-4"
+      >
         <ul class="flex flex-col gap-2 pt-2">
           <NuxtLink
             v-for="(item, index) in group.links"
             :key="index"
             class="flex items-center gap-4 p-1 rounded cursor-pointer hover:bg-gray-100 dark:hover:bg-sidebar-accent/80 dark:text-white"
             :class="{
-              'border-r-4 border-blue-500 bg-gray-100 hover:bg-gray-200 dark:bg-sidebar-accent dark:border-white':
+              'border-r-4 border-blue-500 bg-gray-100 hover:bg-gray-200 dark:bg-sidebar-accent !text-blue-500':
                 route.path === item.link,
             }"
             :to="item.link"
@@ -128,6 +131,13 @@
                 <i class="fa-light fa-cog" />
                 {{ $t("sidebar.settings") }}
               </DropdownMenuItem>
+              <DropdownMenuItem
+                @click="goTo('/cpcv/billing')"
+                class="cursor-pointer"
+              >
+                <i class="fa-light fa-credit-card" />
+                {{ $t("sidebar.wallet") }}
+              </DropdownMenuItem>
             </DropdownMenuGroup>
             <DropdownMenuSeparator />
             <DropdownMenuItem class="cursor-pointer" @click="handleLogout">
@@ -166,7 +176,6 @@ const toggleSidebar = () => {
 
 const sidebarItems = [
   {
-    title: "sidebar.cpcv",
     links: [
       {
         title: "sidebar.contacts",
@@ -180,7 +189,7 @@ const sidebarItems = [
         link: "/cpcv/properties",
       },
       {
-        title: "sidebar.create",
+        title: "sidebar.contracts",
         icon: "fa-light fa-file-word",
         link: "/cpcv/create",
       },

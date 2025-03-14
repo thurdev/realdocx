@@ -185,6 +185,7 @@ model Contracts {
   // ContractType
   price Float
   contractType ContractType
+  htmlContent String? // Store the HTML content
 
   // Contacts
   contacts ContractContacts[]

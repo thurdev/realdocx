@@ -14,13 +14,21 @@
     }
   },
   "sidebar": {
+    "settings": {
+      "en": "Settings",
+      "pt": "Definições"
+    },
+    "wallet": {
+      "en": "Wallet",
+      "pt": "Carteira"
+    },
     "cpcv": {
       "en": "CPCV",
       "pt": "CPCV"
     },
-    "create": {
-      "en": "Create",
-      "pt": "Criar"
+    "contracts": {
+      "en": "Contracts",
+      "pt": "Contractos"
     },
     "contacts": {
       "en": "Contacts",
