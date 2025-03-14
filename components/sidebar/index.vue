@@ -180,18 +180,18 @@ const sidebarItems = [
       {
         title: "sidebar.contacts",
         icon: "fa-light fa-users",
-        link: "/cpcv/contacts",
+        link: "/contacts",
       },
 
       {
         title: "sidebar.properties",
         icon: "fa-light fa-building",
-        link: "/cpcv/properties",
+        link: "/properties",
       },
       {
         title: "sidebar.contracts",
         icon: "fa-light fa-file-word",
-        link: "/cpcv/create",
+        link: "/contracts",
       },
     ],
   },

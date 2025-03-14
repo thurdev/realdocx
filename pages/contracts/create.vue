@@ -133,17 +133,6 @@
         </CardContent>
       </Card>
     </div>
-    <Card class="w-full flex-1">
-      <CardHeader>
-        <CardTitle class="flex justify-between items-center">
-          <h1>Lista de Contractos Criados</h1>
-        </CardTitle>
-      </CardHeader>
-      <CardContent>
-        <!-- <p>Não existem Contractos criados.</p> -->
-        {{ contracts }}
-      </CardContent>
-    </Card>
   </div>
 </template>
 
@@ -168,9 +157,9 @@ import {
   SelectValue,
 } from "@/components/ui/select";
 
+const router = useRouter();
 const contacts = ref<Contact[]>([]);
 const properties = ref<Property[]>([]);
-const contracts = ref<Contract[]>([]);
 enum ContractType {
   CPCV = "CPCV",
   RENT = "RENT",
@@ -183,7 +172,6 @@ const selectedProperty = ref<Property>();
 onMounted(async () => {
   contacts.value = await $fetch<Contact[]>("/api/contacts");
   properties.value = await $fetch<Property[]>("/api/properties");
-  contracts.value = await $fetch<Contract[]>("/api/contracts");
 });
 
 const generateCPCVHtml = (): string => {
@@ -203,7 +191,7 @@ const generateCPCVHtml = (): string => {
       <p><strong><span id="buyerName" contenteditable="true" title="Nome do Comprador" style="border: 1px dashed #999; border-radius: 5px; padding: 5px;">${selectedBuyer.value.name}</span></strong>, portador do NIF <span id="buyerVat" contenteditable="true" title="NIF do Comprador" style="border: 1px dashed #999; border-radius: 5px; padding: 5px;">${selectedBuyer.value.vat}</span>, estado civil <span id="buyerMaritalStatus" contenteditable="true" title="Estado Civil do Comprador" style="border: 1px dashed #999; border-radius: 5px; padding: 5px;">${selectedBuyer.value.maritalStatus}</span>, residente em <span id="buyerAddress" contenteditable="true" title="Endereço do Comprador" style="border: 1px dashed #999; border-radius: 5px; padding: 5px;">${selectedBuyer.value.address}</span>.</p>
       
       <h3>Cláusula Primeira (Imóvel)</h3>
-      <p><strong>Composição:</strong> Fração autónoma designada pela letra “<span id="propertyFraction" contenteditable="true" title="Fração do Imóvel" style="border: 1px dashed #999; border-radius: 5px; padding: 5px;">${selectedProperty.value.fraction}</span>”, correspondente ao <span id="propertyFloor" contenteditable="true" title="Andar do Imóvel" style="border: 1px dashed #999; border-radius: 5px; padding: 5px;">${selectedProperty.value.floor}</span>º andar.</p>
+      <p><strong>Composição:</strong> Fração autónoma designada pela letra "<span id="propertyFraction" contenteditable="true" title="Fração do Imóvel" style="border: 1px dashed #999; border-radius: 5px; padding: 5px;">${selectedProperty.value.fraction}</span>", correspondente ao <span id="propertyFloor" contenteditable="true" title="Andar do Imóvel" style="border: 1px dashed #999; border-radius: 5px; padding: 5px;">${selectedProperty.value.floor}</span>º andar.</p>
       <p><strong>Destino:</strong> <span id="propertyDestination" contenteditable="true" title="Destino do Imóvel" style="border: 1px dashed #999; border-radius: 5px; padding: 5px;">${selectedProperty.value.destination}</span>.</p>
       
       <h3>Cláusula Segunda (Preço e Condições de Pagamento)</h3>
@@ -284,12 +272,11 @@ const saveContract = async () => {
       });
 
       if (response.success) {
-        // Refresh the contracts list
-        contracts.value = await $fetch<Contract[]>("/api/contracts");
+        router.push('/contracts');
       }
     } catch (error) {
       console.error("Error saving contract:", error);
     }
   }
 };
-</script>
+</script> 

@@ -3,6 +3,6 @@ export default defineNuxtRouteMiddleware(() => {
 
   // redirect the user to the dashboard screen if they're authenticated
   if (loggedIn.value) {
-    return navigateTo("/cpcv/contacts");
+    return navigateTo("/contacts");
   }
 });

@@ -1,3 +1,5 @@
+
+
 export type ContractContact = {
   contactId: number;
   contactType: ContactType;
@@ -9,4 +11,5 @@ export type Contract = {
   propertyId: number;
   generatedBy: number;
   contacts: ContractContact[];
+  createdAt: string;
 };

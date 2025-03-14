@@ -12,6 +12,6 @@ A pagina /contracts é a pagina principal para ver todos os contratos, e ao clic
 e também fazer a pagina /contracts/[id] para ver o contrato
 
 
-arrumar os paths tirar /cpcv ser só /wallet /settings etc
+arrumar os paths tirar /cpcv ser só /wallet /settings etc ✅
 ao entrar na pagina de /contracts se nao tiver nada ir para o create direto
 o select de buyer e seller nao pode selecionar o mesmo contacto 2 vezes

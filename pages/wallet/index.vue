@@ -78,7 +78,7 @@ definePageMeta({
 });
 import { Tabs, TabsContent, TabsList, TabsTrigger } from "@/components/ui/tabs";
 import { Progress } from "@/components/ui/progress";
-import { columns } from "@/pages/cpcv/contacts/columns";
+import { columns } from "@/pages/contacts/columns";
 import type { Contact } from "../contacts/_contacts";
 
 const creditsBought = ref(10);
