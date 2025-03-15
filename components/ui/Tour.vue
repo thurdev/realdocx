@@ -13,9 +13,9 @@
     <!-- Overlay e conteúdo do tour -->
     <Teleport to="body">
       <Transition name="fade">
-        <div v-if="isTourStarted" class="fixed inset-0 isolate" style="z-index: 998;">
+        <div v-if="isTourStarted" class="fixed inset-0" style="z-index: 40;">
           <!-- Overlay escuro -->
-          <div class="fixed inset-0 bg-black/50 transition-opacity duration-300" />
+          <div class="fixed inset-0 bg-black/50 transition-opacity duration-300" style="z-index: 40" />
 
           <!-- Container do highlight com animação -->
           <Transition name="highlight">
@@ -27,7 +27,7 @@
                 left: `${highlightPosition.left}px`,
                 width: `${highlightPosition.width}px`,
                 height: `${highlightPosition.height}px`,
-                zIndex: 999,
+                zIndex: 50,
               }"
             >
               <!-- Borda brilhante -->
@@ -52,7 +52,7 @@
           :total-steps="steps.length"
           :tooltip-styles="{
             ...tooltipStyles,
-            zIndex: 1001,
+            zIndex: 60,
           }"
           @next="nextStep"
           @previous="previousStep"
@@ -92,6 +92,7 @@ const props = withDefaults(defineProps<Props>(), {
 const emit = defineEmits<{
   (e: 'tourComplete'): void;
   (e: 'tourStart'): void;
+  (e: 'stepNext', step: number): void;
 }>();
 
 const isTourStarted = ref(false);
@@ -104,6 +105,8 @@ const updateHighlightPosition = () => {
   const previousClone = document.querySelector('.tour-target-clone');
   if (previousTarget) {
     previousTarget.classList.remove('tour-target');
+    previousTarget.style.visibility = 'visible';
+    previousTarget.style.pointerEvents = 'auto';
   }
   if (previousClone) {
     previousClone.remove();
@@ -130,39 +133,41 @@ const updateHighlightPosition = () => {
     height: rect.height,
   };
 
+  // Esconde o elemento original e desativa interações
+  target.style.visibility = 'hidden';
+  target.style.pointerEvents = 'none';
+  target.classList.add('tour-target');
+
   // Cria um clone do elemento alvo
   const clone = target.cloneNode(true) as HTMLElement;
-  clone.classList.add('tour-target-clone');
   
-  // Posiciona o clone exatamente sobre o original
+  // Mantém as classes originais para preservar estilos
+  const originalClasses = target.className.split(' ').filter(c => c !== 'tour-target');
+  clone.className = [...originalClasses, 'tour-target-clone'].join(' ');
+  
+  // Posiciona o clone exatamente sobre o original e desativa interações
   Object.assign(clone.style, {
     position: 'fixed',
     top: rect.top + 'px',
     left: rect.left + 'px',
     width: rect.width + 'px',
     height: rect.height + 'px',
-    zIndex: '1000',
-    backgroundColor: 'white',
-    borderRadius: getComputedStyle(target).borderRadius,
-    opacity: '0',
-    pointerEvents: 'auto', // Permite clicar no clone
-    cursor: 'pointer',
+    zIndex: '51',
+    pointerEvents: 'none',
+    cursor: 'default',
+    visibility: 'visible',
+    userSelect: 'none',
+    transition: 'none'
   });
 
+  // Remove event listeners e hover states
+  clone.removeAttribute('onclick');
+  clone.removeAttribute('onmouseover');
+  clone.removeAttribute('onmouseenter');
+  clone.removeAttribute('onmouseleave');
+  
   // Adiciona o clone ao body
   document.body.appendChild(clone);
-
-  // Adiciona os mesmos event listeners do original ao clone
-  const originalClickListener = target.onclick;
-  if (originalClickListener) {
-    clone.onclick = originalClickListener;
-  }
-
-  // Fade in do clone
-  setTimeout(() => {
-    clone.style.opacity = '1';
-    clone.style.transition = 'opacity 0.3s ease';
-  }, 100);
 };
 
 const tooltipStyles = computed(() => {
@@ -181,16 +186,28 @@ const tooltipStyles = computed(() => {
   let x = 0;
   let y = 0;
 
+  // Verifica se o elemento está dentro de um dialog
+  const dialogContent = target.closest('.dialog-content');
+  const isInDialog = !!dialogContent;
+
   switch (step.placement) {
     case 'bottom':
       x = rect.left + (rect.width / 2);
       x = Math.min(Math.max(tooltipWidth / 2, x), windowWidth - tooltipWidth / 2);
       y = rect.bottom + bottomOffset;
+      if (isInDialog) {
+        const dialogRect = dialogContent.getBoundingClientRect();
+        y = Math.min(y, dialogRect.bottom + bottomOffset);
+      }
       break;
     case 'top':
       x = rect.left + (rect.width / 2);
       x = Math.min(Math.max(tooltipWidth / 2, x), windowWidth - tooltipWidth / 2);
       y = rect.top - defaultOffset;
+      if (isInDialog) {
+        const dialogRect = dialogContent.getBoundingClientRect();
+        y = Math.max(y, dialogRect.top - defaultOffset);
+      }
       break;
     case 'left':
       x = rect.left - defaultOffset;
@@ -199,7 +216,6 @@ const tooltipStyles = computed(() => {
     case 'right':
       x = rect.right + defaultOffset;
       y = rect.top + (rect.height / 2);
-      y = y + 32;
       break;
   }
 
@@ -208,6 +224,7 @@ const tooltipStyles = computed(() => {
     top: `${y}px`,
     left: `${x}px`,
     transform: 'translate(-50%, 0)',
+    pointerEvents: 'auto', // Garante que o tooltip seja clicável
   };
 });
 
@@ -228,6 +245,7 @@ const nextStep = () => {
     endTour();
     return;
   }
+  emit('stepNext', currentStep.value);
   currentStep.value++;
   nextTick(() => {
     updateHighlightPosition();
@@ -245,10 +263,11 @@ const previousStep = () => {
 
 const endTour = () => {
   nextTick(() => {
-    // Remove a classe do elemento alvo
+    // Remove a classe do elemento alvo e restaura sua visibilidade
     const target = document.querySelector('.tour-target');
     if (target) {
       target.classList.remove('tour-target');
+      target.style.visibility = 'visible';
     }
 
     // Remove o clone
@@ -335,24 +354,40 @@ onUnmounted(() => {
 
 :global(.tour-target) {
   position: relative;
-  z-index: 1000 !important;
-  background-color: white;
-  opacity: 1;
-  transition: opacity 0.3s ease, background-color 0.3s ease;
+  z-index: 50 !important;
+  opacity: 0;
+  visibility: hidden !important;
+  pointer-events: none !important;
+  user-select: none !important;
+  transition: none !important;
 }
 
 :global(.tour-target-pre) {
   position: relative;
-  z-index: 1000 !important;
-  background-color: transparent;
+  z-index: 50 !important;
   opacity: 0;
+  visibility: hidden !important;
+  pointer-events: none !important;
 }
 
 :global(.tour-target-clone) {
-  position: fixed;
-  z-index: 1000 !important;
-  background-color: white;
-  transition: opacity 0.3s ease;
-  box-shadow: 0 0 0 2px #3b82f6;
+  position: fixed !important;
+  z-index: 51 !important;
+  transition: none !important;
+  pointer-events: none !important;
+  user-select: none !important;
+  visibility: visible !important;
+  opacity: 1 !important;
+  border-radius: inherit !important;
+}
+
+:global(.tour-container) {
+  isolation: isolate;
+}
+
+:global(.tour-tooltip) {
+  pointer-events: auto !important;
+  cursor: pointer !important;
+  user-select: text !important;
 }
 </style> 

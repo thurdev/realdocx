@@ -6,51 +6,97 @@
       ></spline-viewer>
     </div>
     <div
-      class="w-[100dvw] h-[100dvh] flex-1 bg-white dark:bg-zinc-950 flex items-center justify-center flex-col gap-4"
+      class="w-[100dvw] h-[100dvh] flex-1 bg-white dark:bg-zinc-950 flex items-center justify-center"
     >
-      <h1
-        class="text-black text-[48px] dark:text-white font-bold flex items-center justify-center gap-4"
-      >
-        <i class="fal fa-building"></i>
-        Real<label class="text-blue-500">DOCX</label>
-      </h1>
-      <Input
-        class="max-w-[342px]"
-        type="email"
-        placeholder="Email..."
-        v-model="email"
-      />
-      <Input
-        class="max-w-[342px]"
-        type="password"
-        placeholder="Palavra-passe..."
-        v-model="password"
-        @keydown.enter="handleLogin"
-      />
-      <Button
-        class="w-full max-w-[342px] !bg-blue-500 hover:!bg-blue-600 dark:text-white"
-        @click="handleLogin"
-        :disabled="!canSubmit"
-      >
-        <i class="fal fa-sign-in-alt"></i>
-        Entrar
-      </Button>
-      <p class="text-sm dark:text-white">Ou</p>
-      <GoogleSignInButton
-        @success="handleGoogleLoginSuccess"
-        @error="handleGoogleLoginError"
-      ></GoogleSignInButton>
+      <div class="w-full max-w-md px-8 py-12 bg-white dark:bg-zinc-900 rounded-2xl shadow-lg space-y-8">
+        <!-- Logo e Título -->
+        <div class="text-center space-y-2">
+          <h1 class="text-black text-[48px] dark:text-white font-bold flex items-center justify-center gap-4">
+            <i class="fal fa-building"></i>
+            Real<label class="text-blue-500">DOCX</label>
+          </h1>
+          <p class="text-gray-600 dark:text-gray-400">Bem-vindo de volta! Entre na sua conta.</p>
+        </div>
 
-      <small class="dark:text-white"
-        >Ainda não tens conta?
-        <NuxtLink to="/register" class="hover:underline"
-          >Registar</NuxtLink
-        ></small
-      >
-      <div class="dark:text-white absolute bottom-[8px] flex gap-2">
-        <p>Política de privacidade</p>
-        <p>|</p>
-        <p>Termos de Uso</p>
+        <!-- Formulário -->
+        <div class="space-y-4">
+          <div class="space-y-2">
+            <label class="text-sm font-medium text-gray-700 dark:text-gray-300">Email</label>
+            <div class="relative">
+              <div class="absolute inset-y-0 left-0 pl-3 flex items-center pointer-events-none">
+                <i class="fal fa-envelope text-gray-400"></i>
+              </div>
+              <Input
+                class="w-full pl-10"
+                type="email"
+                placeholder="Seu email..."
+                v-model="email"
+              />
+            </div>
+          </div>
+
+          <div class="space-y-2">
+            <label class="text-sm font-medium text-gray-700 dark:text-gray-300">Palavra-passe</label>
+            <div class="relative">
+              <div class="absolute inset-y-0 left-0 pl-3 flex items-center pointer-events-none">
+                <i class="fal fa-lock text-gray-400"></i>
+              </div>
+              <Input
+                class="w-full pl-10"
+                type="password"
+                placeholder="Sua palavra-passe..."
+                v-model="password"
+                @keydown.enter="handleLogin"
+              />
+            </div>
+          </div>
+
+          <Button
+            class="w-full !bg-blue-500 hover:!bg-blue-600 dark:text-white h-11 text-base"
+            @click="handleLogin"
+            :disabled="!canSubmit"
+          >
+            <i class="fal fa-sign-in-alt mr-2"></i>
+            Entrar
+          </Button>
+        </div>
+
+        <!-- Separador -->
+        <div class="relative">
+          <div class="absolute inset-0 flex items-center">
+            <div class="w-full border-t border-gray-200 dark:border-gray-800"></div>
+          </div>
+          <div class="relative flex justify-center text-sm">
+            <span class="px-2 bg-white dark:bg-zinc-900 text-gray-500">Ou continue com</span>
+          </div>
+        </div>
+
+        <!-- Google Sign In -->
+        <div class="flex justify-center">
+          <GoogleSignInButton
+            @success="handleGoogleLoginSuccess"
+            @error="handleGoogleLoginError"
+          ></GoogleSignInButton>
+        </div>
+
+        <!-- Links -->
+        <div class="space-y-4 text-center">
+          <p class="text-sm text-gray-600 dark:text-gray-400">
+            Ainda não tem conta?
+            <NuxtLink to="/register" class="text-blue-500 hover:text-blue-600 font-medium">
+              Registar
+            </NuxtLink>
+          </p>
+
+          <div class="text-xs text-gray-500 dark:text-gray-400 flex justify-center gap-4">
+            <NuxtLink to="/privacy" class="hover:text-gray-700 dark:hover:text-gray-300">
+              Política de privacidade
+            </NuxtLink>
+            <NuxtLink to="/terms" class="hover:text-gray-700 dark:hover:text-gray-300">
+              Termos de Uso
+            </NuxtLink>
+          </div>
+        </div>
       </div>
     </div>
   </div>

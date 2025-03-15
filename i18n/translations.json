@@ -11,6 +11,18 @@
     "save": {
       "en": "Save",
       "pt": "Guardar"
+    },
+    "edit": {
+      "en": "Edit",
+      "pt": "Editar"
+    },
+    "delete": {
+      "en": "Delete",
+      "pt": "Excluir"
+    },
+    "actions": {
+      "en": "Actions",
+      "pt": "Ações"
     }
   },
   "sidebar": {
@@ -57,6 +69,14 @@
   },
   "cpcv": {
     "contacts": {
+      "title": {
+        "en": "Contacts",
+        "pt": "Contatos"
+      },
+      "description": {
+        "en": "Manage your contacts",
+        "pt": "Gerencie seus contatos"
+      },
       "modals": {
         "contactType": {
           "en": "Contact Type",
@@ -160,6 +180,18 @@
             }
           },
           "inputs": {
+            "add": {
+              "en": "Add Contact",
+              "pt": "Adicionar Contato"
+            },
+            "startTour": {
+              "en": "Start Tour",
+              "pt": "Iniciar Tour"
+            },
+            "viewContacts": {
+              "en": "Here you can view all your contacts",
+              "pt": "Aqui você pode visualizar todos os seus contatos"
+            },
             "district": {
               "en": "District",
               "pt": "Distrito"
@@ -249,55 +281,65 @@
               },
               "residencePermit": {
                 "en": "Residence Permit",
-                "pt": "Título de Residência"
-              },
-              "driverLicense": {
-                "en": "Driver License",
-                "pt": "Carta de Condução"
+                "pt": "Autorização de Residência"
               }
-            },
-            "selectTheDocumentType": {
-              "en": "Select the document type",
-              "pt": "Selecione o tipo de documento"
             },
             "documentNumber": {
               "en": "Document Number",
               "pt": "Número do Documento"
             },
-            "documentExpirationDate": {
-              "en": "Document Expiration Date",
-              "pt": "Data de Validade do Documento"
+            "documentExpiration": {
+              "en": "Document Expiration",
+              "pt": "Data de Validade"
             },
-            "documentIssueDate": {
-              "en": "Document Issue Date",
-              "pt": "Data de Emissão do Documento"
+            "documentIssuer": {
+              "en": "Document Issuer",
+              "pt": "Órgão Emissor"
             },
-            "documentIssuingCountry": {
-              "en": "Document Issuing Country",
-              "pt": "País de Emissão do Documento"
-            },
-            "comercialRegistration": {
-              "en": "Comercial Registration",
+            "companyRegistration": {
+              "en": "Commercial Registration",
               "pt": "Registo Comercial"
             },
-            "socialCapital": {
-              "en": "Social Capital",
-              "pt": "Capital Social"
+            "companyCode": {
+              "en": "Company Code",
+              "pt": "Código da Empresa"
             },
-            "companyName": {
-              "en": "Company Name",
-              "pt": "Nome da Empresa"
-            },
-            "codeRCBE": {
+            "companyRCBECode": {
               "en": "RCBE Code",
               "pt": "Código RCBE"
             },
-            "permanentCertificate": {
-              "en": "Permanent Certificate",
-              "pt": "Certidão Permanente"
+            "companySocialCapital": {
+              "en": "Social Capital",
+              "pt": "Capital Social"
             }
           }
         }
+      },
+      "tour": {
+        "startTour": {
+          "en": "Start Tour",
+          "pt": "Iniciar Tour"
+        },
+        "addContact": {
+          "en": "Click here to add a new contact",
+          "pt": "Clique aqui para adicionar um novo contato"
+        },
+        "viewContacts": {
+          "en": "Here you can view and manage all your contacts",
+          "pt": "Aqui você pode visualizar e gerenciar todos os seus contatos"
+        }
+      },
+      "confirmDelete": {
+        "en": "Are you sure you want to delete this contact?",
+        "pt": "Tem certeza que deseja excluir este contato?"
+      },
+      "deleted": {
+        "en": "Contact deleted",
+        "pt": "Contato excluído"
+      },
+      "deletedDescription": {
+        "en": "The contact has been successfully deleted",
+        "pt": "O contato foi excluído com sucesso"
       }
     }
   },
@@ -352,6 +394,278 @@
       "userAuthenticated": {
         "en": "User authenticated successfully.",
         "pt": "Utilizador autenticado com sucesso."
+      }
+    }
+  },
+  "landing": {
+    "hero": {
+      "title": {
+        "en": "Simplify Real Estate Contract Management",
+        "pt": "Simplifique a Gestão de Contratos Imobiliários"
+      },
+      "subtitle": {
+        "en": "Automate your contracts, manage properties and contacts in a single intuitive platform.",
+        "pt": "Automatize os seus contratos, faça a gestão de imóveis e contactos numa única plataforma intuitiva."
+      },
+      "cta": {
+        "start": {
+          "en": "Start for Free",
+          "pt": "Começar Gratuitamente"
+        },
+        "demo": {
+          "en": "Schedule Demo",
+          "pt": "Agendar Demonstração"
+        }
+      }
+    },
+    "features": {
+      "title": {
+        "en": "Everything you need in one place",
+        "pt": "Tudo o que precisa num só lugar"
+      },
+      "subtitle": {
+        "en": "Manage the entire lifecycle of your real estate contracts",
+        "pt": "Faça a gestão de todo o ciclo de vida dos seus contratos imobiliários"
+      },
+      "contracts": {
+        "title": {
+          "en": "Automated Contracts",
+          "pt": "Contratos Automatizados"
+        },
+        "description": {
+          "en": "Generate professional contracts automatically with customizable templates and digital signature.",
+          "pt": "Gere contratos profissionais automaticamente com modelos personalizáveis e assinatura digital."
+        }
+      },
+      "properties": {
+        "title": {
+          "en": "Property Management",
+          "pt": "Gestão de Imóveis"
+        },
+        "description": {
+          "en": "Register and manage all your properties with detailed information and complete documentation.",
+          "pt": "Registe e faça a gestão de todos os seus imóveis com informações detalhadas e documentação completa."
+        }
+      },
+      "contacts": {
+        "title": {
+          "en": "Contact Management",
+          "pt": "Gestão de Contactos"
+        },
+        "description": {
+          "en": "Keep all your contacts organized with complete information about clients and partners.",
+          "pt": "Mantenha todos os seus contactos organizados com informações completas de clientes e parceiros."
+        }
+      }
+    },
+    "pricing": {
+      "title": {
+        "en": "Plans that adapt to your business",
+        "pt": "Planos que se adaptam ao seu negócio"
+      },
+      "subtitle": {
+        "en": "Choose the ideal plan for your needs",
+        "pt": "Escolha o plano ideal para as suas necessidades"
+      },
+      "basic": {
+        "title": {
+          "en": "Basic",
+          "pt": "Básico"
+        },
+        "features": {
+          "contracts": {
+            "en": "Up to 10 contracts/month",
+            "pt": "Até 10 contratos/mês"
+          },
+          "contacts": {
+            "en": "Contact management",
+            "pt": "Gestão de contactos"
+          },
+          "support": {
+            "en": "Email support",
+            "pt": "Suporte por email"
+          }
+        }
+      },
+      "pro": {
+        "title": {
+          "en": "Professional",
+          "pt": "Profissional"
+        },
+        "badge": {
+          "en": "Most Popular",
+          "pt": "Mais Popular"
+        },
+        "features": {
+          "contracts": {
+            "en": "Up to 50 contracts/month",
+            "pt": "Até 50 contratos/mês"
+          },
+          "management": {
+            "en": "Complete management",
+            "pt": "Gestão completa"
+          },
+          "support": {
+            "en": "Priority support",
+            "pt": "Suporte prioritário"
+          }
+        }
+      },
+      "enterprise": {
+        "title": {
+          "en": "Enterprise",
+          "pt": "Empresarial"
+        },
+        "features": {
+          "contracts": {
+            "en": "Unlimited contracts",
+            "pt": "Contratos ilimitados"
+          },
+          "api": {
+            "en": "Custom API",
+            "pt": "API personalizada"
+          },
+          "support": {
+            "en": "24/7 support",
+            "pt": "Suporte 24/7"
+          }
+        }
+      },
+      "cta": {
+        "en": "Start Now",
+        "pt": "Começar Agora"
+      }
+    },
+    "cta": {
+      "title": {
+        "en": "Ready to simplify your real estate management?",
+        "pt": "Pronto para simplificar a sua gestão imobiliária?"
+      },
+      "subtitle": {
+        "en": "Join hundreds of professionals who are already saving time and money with our platform.",
+        "pt": "Junte-se a centenas de profissionais que já estão a poupar tempo e dinheiro com a nossa plataforma."
+      },
+      "buttons": {
+        "create": {
+          "en": "Create Free Account",
+          "pt": "Criar Conta Gratuita"
+        },
+        "contact": {
+          "en": "Talk to an Expert",
+          "pt": "Falar com Especialista"
+        }
+      }
+    }
+  },
+  "contacts": {
+    "title": {
+      "en": "Contacts",
+      "pt": "Contatos"
+    },
+    "description": {
+      "en": "Manage your contacts list",
+      "pt": "Gerencie sua lista de contatos"
+    },
+    "add": {
+      "en": "Add Contact",
+      "pt": "Adicionar Contato"
+    },
+    "edit": {
+      "en": "Edit Contact",
+      "pt": "Editar Contato"
+    },
+    "modal": {
+      "description": {
+        "en": "Add a new contact to your list",
+        "pt": "Adicione um novo contato à sua lista"
+      }
+    },
+    "form": {
+      "name": {
+        "en": "Name",
+        "pt": "Nome"
+      },
+      "namePlaceholder": {
+        "en": "Enter contact name",
+        "pt": "Digite o nome do contato"
+      },
+      "email": {
+        "en": "Email",
+        "pt": "Email"
+      },
+      "emailPlaceholder": {
+        "en": "Enter contact email",
+        "pt": "Digite o email do contato"
+      },
+      "phone": {
+        "en": "Phone",
+        "pt": "Telefone"
+      },
+      "phonePlaceholder": {
+        "en": "Enter contact phone",
+        "pt": "Digite o telefone do contato"
+      },
+      "type": {
+        "en": "Type",
+        "pt": "Tipo"
+      },
+      "typePlaceholder": {
+        "en": "Select contact type",
+        "pt": "Selecione o tipo do contato"
+      }
+    },
+    "types": {
+      "buyer": {
+        "en": "Buyer",
+        "pt": "Comprador"
+      },
+      "seller": {
+        "en": "Seller",
+        "pt": "Vendedor"
+      },
+      "tenant": {
+        "en": "Tenant",
+        "pt": "Inquilino"
+      },
+      "landlord": {
+        "en": "Landlord",
+        "pt": "Senhorio"
+      }
+    }
+  },
+  "tour": {
+    "contacts": {
+      "trigger": {
+        "en": "Contacts Tutorial",
+        "pt": "Tutorial de Contatos"
+      },
+      "steps": {
+        "addContact": {
+          "en": "Click here to add a new contact to your list.",
+          "pt": "Clique aqui para adicionar um novo contato à sua lista."
+        },
+        "selectType": {
+          "en": "First, select the type of contact you want to create: Individual or Company.",
+          "pt": "Primeiro, selecione o tipo de contato que deseja criar: Individual ou Empresa."
+        },
+        "contactsTable": {
+          "en": "Here you can view, edit and manage all your contacts.",
+          "pt": "Aqui você pode visualizar, editar e gerenciar todos os seus contatos."
+        }
+      },
+      "navigation": {
+        "previous": {
+          "en": "Previous",
+          "pt": "Anterior"
+        },
+        "next": {
+          "en": "Next",
+          "pt": "Próximo"
+        },
+        "finish": {
+          "en": "Finish",
+          "pt": "Finalizar"
+        }
       }
     }
   }

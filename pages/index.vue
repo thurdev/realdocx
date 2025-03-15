@@ -6,17 +6,14 @@
         <div class="grid grid-cols-1 md:grid-cols-2 gap-12 items-center">
           <div class="space-y-8">
             <h1 class="text-4xl md:text-6xl font-bold leading-tight">
-              Simplifique a Gestão de Contratos Imobiliários
+              {{ $t('landing.hero.title') }}
             </h1>
             <p class="text-xl text-blue-100">
-              Automatize seus contratos, gerencie propriedades e contatos em uma única plataforma intuitiva.
+              {{ $t('landing.hero.subtitle') }}
             </p>
             <div class="flex flex-col sm:flex-row gap-4">
               <NuxtLink to="/register" class="bg-white text-blue-600 px-8 py-3 rounded-lg font-semibold hover:bg-blue-50 transition-colors text-center">
-                Começar Gratuitamente
-              </NuxtLink>
-              <NuxtLink to="/demo" class="border border-white text-white px-8 py-3 rounded-lg font-semibold hover:bg-white/10 transition-colors text-center">
-                Agendar Demo
+                {{ $t('landing.hero.cta.start') }}
               </NuxtLink>
             </div>
           </div>
@@ -32,10 +29,10 @@
       <div class="container mx-auto px-6">
         <div class="text-center mb-16">
           <h2 class="text-3xl md:text-4xl font-bold text-gray-900">
-            Tudo que você precisa em um só lugar
+            {{ $t('landing.features.title') }}
           </h2>
           <p class="mt-4 text-xl text-gray-600">
-            Gerencie todo o ciclo de vida dos seus contratos imobiliários
+            {{ $t('landing.features.subtitle') }}
           </p>
         </div>
 
@@ -48,10 +45,10 @@
               </svg>
             </div>
             <h3 class="text-xl font-semibold text-gray-900 mb-4">
-              Contratos Automatizados
+              {{ $t('landing.features.contracts.title') }}
             </h3>
             <p class="text-gray-600">
-              Gere contratos profissionais automaticamente com modelos personalizáveis e assinatura digital.
+              {{ $t('landing.features.contracts.description') }}
             </p>
           </div>
 
@@ -63,10 +60,10 @@
               </svg>
             </div>
             <h3 class="text-xl font-semibold text-gray-900 mb-4">
-              Gestão de Propriedades
+              {{ $t('landing.features.properties.title') }}
             </h3>
             <p class="text-gray-600">
-              Cadastre e gerencie todas as suas propriedades com informações detalhadas e documentação completa.
+              {{ $t('landing.features.properties.description') }}
             </p>
           </div>
 
@@ -78,10 +75,10 @@
               </svg>
             </div>
             <h3 class="text-xl font-semibold text-gray-900 mb-4">
-              Gestão de Contatos
+              {{ $t('landing.features.contacts.title') }}
             </h3>
             <p class="text-gray-600">
-              Mantenha todos os seus contatos organizados com informações completas de clientes e parceiros.
+              {{ $t('landing.features.contacts.description') }}
             </p>
           </div>
         </div>
@@ -93,19 +90,19 @@
       <div class="container mx-auto px-6">
         <div class="text-center mb-16">
           <h2 class="text-3xl md:text-4xl font-bold text-gray-900">
-            Planos que se adaptam ao seu negócio
+            {{ $t('landing.pricing.title') }}
           </h2>
           <p class="mt-4 text-xl text-gray-600">
-            Escolha o plano ideal para suas necessidades
+            {{ $t('landing.pricing.subtitle') }}
           </p>
         </div>
 
         <div class="grid grid-cols-1 md:grid-cols-3 gap-8 max-w-5xl mx-auto">
           <!-- Basic Plan -->
           <div class="bg-white p-8 rounded-xl shadow-sm hover:shadow-md transition-shadow border border-gray-200">
-            <h3 class="text-2xl font-bold text-gray-900 mb-4">Básico</h3>
+            <h3 class="text-2xl font-bold text-gray-900 mb-4">{{ $t('landing.pricing.basic.title') }}</h3>
             <div class="mb-6">
-              <span class="text-4xl font-bold">R$99</span>
+              <span class="text-4xl font-bold">€89</span>
               <span class="text-gray-600">/mês</span>
             </div>
             <ul class="space-y-4 mb-8">
@@ -113,34 +110,34 @@
                 <svg class="w-5 h-5 mr-2 text-green-500" fill="none" stroke="currentColor" viewBox="0 0 24 24">
                   <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M5 13l4 4L19 7"></path>
                 </svg>
-                Até 10 contratos/mês
+                {{ $t('landing.pricing.basic.features.contracts') }}
               </li>
               <li class="flex items-center text-gray-600">
                 <svg class="w-5 h-5 mr-2 text-green-500" fill="none" stroke="currentColor" viewBox="0 0 24 24">
                   <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M5 13l4 4L19 7"></path>
                 </svg>
-                Gestão de contatos
+                {{ $t('landing.pricing.basic.features.contacts') }}
               </li>
               <li class="flex items-center text-gray-600">
                 <svg class="w-5 h-5 mr-2 text-green-500" fill="none" stroke="currentColor" viewBox="0 0 24 24">
                   <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M5 13l4 4L19 7"></path>
                 </svg>
-                Suporte por email
+                {{ $t('landing.pricing.basic.features.support') }}
               </li>
             </ul>
             <NuxtLink to="/register" class="block w-full text-center bg-blue-600 text-white px-6 py-3 rounded-lg font-semibold hover:bg-blue-700 transition-colors">
-              Começar Agora
+              {{ $t('landing.pricing.cta') }}
             </NuxtLink>
           </div>
 
           <!-- Pro Plan -->
           <div class="bg-blue-600 p-8 rounded-xl shadow-lg scale-105 transform">
             <div class="absolute -top-4 left-1/2 transform -translate-x-1/2">
-              <span class="bg-green-500 text-white text-sm px-3 py-1 rounded-full">Mais Popular</span>
+              <span class="bg-green-500 text-white text-sm px-3 py-1 rounded-full">{{ $t('landing.pricing.pro.badge') }}</span>
             </div>
-            <h3 class="text-2xl font-bold text-white mb-4">Profissional</h3>
+            <h3 class="text-2xl font-bold text-white mb-4">{{ $t('landing.pricing.pro.title') }}</h3>
             <div class="mb-6">
-              <span class="text-4xl font-bold text-white">R$199</span>
+              <span class="text-4xl font-bold text-white">€179</span>
               <span class="text-blue-200">/mês</span>
             </div>
             <ul class="space-y-4 mb-8">
@@ -148,31 +145,31 @@
                 <svg class="w-5 h-5 mr-2 text-green-400" fill="none" stroke="currentColor" viewBox="0 0 24 24">
                   <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M5 13l4 4L19 7"></path>
                 </svg>
-                Até 50 contratos/mês
+                {{ $t('landing.pricing.pro.features.contracts') }}
               </li>
               <li class="flex items-center text-white">
                 <svg class="w-5 h-5 mr-2 text-green-400" fill="none" stroke="currentColor" viewBox="0 0 24 24">
                   <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M5 13l4 4L19 7"></path>
                 </svg>
-                Gestão completa
+                {{ $t('landing.pricing.pro.features.management') }}
               </li>
               <li class="flex items-center text-white">
                 <svg class="w-5 h-5 mr-2 text-green-400" fill="none" stroke="currentColor" viewBox="0 0 24 24">
                   <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M5 13l4 4L19 7"></path>
                 </svg>
-                Suporte prioritário
+                {{ $t('landing.pricing.pro.features.support') }}
               </li>
             </ul>
             <NuxtLink to="/register" class="block w-full text-center bg-white text-blue-600 px-6 py-3 rounded-lg font-semibold hover:bg-blue-50 transition-colors">
-              Começar Agora
+              {{ $t('landing.pricing.cta') }}
             </NuxtLink>
           </div>
 
           <!-- Enterprise Plan -->
           <div class="bg-white p-8 rounded-xl shadow-sm hover:shadow-md transition-shadow border border-gray-200">
-            <h3 class="text-2xl font-bold text-gray-900 mb-4">Empresarial</h3>
+            <h3 class="text-2xl font-bold text-gray-900 mb-4">{{ $t('landing.pricing.enterprise.title') }}</h3>
             <div class="mb-6">
-              <span class="text-4xl font-bold">R$399</span>
+              <span class="text-4xl font-bold">€359</span>
               <span class="text-gray-600">/mês</span>
             </div>
             <ul class="space-y-4 mb-8">
@@ -180,23 +177,23 @@
                 <svg class="w-5 h-5 mr-2 text-green-500" fill="none" stroke="currentColor" viewBox="0 0 24 24">
                   <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M5 13l4 4L19 7"></path>
                 </svg>
-                Contratos ilimitados
+                {{ $t('landing.pricing.enterprise.features.contracts') }}
               </li>
               <li class="flex items-center text-gray-600">
                 <svg class="w-5 h-5 mr-2 text-green-500" fill="none" stroke="currentColor" viewBox="0 0 24 24">
                   <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M5 13l4 4L19 7"></path>
                 </svg>
-                API personalizada
+                {{ $t('landing.pricing.enterprise.features.api') }}
               </li>
               <li class="flex items-center text-gray-600">
                 <svg class="w-5 h-5 mr-2 text-green-500" fill="none" stroke="currentColor" viewBox="0 0 24 24">
                   <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M5 13l4 4L19 7"></path>
                 </svg>
-                Suporte 24/7
+                {{ $t('landing.pricing.enterprise.features.support') }}
               </li>
             </ul>
             <NuxtLink to="/register" class="block w-full text-center bg-blue-600 text-white px-6 py-3 rounded-lg font-semibold hover:bg-blue-700 transition-colors">
-              Começar Agora
+              {{ $t('landing.pricing.cta') }}
             </NuxtLink>
           </div>
         </div>
@@ -207,17 +204,14 @@
     <section class="bg-gray-900 text-white py-24">
       <div class="container mx-auto px-6 text-center">
         <h2 class="text-3xl md:text-4xl font-bold mb-8">
-          Pronto para simplificar sua gestão imobiliária?
+          {{ $t('landing.cta.title') }}
         </h2>
         <p class="text-xl text-gray-400 mb-12 max-w-2xl mx-auto">
-          Junte-se a centenas de profissionais que já estão economizando tempo e dinheiro com nossa plataforma.
+          {{ $t('landing.cta.subtitle') }}
         </p>
-        <div class="flex flex-col sm:flex-row gap-4 justify-center">
-          <NuxtLink to="/register" class="bg-blue-600 text-white px-8 py-3 rounded-lg font-semibold hover:bg-blue-700 transition-colors">
-            Criar Conta Grátis
-          </NuxtLink>
-          <NuxtLink to="/contact" class="border border-white text-white px-8 py-3 rounded-lg font-semibold hover:bg-white/10 transition-colors">
-            Falar com Especialista
+        <div class="flex justify-center">
+          <NuxtLink to="/register" class="bg-blue-600 text-white px-12 py-4 rounded-lg font-semibold hover:bg-blue-700 transition-colors text-xl">
+            {{ $t('landing.cta.buttons.create') }}
           </NuxtLink>
         </div>
       </div>

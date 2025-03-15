@@ -1,11 +1,19 @@
 <template>
   <div
     v-if="isVisible"
-    class="tour-tooltip"
+    class="tour-tooltip relative bg-white rounded-lg shadow-lg p-4"
     :style="tooltipStyles"
   >
+    <Button
+      variant="ghost"
+      size="icon"
+      class="absolute right-2 top-2 hover:bg-gray-100 rounded-full"
+      @click="onClose"
+    >
+      <X class="h-4 w-4" />
+    </Button>
     <div class="flex flex-col gap-4">
-      <p class="text-sm text-gray-600">{{ content }}</p>
+      <p class="text-sm text-gray-600 pr-8">{{ content }}</p>
       <div class="flex items-center justify-between min-w-[300px]">
         <div class="w-[100px]">
           <Button
@@ -15,7 +23,7 @@
             @click="onPrevious"
           >
             <ChevronLeft class="h-4 w-4" />
-            Anterior
+            {{ $t('tour.contacts.navigation.previous') }}
           </Button>
         </div>
 
@@ -30,7 +38,7 @@
             size="sm"
             @click="onNext"
           >
-            Próximo
+            {{ $t('tour.contacts.navigation.next') }}
             <ChevronRight class="h-4 w-4" />
           </Button>
           <Button
@@ -39,7 +47,7 @@
             size="sm"
             @click="onNext"
           >
-            Finalizar
+            {{ $t('tour.contacts.navigation.finish') }}
             <CheckCircle class="h-4 w-4 ml-2" />
           </Button>
         </div>
@@ -50,7 +58,7 @@
 
 <script setup lang="ts">
 import { Button } from '@/components/ui/button';
-import { ChevronLeft, ChevronRight, CheckCircle } from 'lucide-vue-next';
+import { ChevronLeft, ChevronRight, CheckCircle, X } from 'lucide-vue-next';
 
 const props = defineProps<{
   isVisible: boolean;
@@ -75,11 +83,14 @@ const onClose = () => emit('close');
 
 <style scoped>
 .tour-tooltip {
-  background-color: white;
-  border-radius: 8px;
-  box-shadow: 0 2px 8px rgba(0, 0, 0, 0.15);
-  padding: 16px;
   min-width: 350px;
-  z-index: 1000;
+  pointer-events: auto !important;
+  cursor: default !important;
+  user-select: text !important;
+}
+
+.tour-tooltip button {
+  pointer-events: auto !important;
+  cursor: pointer !important;
 }
 </style> 
