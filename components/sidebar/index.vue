@@ -179,6 +179,12 @@ const sidebarItems = [
   {
     links: [
       {
+        title: "sidebar.dashboard",
+        icon: "fa-light fa-house",
+        link: "/dashboard",
+        tourTarget: "sidebar-dashboard",
+      },
+      {
         title: "sidebar.contacts",
         icon: "fa-light fa-users",
         link: "/contacts",

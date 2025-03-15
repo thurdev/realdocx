@@ -12,7 +12,7 @@
     >
       <X class="h-4 w-4" />
     </Button>
-    <div class="flex flex-col gap-4">
+    <div class="flex flex-col gap-4 max-w-[400px]">
       <p class="text-sm text-gray-600 pr-8">{{ content }}</p>
       <div class="flex items-center justify-between min-w-[300px]">
         <div class="w-[100px]">

@@ -75,13 +75,11 @@ const tourSteps = ref([
     target: ".tour-target-button",
     content: $t("cpcv.contacts.tour.addContact"),
     placement: "bottom",
-    title: $t("cpcv.contacts.tour.addContactTitle")
   },
   {
     target: ".tour-target-table",
     content: $t("cpcv.contacts.tour.viewContacts"),
     placement: "bottom",
-    title: $t("cpcv.contacts.tour.viewContactsTitle")
   }
 ]);
 

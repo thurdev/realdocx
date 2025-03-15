@@ -28,8 +28,10 @@
     "cheerio": "^1.0.0",
     "class-variance-authority": "^0.7.1",
     "clsx": "^2.1.1",
+    "date-fns": "^4.1.0",
     "html2pdf.js": "^0.10.3",
     "lucide-vue-next": "^0.469.0",
+    "moment": "^2.30.1",
     "node-html-parser": "^7.0.1",
     "nuxt": "^3.15.0",
     "nuxt-auth-utils": "0.5.7",
@@ -45,6 +47,7 @@
   },
   "packageManager": "yarn@1.22.22+sha1.ac34549e6aa8e7ead463a7407e1c7390f61a6610",
   "devDependencies": {
+    "prisma": "^6.5.0",
     "typescript": "^5.7.2"
   }
 }

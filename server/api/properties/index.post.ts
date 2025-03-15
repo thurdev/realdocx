@@ -10,7 +10,6 @@ export default defineEventHandler(async (event) => {
   }
 
   const {
-    price,
     fraction,
     floor,
     destination,
@@ -46,8 +45,7 @@ export default defineEventHandler(async (event) => {
   // Create the contact
   await prisma.properties.create({
     data: {
-      // Property info
-      price,
+      // Property info,
       fraction,
       floor,
       destination,

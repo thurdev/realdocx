@@ -27,9 +27,4 @@ export const contactsRoutes = [
     name: "contacts-create",
     component: () => import("./create.vue"),
   },
-  {
-    path: "/contacts/:id/edit",
-    name: "contacts-edit",
-    component: () => import("./edit.vue"),
-  },
 ];

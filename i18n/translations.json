@@ -22,10 +22,42 @@
     },
     "actions": {
       "en": "Actions",
-      "pt": "Ações"
+      "pt": "Ações",
+      "title": {
+        "en": "Actions",
+        "pt": "Ações"
+      },
+      "open": {
+        "en": "Open menu",
+        "pt": "Abrir menu"
+      },
+      "edit": {
+        "en": "Edit",
+        "pt": "Editar"
+      },
+      "delete": {
+        "en": "Delete",
+        "pt": "Excluir"
+      }
+    },
+    "success": {
+      "en": "Success",
+      "pt": "Sucesso"
+    },
+    "error": {
+      "en": "Error",
+      "pt": "Erro"
+    },
+    "createdAt": {
+      "en": "Created At",
+      "pt": "Criado em"
     }
   },
   "sidebar": {
+    "dashboard": {
+      "en": "Dashboard",
+      "pt": "Início"
+    },
     "settings": {
       "en": "Settings",
       "pt": "Definições"
@@ -344,11 +376,41 @@
     }
   },
   "auth": {
+    "login": {
+      "title": {
+        "en": "Login",
+        "pt": "Entrar"
+      },
+      "noAccount": {
+        "en": "Don't have an account?",
+        "pt": "Ainda não tem conta?"
+      },
+      "register": {
+        "en": "Register",
+        "pt": "Registar"
+      }
+    },
     "register": {
       "title": {
         "en": "Register",
         "pt": "Registar"
+      },
+      "hasAccount": {
+        "en": "Already have an account?",
+        "pt": "Já tem conta?"
+      },
+      "login": {
+        "en": "Login",
+        "pt": "Entrar"
       }
+    },
+    "privacy": {
+      "en": "Privacy Policy",
+      "pt": "Política de Privacidade"
+    },
+    "terms": {
+      "en": "Terms of Use",
+      "pt": "Termos de Uso"
     }
   },
   "endpoints": {
@@ -666,6 +728,346 @@
           "en": "Finish",
           "pt": "Finalizar"
         }
+      }
+    }
+  },
+  "properties": {
+    "title": {
+      "en": "Properties",
+      "pt": "Imóveis"
+    },
+    "description": {
+      "en": "Manage your properties",
+      "pt": "Gerencie seus imóveis"
+    },
+    "create": {
+      "en": "Create Property",
+      "pt": "Criar Imóvel"
+    },
+    "deleted": {
+      "en": "Property deleted successfully",
+      "pt": "Imóvel excluído com sucesso"
+    },
+    "deleteError": {
+      "en": "Error deleting property",
+      "pt": "Erro ao excluir imóvel"
+    },
+    "inputs": {
+      "fraction": {
+        "en": "Fraction",
+        "pt": "Fração"
+      },
+      "floor": {
+        "en": "Floor",
+        "pt": "Andar"
+      },
+      "destination": {
+        "en": "Destination",
+        "pt": "Destino"
+      },
+      "number": {
+        "en": "Number",
+        "pt": "Número"
+      },
+      "matrixRegistration": {
+        "en": "Matrix Registration",
+        "pt": "Registro de Matriz"
+      },
+      "buildingDescriptionNumber": {
+        "en": "Building Description Number",
+        "pt": "Número da Descrição"
+      },
+      "buildingDescriptionRegistry": {
+        "en": "Building Description Registry",
+        "pt": "Registro da Descrição"
+      },
+      "luNumber": {
+        "en": "LU Number",
+        "pt": "Número LU"
+      },
+      "luDate": {
+        "en": "LU Date",
+        "pt": "Data LU"
+      },
+      "luIssuer": {
+        "en": "LU Issuer",
+        "pt": "Emissor LU"
+      },
+      "ecLetter": {
+        "en": "EC Letter",
+        "pt": "Letra EC"
+      },
+      "ecNumber": {
+        "en": "EC Number",
+        "pt": "Número EC"
+      },
+      "ecValidUntil": {
+        "en": "EC Valid Until",
+        "pt": "Validade EC"
+      },
+      "chargesType": {
+        "en": "Charges Type",
+        "pt": "Tipo de Encargos"
+      },
+      "chargesBank": {
+        "en": "Bank",
+        "pt": "Banco"
+      },
+      "chargesAP": {
+        "en": "Charges AP",
+        "pt": "AP de Encargos"
+      },
+      "chargesDate": {
+        "en": "Charges Date",
+        "pt": "Data de Encargos"
+      },
+      "address": {
+        "en": "Address",
+        "pt": "Morada"
+      },
+      "district": {
+        "en": "District",
+        "pt": "Distrito"
+      },
+      "city": {
+        "en": "City",
+        "pt": "Cidade"
+      },
+      "postalCode": {
+        "en": "Postal Code",
+        "pt": "Código Postal"
+      }
+    }
+  },
+  "contracts": {
+    "title": {
+      "en": "Contracts List",
+      "pt": "Lista de Contratos"
+    },
+    "create": {
+      "en": "Create Contract",
+      "pt": "Criar Contrato"
+    },
+    "empty": {
+      "en": "No contracts created yet.",
+      "pt": "Nenhum contrato criado ainda."
+    },
+    "createFirst": {
+      "en": "Create your first contract",
+      "pt": "Criar seu primeiro contrato"
+    },
+    "price": {
+      "en": "Contract Price",
+      "pt": "Preço do Contrato"
+    },
+    "balance": {
+      "en": "Current Balance",
+      "pt": "Saldo Atual"
+    },
+    "insufficientBalance": {
+      "en": "Insufficient balance. Required: €{0}",
+      "pt": "Saldo insuficiente. Necessário: €{0}"
+    },
+    "saveWarning": {
+      "en": "By saving this contract, €{0} will be deducted from your balance.",
+      "pt": "Ao salvar este contrato, €{0} será deduzido do seu saldo."
+    },
+    "preview": {
+      "en": "Preview",
+      "pt": "Pré-visualização"
+    },
+    "balanceWarning": {
+      "en": "Current Balance: €{0}",
+      "pt": "Saldo atual: €{0}"
+    },
+    "selectType": {
+      "en": "Select contract type",
+      "pt": "Selecione o tipo de contrato"
+    },
+    "types": {
+      "sale": {
+        "en": "Sale Contract",
+        "pt": "Contrato de Venda"
+      },
+      "rent": {
+        "en": "Rent Contract",
+        "pt": "Contrato de Arrendamento"
+      }
+    }
+  },
+  "wallet": {
+    "overview": {
+      "en": "Overview",
+      "pt": "Visão Geral"
+    },
+    "addCard": {
+      "en": "Add Card",
+      "pt": "Adicionar Cartão"
+    },
+    "billingHistory": {
+      "en": "Billing History",
+      "pt": "Histórico de Faturação"
+    },
+    "payAsYouGo": {
+      "en": "Pay as you go",
+      "pt": "Pague conforme usa"
+    },
+    "creditBalance": {
+      "en": "Credit balance",
+      "pt": "Saldo de créditos"
+    },
+    "addCreditBalance": {
+      "en": "Add credit balance",
+      "pt": "Adicionar créditos"
+    },
+    "creditsUsed": {
+      "en": "Credits used",
+      "pt": "Créditos usados"
+    },
+    "addPaymentMethod": {
+      "en": "Add Payment Method",
+      "pt": "Adicionar Método de Pagamento"
+    },
+    "comingSoon": {
+      "en": "Coming soon...",
+      "pt": "Em breve..."
+    },
+    "totalSpent": {
+      "en": "Total Spent",
+      "pt": "Total Gasto"
+    },
+    "addCredits": {
+      "en": "Add Credits",
+      "pt": "Adicionar Créditos"
+    },
+    "addCreditsDescription": {
+      "en": "Add credits to your wallet using your saved payment method.",
+      "pt": "Adicione créditos à sua carteira usando seu método de pagamento salvo."
+    },
+    "amount": {
+      "en": "Amount (€)",
+      "pt": "Valor (€)"
+    },
+    "enterAmount": {
+      "en": "Enter amount",
+      "pt": "Digite o valor"
+    },
+    "paymentMethod": {
+      "en": "Payment Method",
+      "pt": "Método de Pagamento"
+    },
+    "selectCard": {
+      "en": "Select a card",
+      "pt": "Selecione um cartão"
+    },
+    "processing": {
+      "en": "Processing...",
+      "pt": "Processando..."
+    },
+    "previous": {
+      "en": "Previous",
+      "pt": "Anterior"
+    },
+    "next": {
+      "en": "Next",
+      "pt": "Próximo"
+    },
+    "page": {
+      "en": "Page {0} of {1}",
+      "pt": "Página {0} de {1}"
+    },
+    "transactions": {
+      "date": {
+        "en": "Date",
+        "pt": "Data"
+      },
+      "type": {
+        "en": "Type",
+        "pt": "Tipo"
+      },
+      "amount": {
+        "en": "Amount",
+        "pt": "Valor"
+      },
+      "description": {
+        "en": "Description",
+        "pt": "Descrição"
+      },
+      "creditAdded": {
+        "en": "Credit Added",
+        "pt": "Crédito Adicionado"
+      },
+      "creditUsed": {
+        "en": "Credit Used",
+        "pt": "Crédito Usado"
+      },
+      "contract": {
+        "en": "Contract #{0}",
+        "pt": "Contrato #{0}"
+      }
+    }
+  },
+  "dashboard": {
+    "welcome": {
+      "en": "Welcome back",
+      "pt": "Bem-vindo de volta"
+    },
+    "overview": {
+      "en": "Here's an overview of your business",
+      "pt": "Aqui está uma visão geral do seu negócio"
+    },
+    "totalContracts": {
+      "en": "Total Contracts",
+      "pt": "Total de Contratos"
+    },
+    "totalProperties": {
+      "en": "Total Properties",
+      "pt": "Total de Imóveis"
+    },
+    "totalContacts": {
+      "en": "Total Contacts",
+      "pt": "Total de Contatos"
+    },
+    "walletBalance": {
+      "en": "Wallet Balance",
+      "pt": "Saldo da Carteira"
+    },
+    "thisMonth": {
+      "en": "this month",
+      "pt": "este mês"
+    },
+    "recentActivity": {
+      "en": "Recent Activity",
+      "pt": "Atividade Recente"
+    },
+    "noDataAvailable": {
+      "en": "No data available yet",
+      "pt": "Nenhum dado disponível ainda"
+    },
+    "startAddingData": {
+      "en": "Start adding contracts and properties to see statistics",
+      "pt": "Comece a adicionar contratos e imóveis para ver estatísticas"
+    },
+    "noRecentActivity": {
+      "en": "No recent activity",
+      "pt": "Nenhuma atividade recente"
+    },
+    "activitiesWillAppear": {
+      "en": "Your activities will appear here",
+      "pt": "Suas atividades aparecerão aqui"
+    },
+    "tour": {
+      "contacts": {
+        "en": "Here you can manage your contacts - create new ones, edit existing ones and view all details",
+        "pt": "Aqui você pode gerenciar seus contatos - criar novos, editar existentes e visualizar todos os detalhes"
+      },
+      "properties": {
+        "en": "In this section you can manage your property portfolio - add new ones, update information and view all details",
+        "pt": "Nesta seção você pode gerenciar seu portfólio de imóveis - adicionar novos, atualizar informações e visualizar todos os detalhes"
+      },
+      "contracts": {
+        "en": "Here you manage all your contracts - from creation to complete monitoring",
+        "pt": "Aqui você gerencia todos os seus contratos - desde a criação até o acompanhamento completo"
       }
     }
   }

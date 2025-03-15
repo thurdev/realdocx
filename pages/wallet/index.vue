@@ -5,26 +5,26 @@
     </h1>
     <Tabs default-value="overview" class="mt-4">
       <TabsList class="border border-b">
-        <TabsTrigger value="overview">Overview</TabsTrigger>
-        <TabsTrigger value="addCard">Add Card</TabsTrigger>
-        <TabsTrigger value="billingHistory">Billing History</TabsTrigger>
+        <TabsTrigger value="overview">{{ $t("wallet.overview") }}</TabsTrigger>
+        <TabsTrigger value="addCard">{{ $t("wallet.addCard") }}</TabsTrigger>
+        <TabsTrigger value="billingHistory">{{ $t("wallet.billingHistory") }}</TabsTrigger>
       </TabsList>
 
       <!-- Overview Tab -->
       <TabsContent value="overview" class="p-8">
         <div class="w-full">
-          <h2 class="text-xl font-bold">Pay as you go</h2>
+          <h2 class="text-xl font-bold">{{ $t("wallet.payAsYouGo") }}</h2>
           <div class="mt-4 flex flex-col gap-2">
-            <p>Credit balance</p>
+            <p>{{ $t("wallet.creditBalance") }}</p>
             <span class="text-3xl">€{{ walletData.balance?.toFixed(2) || '0.00' }}</span>
             <Button class="w-[152px]" size="sm" variant="outline" @click="showAddCreditsDialog = true">
-              Add credit balance
+              {{ $t("wallet.addCreditBalance") }}
             </Button>
           </div>
 
           <div class="mt-8">
             <div class="flex justify-between">
-              <p>Credits used</p>
+              <p>{{ $t("wallet.creditsUsed") }}</p>
               <p>EUR</p>
             </div>
 
@@ -43,8 +43,8 @@
       <!-- Add Card Tab -->
       <TabsContent value="addCard" class="p-8">
         <div class="w-full">
-          <h2 class="text-xl font-bold mb-6">Add Payment Method</h2>
-          <p class="text-gray-600 mb-4">Coming soon...</p>
+          <h2 class="text-xl font-bold mb-6">{{ $t("wallet.addPaymentMethod") }}</h2>
+          <p class="text-gray-600 mb-4">{{ $t("wallet.comingSoon") }}</p>
         </div>
       </TabsContent>
 
@@ -52,8 +52,8 @@
       <TabsContent value="billingHistory" class="p-8">
         <div class="w-full">
           <div class="flex justify-between items-center mb-6">
-            <h2 class="text-xl font-bold">Billing History</h2>
-            <p class="text-gray-600">Total Spent: €{{ billingHistory.totalSpent?.toFixed(2) || '0.00' }}</p>
+            <h2 class="text-xl font-bold">{{ $t("wallet.billingHistory") }}</h2>
+            <p class="text-gray-600">{{ $t("wallet.totalSpent") }}: €{{ totalSpent.toFixed(2) }}</p>
           </div>
 
           <DataTable 
@@ -68,10 +68,10 @@
               :disabled="currentPage === 1"
               @click="changePage(currentPage - 1)"
             >
-              Previous
+              {{ $t("wallet.previous") }}
             </Button>
             <span class="mx-4 flex items-center">
-              Page {{ currentPage }} of {{ transactions.pagination.pages }}
+              {{ $t("wallet.page", [currentPage, transactions.pagination.pages]) }}
             </span>
             <Button 
               variant="outline" 
@@ -79,7 +79,7 @@
               :disabled="currentPage === transactions.pagination.pages"
               @click="changePage(currentPage + 1)"
             >
-              Next
+              {{ $t("wallet.next") }}
             </Button>
           </div>
         </div>
@@ -90,27 +90,27 @@
     <Dialog :open="showAddCreditsDialog" @update:open="showAddCreditsDialog = false">
       <DialogContent class="sm:max-w-[425px]">
         <DialogHeader>
-          <DialogTitle>Add Credits</DialogTitle>
+          <DialogTitle>{{ $t("wallet.addCredits") }}</DialogTitle>
           <DialogDescription>
-            Add credits to your wallet using your saved payment method.
+            {{ $t("wallet.addCreditsDescription") }}
           </DialogDescription>
         </DialogHeader>
         <div class="grid gap-4 py-4">
           <div class="grid gap-2">
-            <Label for="amount">Amount (€)</Label>
+            <Label for="amount">{{ $t("wallet.amount") }}</Label>
             <Input
               id="amount"
               type="number"
               v-model="creditAmount"
-              placeholder="Enter amount"
+              :placeholder="$t('wallet.enterAmount')"
               class="col-span-3"
             />
           </div>
           <div class="grid gap-2">
-            <Label for="card">Payment Method</Label>
+            <Label for="card">{{ $t("wallet.paymentMethod") }}</Label>
             <Select v-model="selectedCard">
               <SelectTrigger class="w-full">
-                <SelectValue placeholder="Select a card" />
+                <SelectValue :placeholder="$t('wallet.selectCard')" />
               </SelectTrigger>
               <SelectContent>
                 <SelectItem value="card1">
@@ -134,11 +134,11 @@
             <template v-if="isLoading">
               <div class="flex items-center gap-2">
                 <Loader2 class="h-4 w-4 animate-spin" />
-                Processando...
+                {{ $t("wallet.processing") }}
               </div>
             </template>
             <template v-else>
-              Adicionar Créditos
+              {{ $t("wallet.addCredits") }}
             </template>
           </Button>
         </DialogFooter>
@@ -161,6 +161,7 @@ import { Label } from "@/components/ui/label";
 import { Input } from "@/components/ui/input";
 import { useToast } from "@/components/ui/toast/use-toast";
 import { Loader2 } from 'lucide-vue-next';
+const { $t } = useNuxtApp();
 
 // Estado
 const currentPage = ref(1);
@@ -187,11 +188,6 @@ const transactions = ref({
   },
 });
 
-const billingHistory = ref({
-  billingHistory: [],
-  totalSpent: 0,
-});
-
 // Computed
 const progress = computed(() => {
   if (!walletData.value.totalCredits) return 0;
@@ -200,27 +196,33 @@ const progress = computed(() => {
 
 const recentTransactions = computed(() => transactions.value.transactions);
 
+const totalSpent = computed(() => {
+  return recentTransactions.value
+    .filter(transaction => transaction.type === 'debit')
+    .reduce((total, transaction) => total + transaction.amount, 0);
+});
+
 // Colunas para as tabelas
 const transactionColumns = [
   {
     accessorKey: "createdAt",
-    header: "Date",
+    header: () => $t("wallet.transactions.date"),
     cell: ({ row }) => formatDate(row.original.createdAt),
   },
   {
     accessorKey: "type",
-    header: "Type",
-    cell: ({ row }) => row.original.type === 'credit' ? 'Credit Added' : 'Credit Used',
+    header: () => $t("wallet.transactions.type"),
+    cell: ({ row }) => row.original.type === 'credit' ? $t("wallet.transactions.creditAdded") : $t("wallet.transactions.creditUsed"),
   },
   {
     accessorKey: "amount",
-    header: "Amount",
+    header: () => $t("wallet.transactions.amount"),
     cell: ({ row }) => `€${row.original.amount.toFixed(2)}`,
   },
   {
     accessorKey: "contract",
-    header: "Description",
-    cell: ({ row }) => row.original.contract ? `Contract #${row.original.contract.id}` : '-',
+    header: () => $t("wallet.transactions.description"),
+    cell: ({ row }) => row.original.contract ? $t("wallet.transactions.contract", [row.original.contract.id]) : '-',
   },
 ];
 
@@ -292,16 +294,16 @@ const handleAddCredits = async () => {
 
     // Mostrar mensagem de sucesso
     toast({
-      title: "Sucesso",
-      description: `€${response.transaction.amount.toFixed(2)} adicionados à sua carteira`,
+      title: $t("shared.success"),
+      description: `€${response.transaction.amount.toFixed(2)} ${$t("wallet.addCreditBalance")}`,
       variant: "success"
     });
   } catch (error) {
     console.error('Error adding credits:', error);
     // Mostrar mensagem de erro
     toast({
-      title: "Erro",
-      description: "Falha ao adicionar créditos. Tente novamente.",
+      title: $t("shared.error"),
+      description: $t("endpoints.errors.addCredits"),
       variant: "destructive",
     });
   } finally {

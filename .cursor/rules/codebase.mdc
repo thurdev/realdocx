@@ -1,7 +1,13 @@
 ---
 description: codebase
-globs: 
+globs: *
 alwaysApply: true
 ---
 Always read code base for better response.
-For prisma I never create migrations, only db push or generate
+For prisma I never create migrations, only npx prisma db push or npx prisma db generate
+Whenever importing the data-table component its not data-table its DataTable @/components/dataTable/DataTable.vue
+For translations no need to do anything, just go to translations.json file, and if you need to see how it works find the plugin i18n I created my self which is the $t function.
+We always use vue 3 with nuxtjs no matter what.
+Yarn first fuck npm.
+Before creating a endpoint check how we do the endpoints, auth etc.
+Before creating a new vue file, if its a page check the page layout on the other ones, or ask me, don't start from nothing.

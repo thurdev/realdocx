@@ -37,6 +37,6 @@ const handleDeleteContact = async () => {
     method: "POST",
     body: props.contact,
   });
-  navigateTo("/cpcv/contacts?deleted=" + props.contact.id);
+  navigateTo("/contacts?deleted=" + props.contact.id);
 };
 </script>

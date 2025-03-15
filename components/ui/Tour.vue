@@ -71,7 +71,8 @@ import TourTooltip from '../contract/TourTooltip.vue';
 interface TourStep {
   target: string;
   content: string;
-  placement: 'top' | 'bottom' | 'left' | 'right';
+  placement: 'top' | 'bottom' | 'left' | 'right' | 'bottom-right';
+  class?: string;
 }
 
 interface Props {
@@ -137,6 +138,9 @@ const updateHighlightPosition = () => {
   target.style.visibility = 'hidden';
   target.style.pointerEvents = 'none';
   target.classList.add('tour-target');
+  if (step.class) {
+    target.classList.add(step.class);
+  }
 
   // Cria um clone do elemento alvo
   const clone = target.cloneNode(true) as HTMLElement;
@@ -216,6 +220,10 @@ const tooltipStyles = computed(() => {
     case 'right':
       x = rect.right + defaultOffset;
       y = rect.top + (rect.height / 2);
+      break;
+    case 'bottom-right':
+      x = rect.right + defaultOffset;
+      y = rect.bottom + bottomOffset;
       break;
   }
 
