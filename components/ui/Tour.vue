@@ -1,19 +1,19 @@
 <template>
   <div>
     <Button
-      v-if="!isTourStarted"
+      v-if="!isTourStarted && showTriggerButton"
       variant="info"
       class="fixed bottom-4 right-4 z-50"
       @click="startTour"
     >
       <HelpCircle class="mr-2 h-4 w-4" />
-      Tutorial
+      {{ triggerButtonText }}
     </Button>
 
     <!-- Overlay e conteúdo do tour -->
     <Teleport to="body">
       <Transition name="fade">
-        <div v-if="isTourStarted" class="fixed inset-0 isolate" style="z-index: 60;">
+        <div v-if="isTourStarted" class="fixed inset-0 isolate" style="z-index: 998;">
           <!-- Overlay escuro -->
           <div class="fixed inset-0 bg-black/50 transition-opacity duration-300" />
 
@@ -27,7 +27,7 @@
                 left: `${highlightPosition.left}px`,
                 width: `${highlightPosition.width}px`,
                 height: `${highlightPosition.height}px`,
-                zIndex: 61,
+                zIndex: 999,
               }"
             >
               <!-- Borda brilhante -->
@@ -52,7 +52,7 @@
           :total-steps="steps.length"
           :tooltip-styles="{
             ...tooltipStyles,
-            zIndex: 63,
+            zIndex: 1001,
           }"
           @next="nextStep"
           @previous="previousStep"
@@ -66,48 +66,50 @@
 <script setup lang="ts">
 import { Button } from '@/components/ui/button';
 import { HelpCircle } from 'lucide-vue-next';
-import TourTooltip from './TourTooltip.vue';
+import TourTooltip from '../contract/TourTooltip.vue';
+
+interface TourStep {
+  target: string;
+  content: string;
+  placement: 'top' | 'bottom' | 'left' | 'right';
+}
+
+interface Props {
+  steps: TourStep[];
+  tourKey?: string; // Chave única para identificar o tour no localStorage
+  showTriggerButton?: boolean;
+  triggerButtonText?: string;
+  autoStart?: boolean; // Se deve iniciar automaticamente quando montado
+}
+
+const props = withDefaults(defineProps<Props>(), {
+  tourKey: '',
+  showTriggerButton: true,
+  triggerButtonText: 'Tutorial',
+  autoStart: false,
+});
+
+const emit = defineEmits<{
+  (e: 'tourComplete'): void;
+  (e: 'tourStart'): void;
+}>();
 
 const isTourStarted = ref(false);
 const currentStep = ref(0);
 const highlightPosition = ref<{ top: number; left: number; width: number; height: number } | null>(null);
 
-const steps = [
-  {
-    target: '.contract-type-select button',
-    content: 'Primeiro, selecione o tipo de contrato que deseja criar: CPCV (Compra e Venda) ou Arrendamento',
-    placement: 'bottom',
-  },
-  {
-    target: '.seller-select button',
-    content: 'Selecione o vendedor (para CPCV) ou arrendatário (para Arrendamento)',
-    placement: 'bottom',
-  },
-  {
-    target: '.buyer-select button',
-    content: 'Selecione o comprador (para CPCV) ou senhorio (para Arrendamento)',
-    placement: 'bottom',
-  },
-  {
-    target: '.property-select button',
-    content: 'Selecione o imóvel que será objeto do contrato',
-    placement: 'bottom',
-  },
-  {
-    target: '.preview-section',
-    content: 'Aqui você verá uma prévia do contrato em tempo real. Você pode editar os campos clicando neles.',
-    placement: 'top',
-  },
-];
-
 const updateHighlightPosition = () => {
-  // Remove a classe do elemento anterior
+  // Remove a classe do elemento anterior e seu clone
   const previousTarget = document.querySelector('.tour-target');
+  const previousClone = document.querySelector('.tour-target-clone');
   if (previousTarget) {
     previousTarget.classList.remove('tour-target');
   }
+  if (previousClone) {
+    previousClone.remove();
+  }
 
-  const step = steps[currentStep.value];
+  const step = props.steps[currentStep.value];
   if (!step) {
     highlightPosition.value = null;
     return;
@@ -119,7 +121,7 @@ const updateHighlightPosition = () => {
     return;
   }
 
-  // Atualiza a posição do highlight imediatamente
+  // Atualiza a posição do highlight
   const rect = target.getBoundingClientRect();
   highlightPosition.value = {
     top: rect.top,
@@ -128,18 +130,43 @@ const updateHighlightPosition = () => {
     height: rect.height,
   };
 
-  // Adiciona primeiro a classe intermediária
-  target.classList.add('tour-target-pre');
+  // Cria um clone do elemento alvo
+  const clone = target.cloneNode(true) as HTMLElement;
+  clone.classList.add('tour-target-clone');
   
-  // Depois adiciona a classe final com delay para criar o efeito de fade
+  // Posiciona o clone exatamente sobre o original
+  Object.assign(clone.style, {
+    position: 'fixed',
+    top: rect.top + 'px',
+    left: rect.left + 'px',
+    width: rect.width + 'px',
+    height: rect.height + 'px',
+    zIndex: '1000',
+    backgroundColor: 'white',
+    borderRadius: getComputedStyle(target).borderRadius,
+    opacity: '0',
+    pointerEvents: 'auto', // Permite clicar no clone
+    cursor: 'pointer',
+  });
+
+  // Adiciona o clone ao body
+  document.body.appendChild(clone);
+
+  // Adiciona os mesmos event listeners do original ao clone
+  const originalClickListener = target.onclick;
+  if (originalClickListener) {
+    clone.onclick = originalClickListener;
+  }
+
+  // Fade in do clone
   setTimeout(() => {
-    target.classList.remove('tour-target-pre');
-    target.classList.add('tour-target');
+    clone.style.opacity = '1';
+    clone.style.transition = 'opacity 0.3s ease';
   }, 100);
 };
 
 const tooltipStyles = computed(() => {
-  const step = steps[currentStep.value];
+  const step = props.steps[currentStep.value];
   if (!step) return {};
 
   const target = document.querySelector(step.target);
@@ -148,7 +175,7 @@ const tooltipStyles = computed(() => {
   const rect = target.getBoundingClientRect();
   const defaultOffset = 20;
   const bottomOffset = 10;
-  const tooltipWidth = 350; // Largura do tooltip
+  const tooltipWidth = 350;
   const windowWidth = window.innerWidth;
 
   let x = 0;
@@ -157,7 +184,6 @@ const tooltipStyles = computed(() => {
   switch (step.placement) {
     case 'bottom':
       x = rect.left + (rect.width / 2);
-      // Ajusta para não ultrapassar as bordas
       x = Math.min(Math.max(tooltipWidth / 2, x), windowWidth - tooltipWidth / 2);
       y = rect.bottom + bottomOffset;
       break;
@@ -173,6 +199,7 @@ const tooltipStyles = computed(() => {
     case 'right':
       x = rect.right + defaultOffset;
       y = rect.top + (rect.height / 2);
+      y = y + 32;
       break;
   }
 
@@ -181,17 +208,16 @@ const tooltipStyles = computed(() => {
     top: `${y}px`,
     left: `${x}px`,
     transform: 'translate(-50%, 0)',
-    zIndex: 1000,
   };
 });
 
-const currentStepContent = computed(() => steps[currentStep.value]?.content || '');
-
-const isLastStep = computed(() => currentStep.value === steps.length - 1);
+const currentStepContent = computed(() => props.steps[currentStep.value]?.content || '');
+const isLastStep = computed(() => currentStep.value === props.steps.length - 1);
 
 const startTour = () => {
   isTourStarted.value = true;
   currentStep.value = 0;
+  emit('tourStart');
   nextTick(() => {
     updateHighlightPosition();
   });
@@ -219,46 +245,30 @@ const previousStep = () => {
 
 const endTour = () => {
   nextTick(() => {
-    // Remove a classe do elemento alvo ao finalizar
+    // Remove a classe do elemento alvo
     const target = document.querySelector('.tour-target');
     if (target) {
       target.classList.remove('tour-target');
     }
 
+    // Remove o clone
+    const clone = document.querySelector('.tour-target-clone');
+    if (clone) {
+      clone.remove();
+    }
+
     isTourStarted.value = false;
     currentStep.value = 0;
     highlightPosition.value = null;
+    emit('tourComplete');
+
+    if (props.tourKey) {
+      localStorage.setItem(props.tourKey, 'completed');
+    }
   });
 };
 
-watch(isTourStarted, (newValue) => {
-  if (!newValue) {
-    currentStep.value = 0;
-    highlightPosition.value = null;
-  } else {
-    nextTick(() => {
-      updateHighlightPosition();
-    });
-  }
-});
-
-// Watch for step changes
-watch(currentStep, () => {
-  nextTick(() => {
-    if (currentStep.value >= steps.length) {
-      endTour();
-      return;
-    }
-    const step = steps[currentStep.value];
-    if (!step) {
-      endTour();
-      return;
-    }
-    updateHighlightPosition();
-  });
-});
-
-// Update position on scroll and resize
+// Atualiza posição quando rolar ou redimensionar a tela
 const updatePositions = () => {
   if (isTourStarted.value) {
     nextTick(() => {
@@ -267,9 +277,17 @@ const updatePositions = () => {
   }
 };
 
+// Verifica se deve iniciar automaticamente
 onMounted(() => {
   window.addEventListener('scroll', updatePositions);
   window.addEventListener('resize', updatePositions);
+
+  if (props.autoStart && props.tourKey) {
+    const tourCompleted = localStorage.getItem(props.tourKey) === 'completed';
+    if (!tourCompleted) {
+      startTour();
+    }
+  }
 });
 
 onUnmounted(() => {
@@ -315,18 +333,9 @@ onUnmounted(() => {
   transform: translateY(-10px);
 }
 
-.tour-tooltip {
-  background-color: white;
-  border-radius: 8px;
-  box-shadow: 0 2px 8px rgba(0, 0, 0, 0.15);
-  padding: 16px;
-  max-width: 300px;
-}
-
-/* Estilo para elevar o elemento alvo */
 :global(.tour-target) {
   position: relative;
-  z-index: 62 !important;
+  z-index: 1000 !important;
   background-color: white;
   opacity: 1;
   transition: opacity 0.3s ease, background-color 0.3s ease;
@@ -334,19 +343,16 @@ onUnmounted(() => {
 
 :global(.tour-target-pre) {
   position: relative;
-  z-index: 62 !important;
+  z-index: 1000 !important;
   background-color: transparent;
   opacity: 0;
 }
 
-:global(.tour-target-enter-active),
-:global(.tour-target-leave-active) {
-  transition: all 0.3s ease;
-}
-
-:global(.tour-target-enter-from),
-:global(.tour-target-leave-to) {
-  opacity: 0;
-  transform: scale(0.95);
+:global(.tour-target-clone) {
+  position: fixed;
+  z-index: 1000 !important;
+  background-color: white;
+  transition: opacity 0.3s ease;
+  box-shadow: 0 0 0 2px #3b82f6;
 }
 </style> 

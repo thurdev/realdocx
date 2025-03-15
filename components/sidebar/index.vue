@@ -34,10 +34,11 @@
             v-for="(item, index) in group.links"
             :key="index"
             class="flex items-center gap-4 p-1 rounded cursor-pointer hover:bg-gray-100 dark:hover:bg-sidebar-accent/80 dark:text-white"
-            :class="{
+            :class="[`tour-target-${item.tourTarget}`, {
               'border-r-4 border-blue-500 bg-gray-100 hover:bg-gray-200 dark:bg-sidebar-accent !text-blue-500':
                 route.path === item.link,
-            }"
+              
+            }]"
             :to="item.link"
           >
             <Button class="w-4" variant="invisible">
@@ -181,17 +182,20 @@ const sidebarItems = [
         title: "sidebar.contacts",
         icon: "fa-light fa-users",
         link: "/contacts",
+        tourTarget: "sidebar-contacts",
       },
 
       {
         title: "sidebar.properties",
         icon: "fa-light fa-building",
         link: "/properties",
+        tourTarget: "sidebar-properties",
       },
       {
         title: "sidebar.contracts",
         icon: "fa-light fa-file-word",
         link: "/contracts",
+        tourTarget: "sidebar-contracts",
       },
     ],
   },

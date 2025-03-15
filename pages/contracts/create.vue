@@ -141,7 +141,7 @@ import {
   SelectTrigger,
   SelectValue,
 } from "@/components/ui/select";
-import ContractTour from '@/components/contract/ContractTour.vue';
+import ContractTour from './ContractTour.vue';
 
 const router = useRouter();
 const contacts = ref<Contact[]>([]);

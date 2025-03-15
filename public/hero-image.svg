@@ -1,0 +1,33 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<svg width="800" height="600" viewBox="0 0 800 600" fill="none" xmlns="http://www.w3.org/2000/svg">
+  <!-- Background Elements -->
+  <circle cx="700" cy="100" r="180" fill="#4F46E5" fill-opacity="0.1"/>
+  <circle cx="100" cy="500" r="150" fill="#60A5FA" fill-opacity="0.1"/>
+  
+  <!-- Main Building -->
+  <path d="M400 150L600 300V500H200V300L400 150Z" fill="#E0E7FF" stroke="#4F46E5" stroke-width="4"/>
+  
+  <!-- Windows -->
+  <rect x="250" y="350" width="60" height="80" fill="#93C5FD"/>
+  <rect x="370" y="350" width="60" height="80" fill="#93C5FD"/>
+  <rect x="490" y="350" width="60" height="80" fill="#93C5FD"/>
+  
+  <!-- Door -->
+  <rect x="370" y="430" width="60" height="70" fill="#4F46E5"/>
+  
+  <!-- Contract -->
+  <g transform="translate(280,200) rotate(-15)">
+    <rect width="200" height="250" fill="white" stroke="#4F46E5" stroke-width="4"/>
+    <line x1="40" y1="50" x2="160" y2="50" stroke="#6B7280" stroke-width="4"/>
+    <line x1="40" y1="80" x2="160" y2="80" stroke="#6B7280" stroke-width="4"/>
+    <line x1="40" y1="110" x2="160" y2="110" stroke="#6B7280" stroke-width="4"/>
+    <line x1="40" y1="140" x2="160" y2="140" stroke="#6B7280" stroke-width="4"/>
+    <circle cx="60" cy="200" r="30" fill="#4F46E5" fill-opacity="0.2"/>
+  </g>
+  
+  <!-- Checkmark -->
+  <g transform="translate(500,180) rotate(15)">
+    <circle cx="30" cy="30" r="30" fill="#4F46E5"/>
+    <path d="M15 30L25 40L45 20" stroke="white" stroke-width="4" stroke-linecap="round" stroke-linejoin="round"/>
+  </g>
+</svg> 
