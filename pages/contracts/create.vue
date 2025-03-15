@@ -5,84 +5,91 @@
         <CardHeader>
           <CardTitle class="flex justify-between items-center">
             <p class="flex-1">Criar Contractos</p>
-            <Select v-model="selectedContractType">
-              <SelectTrigger class="flex-1">
-                <SelectValue placeholder="Selecione o Template" />
-              </SelectTrigger>
-              <SelectContent>
-                <SelectGroup>
-                  <SelectItem :value="ContractType.CPCV">CPCV</SelectItem>
-                  <SelectItem :value="ContractType.RENT">Arrendamento</SelectItem>
-                </SelectGroup>
-              </SelectContent>
-            </Select>
+            <div class="contract-type-select flex-1 max-w-[200px]">
+              <Select v-model="selectedContractType">
+                <SelectTrigger>
+                  <SelectValue placeholder="Selecione o Template" />
+                </SelectTrigger>
+                <SelectContent>
+                  <SelectGroup>
+                    <SelectItem :value="ContractType.CPCV">CPCV</SelectItem>
+                    <SelectItem :value="ContractType.RENT">Arrendamento</SelectItem>
+                  </SelectGroup>
+                </SelectContent>
+              </Select>
+            </div>
           </CardTitle>
         </CardHeader>
         <CardContent class="flex flex-col gap-2">
           <div class="flex flex-col gap-4">
+            <div class="seller-select">
+              <Label>{{ selectedContractType === 'CPCV' ? 'Vendedor' : 'Arrendatário' }}</Label>
+              <Select v-model="selectedSeller">
+                <SelectTrigger>
+                  <SelectValue placeholder="Selecione o Vendedor" />
+                </SelectTrigger>
+                <SelectContent>
+                  <SelectGroup v-if="contacts.length > 0">
+                    <SelectItem v-for="contact in contacts" :key="contact.id" :value="contact">
+                      {{ contact.name }}
+                    </SelectItem>
+                  </SelectGroup>
+                  <div v-else class="p-4 text-center">
+                    <p class="text-gray-500 mb-2">Nenhum contato cadastrado</p>
+                    <NuxtLink to="/contacts/create" class="text-primary hover:underline">
+                      Clique aqui para adicionar um contato
+                    </NuxtLink>
+                  </div>
+                </SelectContent>
+              </Select>
+            </div>
 
-            <Label>{{ selectedContractType === 'CPCV' ? 'Vendedor' : 'Arrendatário' }}</Label>
-            <Select v-model="selectedSeller">
-              <SelectTrigger>
-                <SelectValue placeholder="Selecione o Vendedor" />
-              </SelectTrigger>
-              <SelectContent>
-                <SelectGroup v-if="contacts.length > 0">
-                  <SelectItem v-for="contact in contacts" :key="contact.id" :value="contact">
-                    {{ contact.name }}
-                  </SelectItem>
-                </SelectGroup>
-                <div v-else class="p-4 text-center">
-                  <p class="text-gray-500 mb-2">Nenhum contato cadastrado</p>
-                  <NuxtLink to="/contacts/create" class="text-primary hover:underline">
-                    Clique aqui para adicionar um contato
-                  </NuxtLink>
-                </div>
-              </SelectContent>
-            </Select>
+            <div class="buyer-select">
+              <Label>{{ selectedContractType === 'CPCV' ? 'Comprador' : 'Senhorio' }}</Label>
+              <Select v-model="selectedBuyer">
+                <SelectTrigger>
+                  <SelectValue placeholder="Selecione o Comprador" />
+                </SelectTrigger>
+                <SelectContent>
+                  <SelectGroup v-if="contacts.length > 0">
+                    <SelectItem v-for="contact in contacts" :key="contact.id" :value="contact">
+                      {{ contact.name }}
+                    </SelectItem>
+                  </SelectGroup>
+                  <div v-else class="p-4 text-center">
+                    <p class="text-gray-500 mb-2">Nenhum contato cadastrado</p>
+                    <NuxtLink to="/contacts/create" class="text-primary hover:underline">
+                      Clique aqui para adicionar um contato
+                    </NuxtLink>
+                  </div>
+                </SelectContent>
+              </Select>
+            </div>
 
-            <Label>{{ selectedContractType === 'CPCV' ? 'Comprador' : 'Senhorio' }}</Label>
-            <Select v-model="selectedBuyer">
-              <SelectTrigger>
-                <SelectValue placeholder="Selecione o Comprador" />
-              </SelectTrigger>
-              <SelectContent>
-                <SelectGroup v-if="contacts.length > 0">
-                  <SelectItem v-for="contact in contacts" :key="contact.id" :value="contact">
-                    {{ contact.name }}
-                  </SelectItem>
-                </SelectGroup>
-                <div v-else class="p-4 text-center">
-                  <p class="text-gray-500 mb-2">Nenhum contato cadastrado</p>
-                  <NuxtLink to="/contacts/create" class="text-primary hover:underline">
-                    Clique aqui para adicionar um contato
-                  </NuxtLink>
-                </div>
-              </SelectContent>
-            </Select>
-
-            <Label>Imóvel</Label>
-            <Select v-model="selectedProperty">
-              <SelectTrigger>
-                <SelectValue placeholder="Selecione o Imóvel" />
-              </SelectTrigger>
-              <SelectContent>
-                <SelectGroup v-if="properties.length > 0">
-                  <SelectItem v-for="property in properties" :key="property.id" :value="property">
-                    [#{{ property.id }}] {{ property.district }},
-                    {{ property.city }}, {{ property.neighborhood }},
-                    {{ property.address }}, {{ property.number }},
-                    {{ property.postalCode }}
-                  </SelectItem>
-                </SelectGroup>
-                <div v-else class="p-4 text-center">
-                  <p class="text-gray-500 mb-2">Nenhum imóvel cadastrado</p>
-                  <NuxtLink to="/properties/create" class="text-primary hover:underline">
-                    Clique aqui para adicionar um imóvel
-                  </NuxtLink>
-                </div>
-              </SelectContent>
-            </Select>
+            <div class="property-select">
+              <Label>Imóvel</Label>
+              <Select v-model="selectedProperty">
+                <SelectTrigger>
+                  <SelectValue placeholder="Selecione o Imóvel" />
+                </SelectTrigger>
+                <SelectContent>
+                  <SelectGroup v-if="properties.length > 0">
+                    <SelectItem v-for="property in properties" :key="property.id" :value="property">
+                      [#{{ property.id }}] {{ property.district }},
+                      {{ property.city }}, {{ property.neighborhood }},
+                      {{ property.address }}, {{ property.number }},
+                      {{ property.postalCode }}
+                    </SelectItem>
+                  </SelectGroup>
+                  <div v-else class="p-4 text-center">
+                    <p class="text-gray-500 mb-2">Nenhum imóvel cadastrado</p>
+                    <NuxtLink to="/properties/create" class="text-primary hover:underline">
+                      Clique aqui para adicionar um imóvel
+                    </NuxtLink>
+                  </div>
+                </SelectContent>
+              </Select>
+            </div>
           </div>
         </CardContent>
       </Card>
@@ -92,22 +99,24 @@
             <h1>Preview</h1>
           </CardTitle>
         </CardHeader>
-        <CardContent>
+        <CardContent >
           <div v-html="generateCPCVHtml()" ref="cpcvContainer"></div>
 
           <template v-if="generateCPCVHtml().length === 0">
-            <div class="bg-gray-50 border border-gray-200 rounded flex items-center justify-center w-full h-[284px]">
+            <div class="preview-section bg-gray-50 border border-gray-200 rounded flex items-center justify-center w-full h-[284px]">
               <p>Preencha o fomulário, para pré-visualizar o CPCV.</p>
             </div>
           </template>
           <div v-else class="w-full flex justify-end mt-4">
-            <Button @click="saveContract" :disabled="!hasBalance">
+            <Button @click="saveContract" :disabled="!hasBalance" class="save-button">
               {{ hasBalance ? 'Salvar' : 'Saldo Insuficiente' }}
             </Button>
           </div>
         </CardContent>
       </Card>
     </div>
+
+    <ContractTour />
   </div>
 </template>
 
@@ -122,15 +131,17 @@ import type { Property } from "@/pages/cpcv/properties/_property";
 import type { Contract } from "./_contract";
 
 import { Card, CardContent, CardHeader, CardTitle } from "@/components/ui/card";
+import { Button } from "@/components/ui/button";
+import { Label } from "@/components/ui/label";
 import {
   Select,
   SelectContent,
   SelectGroup,
   SelectItem,
-  SelectLabel,
   SelectTrigger,
   SelectValue,
 } from "@/components/ui/select";
+import ContractTour from '@/components/contract/ContractTour.vue';
 
 const router = useRouter();
 const contacts = ref<Contact[]>([]);
@@ -267,5 +278,18 @@ const saveContract = async () => {
 </script>
 
 <style>
-/* Remove estilos do tour */
+select {
+  appearance: none;
+  background-image: url("data:image/svg+xml;charset=utf-8,%3Csvg xmlns='http://www.w3.org/2000/svg' fill='none' viewBox='0 0 20 20'%3E%3Cpath stroke='%236b7280' stroke-linecap='round' stroke-linejoin='round' stroke-width='1.5' d='m6 8 4 4 4-4'/%3E%3C/svg%3E");
+  background-position: right 0.5rem center;
+  background-repeat: no-repeat;
+  background-size: 1.5em 1.5em;
+  padding-right: 2.5rem;
+}
+
+select:focus {
+  outline: none;
+  border-color: hsl(var(--ring));
+  box-shadow: 0 0 0 2px hsl(var(--ring));
+}
 </style> 
