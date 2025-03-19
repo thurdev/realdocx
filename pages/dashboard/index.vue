@@ -142,6 +142,7 @@
 definePageMeta({
   middleware: "authenticated",
   layout: "authenticated",
+  colorMode: "light",
 });
 
 const { $t } = useNuxtApp();

@@ -294,6 +294,7 @@
 definePageMeta({
   layout: "authenticated",
   middleware: "authenticated",
+  colorMode: "light",
 });
 
 import { Card, CardContent } from "@/components/ui/card";

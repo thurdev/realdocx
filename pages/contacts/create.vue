@@ -398,6 +398,7 @@
 definePageMeta({
   layout: "authenticated",
   middleware: "authenticated",
+  colorMode: "light",
 });
 
 import {

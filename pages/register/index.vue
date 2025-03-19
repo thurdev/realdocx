@@ -57,6 +57,7 @@
 <script lang="ts" setup>
 definePageMeta({
   middleware: "redirect-loggedin",
+  colorMode: "light",
 });
 
 import {

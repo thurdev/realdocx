@@ -220,5 +220,8 @@
 </template>
 
 <script setup lang="ts">
+definePageMeta({
+  colorMode: "light",
+});
 // Você pode adicionar qualquer lógica necessária aqui
 </script>

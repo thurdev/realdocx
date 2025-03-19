@@ -58,6 +58,7 @@ import Tour from "@/components/ui/Tour.vue";
 definePageMeta({
   middleware: "authenticated",
   layout: "authenticated",
+  colorMode: "light",
 });
 
 const router = useRouter();

@@ -151,6 +151,7 @@
 definePageMeta({
   middleware: "authenticated",
   layout: "authenticated",
+  colorMode: "light",
 });
 
 import { Tabs, TabsContent, TabsList, TabsTrigger } from "@/components/ui/tabs";

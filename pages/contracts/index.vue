@@ -35,6 +35,7 @@
 definePageMeta({
   middleware: "authenticated",
   layout: "authenticated",
+  colorMode: "light",
 });
 
 import type { Contract } from "./_contract";
