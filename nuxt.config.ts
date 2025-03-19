@@ -42,7 +42,7 @@ export default defineNuxtConfig({
   },
   googleSignIn: {
     clientId:
-      "1095108654667-4basuj8t8uiu2e0dft50ofij4olbc0q0.apps.googleusercontent.com",
+      "1095108654667-4basuj8t8uiu2e0dft50ofij4olbc0q0.apps.googleusercontent.com"
   },
   vue: {
     // custom element

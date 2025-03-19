@@ -57,6 +57,8 @@
 </template>
 
 <script lang="ts" setup>
+console.log('[DEBUG-SETUP] Login page setup iniciado');
+
 definePageMeta({
   middleware: "redirect-loggedin",
   colorMode: "light",
@@ -102,6 +104,7 @@ const handleLogin = async () => {
 };
 
 const oAuthGoogle = async (credential?: string) => {
+  console.log('[DEBUG] oAuthGoogle called with credential:', !!credential);
   if (credential) {
     const decodedUser = decodeCredential(credential);
     const authResponse = await $fetch<string>("/api/auth/google", {
@@ -163,10 +166,17 @@ const handleGoogleLoginError = (error: any) => {
   });
 };
 
+onBeforeMount(() => {
+  console.log('[DEBUG] Before Mount');
+});
+
 onMounted(() => {
-  console.log('[DEBUG] Login component mounted');
-  console.log('[DEBUG] Google Sign-In Button:', !!GoogleSignInButton);
-  console.log('[DEBUG] Window gapi:', !!window.gapi);
-  console.log('[DEBUG] Window google:', !!window.google);
+  console.log('[DEBUG] Component Mounted');
+  try {
+    console.log('[DEBUG] Document Ready State:', document.readyState);
+    console.log('[DEBUG] Window Object Available:', typeof window !== 'undefined');
+  } catch (error) {
+    console.error('[DEBUG] Error in onMounted:', error);
+  }
 });
 </script>
