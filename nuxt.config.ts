@@ -37,6 +37,11 @@ export default defineNuxtConfig({
           src: "https://unpkg.com/@splinetool/viewer@1.9.59/build/spline-viewer.js",
           type: "module",
         },
+        {
+          src: "https://accounts.google.com/gsi/client",
+          async: true,
+          defer: true
+        }
       ],
     },
   },
