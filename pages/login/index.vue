@@ -130,30 +130,43 @@ const oAuthGoogle = async (credential?: string) => {
 // Google
 useOneTap({
   onSuccess: (response: CredentialResponse) => {
+    console.log('[DEBUG] OneTap success:', response);
     const { credential } = response;
     oAuthGoogle(credential);
   },
-  onError: () =>
+  onError: (error: any) => {
+    console.error('[DEBUG] OneTap error:', error);
     toast({
       title: $t(`endpoints.errors.label`),
       description: $t("endpoints.errors.auth.googleAuth"),
       variant: "errors",
-    }),
-  // options
+    });
+  },
+  cancelOnTapOutside: false,
+  context: "signin"
 });
 
 // handle success event
 const handleGoogleLoginSuccess = async (response: CredentialResponse) => {
+  console.log('[DEBUG] Google login success:', response);
   const { credential } = response;
   oAuthGoogle(credential);
 };
 
 // handle an error event
-const handleGoogleLoginError = () => {
+const handleGoogleLoginError = (error: any) => {
+  console.error('[DEBUG] Google login error:', error);
   toast({
     title: $t(`endpoints.errors.label`),
     description: $t("endpoints.errors.auth.googleAuth"),
     variant: "errors",
   });
 };
+
+onMounted(() => {
+  console.log('[DEBUG] Login component mounted');
+  console.log('[DEBUG] Google Sign-In Button:', !!GoogleSignInButton);
+  console.log('[DEBUG] Window gapi:', !!window.gapi);
+  console.log('[DEBUG] Window google:', !!window.google);
+});
 </script>
