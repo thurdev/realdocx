@@ -75,6 +75,7 @@ import { useToast } from "@/components/ui/toast/use-toast";
 
 const { toast } = useToast();
 const { $t } = useNuxtApp();
+const runtimeConfig = useRuntimeConfig();
 
 // Refs
 const email = ref("");
@@ -137,8 +138,8 @@ useOneTap({
     const { credential } = response;
     oAuthGoogle(credential);
   },
-  onError: (error: any) => {
-    console.error('[DEBUG] OneTap error:', error);
+  onError: () => {
+    console.error('[DEBUG] OneTap error');
     toast({
       title: $t(`endpoints.errors.label`),
       description: $t("endpoints.errors.auth.googleAuth"),
@@ -175,6 +176,8 @@ onMounted(() => {
   try {
     console.log('[DEBUG] Document Ready State:', document.readyState);
     console.log('[DEBUG] Window Object Available:', typeof window !== 'undefined');
+    console.log('[DEBUG] Runtime Config:', runtimeConfig.public.googleClientId);
+    console.log('[DEBUG] Google Object:', typeof window.google !== 'undefined' ? 'Available' : 'Not Available');
   } catch (error) {
     console.error('[DEBUG] Error in onMounted:', error);
   }

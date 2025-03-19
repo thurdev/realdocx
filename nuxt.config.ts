@@ -55,4 +55,13 @@ export default defineNuxtConfig({
       isCustomElement: (tag) => tag.startsWith("spline-viewer"),
     },
   },
+  ssr: true,
+  nitro: {
+    preset: 'vercel'
+  },
+  runtimeConfig: {
+    public: {
+      googleClientId: "1095108654667-4basuj8t8uiu2e0dft50ofij4olbc0q0.apps.googleusercontent.com"
+    }
+  },
 });
