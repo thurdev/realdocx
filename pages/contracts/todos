@@ -15,3 +15,9 @@ e também fazer a pagina /contracts/[id] para ver o contrato
 arrumar os paths tirar /cpcv ser só /wallet /settings etc ✅
 ao entrar na pagina de /contracts se nao tiver nada ir para o create direto
 o select de buyer e seller nao pode selecionar o mesmo contacto 2 vezes
+
+
+alterar a pagina de criar contractos para ser igual ao do de criar contatos
+clausulas serem steps.
+no preview no ultimo step, mostrar só a primeira pagina, nao mostrar as clausulas.
+botao para fazer download da minuta no inicio do form (pago também)

@@ -2,12 +2,8 @@
   <div>
     <div class="flex items-center justify-between mb-8">
       <div>
-        <h2 class="text-3xl font-bold tracking-tight">
-          Criar Propriedade
-        </h2>
-        <p class="text-muted-foreground">
-          Preencha os dados da propriedade
-        </p>
+        <h2 class="text-3xl font-bold tracking-tight">Criar Propriedade</h2>
+        <p class="text-muted-foreground">Preencha os dados da propriedade</p>
       </div>
       <div>
         <Button variant="outline" @click="router.push('/properties')">
@@ -26,7 +22,9 @@
             orientation="vertical"
             class="w-full flex gap-12"
           >
-            <div class="mx-auto flex max-w-md flex-col justify-start gap-10 flex-1">
+            <div
+              class="mx-auto flex max-w-md flex-col justify-start gap-10 flex-1"
+            >
               <StepperItem
                 v-for="step in steps"
                 :key="step.step"
@@ -41,10 +39,17 @@
 
                 <StepperTrigger as-child>
                   <Button
-                    :variant="state === 'completed' || state === 'active' ? 'default' : 'outline'"
+                    :variant="
+                      state === 'completed' || state === 'active'
+                        ? 'default'
+                        : 'outline'
+                    "
                     size="icon"
                     class="z-10 rounded-full shrink-0"
-                    :class="[state === 'active' && 'ring-2 ring-ring ring-offset-2 ring-offset-background']"
+                    :class="[
+                      state === 'active' &&
+                        'ring-2 ring-ring ring-offset-2 ring-offset-background',
+                    ]"
                     :disabled="state !== 'completed'"
                   >
                     <Check v-if="state === 'completed'" class="size-5" />
@@ -74,20 +79,28 @@
             <div class="flex-1">
               <!-- Informações Básicas -->
               <div class="flex flex-col flex-1 gap-4" v-if="currentStep === 1">
-
                 <div>
                   <Label>Fração</Label>
-                  <Input v-model="newProperty.fraction" placeholder="Digite a fração" />
+                  <Input
+                    v-model="newProperty.fraction"
+                    placeholder="Digite a fração"
+                  />
                 </div>
 
                 <div>
                   <Label>Andar</Label>
-                  <Input v-model="newProperty.floor" placeholder="Digite o andar" />
+                  <Input
+                    v-model="newProperty.floor"
+                    placeholder="Digite o andar"
+                  />
                 </div>
 
                 <div>
                   <Label>Destino</Label>
-                  <Input v-model="newProperty.destination" placeholder="Digite o destino" />
+                  <Input
+                    v-model="newProperty.destination"
+                    placeholder="Digite o destino"
+                  />
                 </div>
               </div>
 
@@ -95,32 +108,50 @@
               <div class="flex flex-col flex-1 gap-4" v-if="currentStep === 2">
                 <div>
                   <Label>Distrito</Label>
-                  <Input v-model="newProperty.district" placeholder="Digite o distrito" />
+                  <Input
+                    v-model="newProperty.district"
+                    placeholder="Digite o distrito"
+                  />
                 </div>
 
                 <div>
                   <Label>Bairro</Label>
-                  <Input v-model="newProperty.neighborhood" placeholder="Digite o bairro" />
+                  <Input
+                    v-model="newProperty.neighborhood"
+                    placeholder="Digite o bairro"
+                  />
                 </div>
 
                 <div>
                   <Label>Endereço</Label>
-                  <Input v-model="newProperty.address" placeholder="Digite o endereço" />
+                  <Input
+                    v-model="newProperty.address"
+                    placeholder="Digite o endereço"
+                  />
                 </div>
 
                 <div>
                   <Label>Número</Label>
-                  <Input v-model="newProperty.number" placeholder="Digite o número" />
+                  <Input
+                    v-model="newProperty.number"
+                    placeholder="Digite o número"
+                  />
                 </div>
 
                 <div>
                   <Label>Cidade</Label>
-                  <Input v-model="newProperty.city" placeholder="Digite a cidade" />
+                  <Input
+                    v-model="newProperty.city"
+                    placeholder="Digite a cidade"
+                  />
                 </div>
 
                 <div>
                   <Label>Código Postal</Label>
-                  <Input v-model="newProperty.postalCode" placeholder="Digite o código postal" />
+                  <Input
+                    v-model="newProperty.postalCode"
+                    placeholder="Digite o código postal"
+                  />
                 </div>
               </div>
 
@@ -128,47 +159,76 @@
               <div class="flex flex-col flex-1 gap-4" v-if="currentStep === 3">
                 <div>
                   <Label>Registro de Matriz</Label>
-                  <Input v-model="newProperty.matrixRegistration" placeholder="Digite o registro de matriz" />
+                  <Input
+                    v-model="newProperty.matrixRegistration"
+                    placeholder="Digite o registro de matriz"
+                  />
                 </div>
 
                 <div>
                   <Label>Número da Descrição do Edifício</Label>
-                  <Input v-model="newProperty.buildingDescriptionNumber" placeholder="Digite o número da descrição" />
+                  <Input
+                    v-model="newProperty.buildingDescriptionNumber"
+                    placeholder="Digite o número da descrição"
+                  />
                 </div>
 
                 <div>
                   <Label>Registro da Descrição do Edifício</Label>
-                  <Input v-model="newProperty.buildingDescriptionRegistry" placeholder="Digite o registro da descrição" />
+                  <Input
+                    v-model="newProperty.buildingDescriptionRegistry"
+                    placeholder="Digite o registro da descrição"
+                  />
                 </div>
 
                 <div>
                   <Label>Número LU</Label>
-                  <Input v-model="newProperty.luNumber" placeholder="Digite o número LU" />
+                  <Input
+                    v-model="newProperty.luNumber"
+                    placeholder="Digite o número LU"
+                  />
                 </div>
 
                 <div>
                   <Label>Data LU</Label>
-                  <Input type="date" v-model="newProperty.luDate" placeholder="Digite a data LU" />
+                  <Input
+                    type="date"
+                    v-model="newProperty.luDate"
+                    placeholder="Digite a data LU"
+                  />
                 </div>
 
                 <div>
                   <Label>Emissor LU</Label>
-                  <Input v-model="newProperty.luIssuer" placeholder="Digite o emissor LU" />
+                  <Input
+                    v-model="newProperty.luIssuer"
+                    placeholder="Digite o emissor LU"
+                  />
                 </div>
 
                 <div>
                   <Label>Letra EC</Label>
-                  <Input v-model="newProperty.ecLetter" placeholder="Digite a letra EC" />
+                  <Input
+                    v-model="newProperty.ecLetter"
+                    placeholder="Digite a letra EC"
+                  />
                 </div>
 
                 <div>
                   <Label>Número EC</Label>
-                  <Input v-model="newProperty.ecNumber" placeholder="Digite o número EC" />
+                  <Input
+                    v-model="newProperty.ecNumber"
+                    placeholder="Digite o número EC"
+                  />
                 </div>
 
                 <div>
                   <Label>Validade EC</Label>
-                  <Input type="date" v-model="newProperty.ecValidUntil" placeholder="Digite a validade EC" />
+                  <Input
+                    type="date"
+                    v-model="newProperty.ecValidUntil"
+                    placeholder="Digite a validade EC"
+                  />
                 </div>
               </div>
 
@@ -176,35 +236,49 @@
               <div class="flex flex-col flex-1 gap-4" v-if="currentStep === 4">
                 <div>
                   <Label>Tipo de Encargo</Label>
-                  <Input v-model="newProperty.chargesType" placeholder="Digite o tipo de encargo" />
+                  <Input
+                    v-model="newProperty.chargesType"
+                    placeholder="Digite o tipo de encargo"
+                  />
                 </div>
 
                 <div>
                   <Label>Banco</Label>
-                  <Input v-model="newProperty.chargesBank" placeholder="Digite o banco" />
+                  <Input
+                    v-model="newProperty.chargesBank"
+                    placeholder="Digite o banco"
+                  />
                 </div>
 
                 <div>
                   <Label>AP</Label>
-                  <Input v-model="newProperty.chargesAP" placeholder="Digite o AP" />
+                  <Input
+                    v-model="newProperty.chargesAP"
+                    placeholder="Digite o AP"
+                  />
                 </div>
 
                 <div>
                   <Label>Data</Label>
-                  <Input type="date" v-model="newProperty.chargesDate" placeholder="Digite a data" />
+                  <Input
+                    type="date"
+                    v-model="newProperty.chargesDate"
+                    placeholder="Digite a data"
+                  />
                 </div>
               </div>
 
-              <div class="flex w-full h-full justify-end self-end gap-2">
+              <div
+                class="flex justify-end self-end gap-2 fixed right-[1rem] bottom-[1rem] p-2 rounded"
+              >
                 <Button
-                  variant="ghost"
+                  variant="outline"
                   @click="handleBackClick(prevStep)"
-                  class="mt-4"
                   v-if="currentStep > 1"
                 >
                   Voltar
                 </Button>
-                <Button @click="handleNextClick(nextStep)" class="mt-4">
+                <Button @click="handleNextClick(nextStep)">
                   {{ buttonNextLabel }}
                 </Button>
               </div>
@@ -271,35 +345,32 @@ const newProperty = ref<Partial<Property>>({
 const steps = ref([
   {
     step: 1,
-    title: "Informações Básicas",
+    title: "1. Informações Básicas",
     description: "Preço, fração, andar e destino",
   },
   {
     step: 2,
-    title: "Localização",
+    title: "2. Localização",
     description: "Endereço completo da propriedade",
   },
   {
     step: 3,
-    title: "Documentação",
+    title: "3. Documentação",
     description: "Documentos e registros",
   },
   {
     step: 4,
-    title: "Encargos",
+    title: "4. Encargos",
     description: "Informações sobre encargos",
   },
 ]);
 
 const handleNextClick = async (func: Function) => {
   if (currentStep.value === steps.value.length) {
-    const response = await $fetch<{ success?: boolean }>(
-      "/api/properties",
-      {
-        method: "POST",
-        body: newProperty.value,
-      }
-    ).catch((err) => err.response);
+    const response = await $fetch<{ success?: boolean }>("/api/properties", {
+      method: "POST",
+      body: newProperty.value,
+    }).catch((err) => err.response);
 
     if (response.success) {
       navigateTo("/properties");
@@ -323,4 +394,4 @@ const handleBackClick = (func: Function) => {
 const buttonNextLabel = computed(() => {
   return currentStep.value === steps.value.length ? "Salvar" : "Próximo";
 });
-</script> 
+</script>

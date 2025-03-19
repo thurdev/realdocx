@@ -81,7 +81,7 @@
           <CardTitle>{{ $t("dashboard.overview") }}</CardTitle>
         </CardHeader>
         <CardContent>
-          <div v-if="chartData.datasets[0].data.every(d => d === 0)" class="flex flex-col items-center justify-center h-[350px] text-muted-foreground">
+          <div v-if="chartData.datasets.every(dataset => dataset.data.every(d => d === 0))" class="flex flex-col items-center justify-center h-[350px] text-muted-foreground">
             <i class="fa-light fa-chart-line text-4xl mb-4"></i>
             <p>{{ $t("dashboard.noDataAvailable") }}</p>
             <p class="text-sm">{{ $t("dashboard.startAddingData") }}</p>
@@ -151,6 +151,16 @@ import { BarChart } from '@/components/ui/charts';
 import Tour from '@/components/ui/Tour.vue';
 import DateRangeSelector from '@/components/wallet/DateRangeSelector.vue';
 import moment from 'moment';
+import 'moment/locale/pt';
+import 'moment/locale/en-gb';
+import { useLanguage } from '~/composable/useLanguage';
+
+const language = useLanguage();
+
+// Configurar o moment.js para usar a linguagem do sistema
+watch(language, (newLang) => {
+  moment.locale(newLang);
+}, { immediate: true });
 
 interface WalletResponse {
   balance: number;
@@ -177,8 +187,8 @@ interface Activity {
 interface ChartDataset {
   label: string;
   data: number[];
-  backgroundColor: string;
-  borderColor: string;
+  backgroundColor: string | string[];
+  borderColor: string | string[];
   borderWidth: number;
 }
 
@@ -214,20 +224,21 @@ const chartData = ref<{
   labels: string[];
   datasets: ChartDataset[];
 }>({
-  labels: [],
+  labels: [$t('dashboard.totalContracts'), $t('dashboard.totalProperties'), $t('dashboard.totalContacts')],
   datasets: [
     {
-      label: 'Contratos',
+      label: $t('dashboard.overview'),
       data: [],
-      backgroundColor: 'rgba(59, 130, 246, 0.5)',
-      borderColor: 'rgb(59, 130, 246)',
-      borderWidth: 1
-    },
-    {
-      label: 'Imóveis',
-      data: [],
-      backgroundColor: 'rgba(16, 185, 129, 0.5)',
-      borderColor: 'rgb(16, 185, 129)',
+      backgroundColor: [
+        'rgba(59, 130, 246, 0.5)', // Azul para contratos
+        'rgba(16, 185, 129, 0.5)', // Verde para imóveis
+        'rgba(249, 115, 22, 0.5)', // Laranja para contatos
+      ],
+      borderColor: [
+        'rgb(59, 130, 246)',
+        'rgb(16, 185, 129)',
+        'rgb(249, 115, 22)',
+      ],
       borderWidth: 1
     }
   ]
@@ -238,7 +249,15 @@ const chartOptions = {
   maintainAspectRatio: false,
   plugins: {
     legend: {
-      position: 'top' as const,
+      display: false
+    }
+  },
+  scales: {
+    y: {
+      beginAtZero: true,
+      ticks: {
+        stepSize: 1
+      }
     }
   }
 };
@@ -339,8 +358,12 @@ const fetchDashboardData = async () => {
       walletDiff: (walletData.totalCredits || 0) - (walletData.totalDebits || 0)
     };
 
-    // Atualizar dados do gráfico
-    chartData.value = overviewData.chart;
+    // Atualizar dados do gráfico com os valores dos cards
+    chartData.value.datasets[0].data = [
+      stats.value.totalContracts,
+      stats.value.totalProperties,
+      stats.value.totalContacts
+    ];
 
     // Atualizar atividades recentes
     recentActivities.value = overviewData.activities || [];
