@@ -23,7 +23,6 @@
 import { Dialog, DialogContent, DialogDescription, DialogFooter, DialogHeader, DialogTitle } from '@/components/ui/dialog';
 import { Button } from '@/components/ui/button';
 import type { Contract } from '~/pages/contracts/_contract';
-import { generateContractHtml } from '~/utils/contract-html';
 
 const props = defineProps<{
   isOpen: boolean;
@@ -42,13 +41,6 @@ const contractHtml = computed(() => {
   
   if (!seller || !buyer) return '';
 
-  return generateContractHtml({
-    type: props.contract.contractType,
-    seller,
-    buyer,
-    property: props.contract.property,
-    price: props.contract.price,
-    isPreview: true
-  });
+  return props.contract.htmlContent
 });
 </script> 

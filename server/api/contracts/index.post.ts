@@ -1,18 +1,7 @@
 import prisma from "~/lib/prisma";
-import { PRICES, createDebitTransaction } from "~/server/config/prices";
+import { createDebitTransaction } from "~/server/config/prices";
 import { TransactionSubType } from "~/server/utils/types";
-
-enum ContractType {
-  BUY_OR_SELL = "buyOrSell",
-  RENT = "rent",
-}
-
-enum ContactType {
-  BUYER = "buyer",
-  SELLER = "seller",
-  RENTER = "renter",
-  LANDLORD = "landlord",
-}
+import { ContractType } from "@prisma/client";
 
 export default defineEventHandler(async (event) => {
   const session = await getUserSession(event);
@@ -21,6 +10,31 @@ export default defineEventHandler(async (event) => {
   if (!session.secure || !session.secure.userId) {
     return {
       error: "Unauthorized",
+    };
+  }
+
+  const { 
+    firstPartyId,
+    secondPartyId,
+    propertyId,
+    price,
+    deposit,
+    paymentMethod,
+    contractType,
+    htmlContent,
+    templateId
+  } = await readBody(event);
+
+  // Buscar o template e seu preço
+  const template = await prisma.contractTemplate.findFirst({
+    where: {
+      id: templateId
+    }
+  });
+
+  if (!template) {
+    return {
+      error: "Template not found"
     };
   }
 
@@ -47,79 +61,70 @@ export default defineEventHandler(async (event) => {
 
   const balance = (credits._sum.amount || 0) - (debits._sum.amount || 0);
 
-  if (balance < PRICES.CONTRACT_CREATION) {
+  if (balance < template.price) {
     return {
       error: "Insufficient balance",
-      requiredAmount: PRICES.CONTRACT_CREATION,
+      requiredAmount: template.price,
       currentBalance: balance,
     };
   }
 
-  const { selectedBuyer, selectedSeller, selectedProperty, contractType, htmlContent } =
-    await readBody(event);
-
-  const generatedBy = session.secure.userId;
-
   try {
+    // Criar o contrato
     const createdContract = await prisma.contracts.create({
       data: {
-        price: selectedProperty.price ?? 0,
-        contractType: ContractType.BUY_OR_SELL,
-        propertyId: selectedProperty.id,
-        generatedBy,
+        price,
+        deposit,
+        paymentMethod,
+        contractType,
+        propertyId,
+        generatedBy: session.secure.userId,
         htmlContent,
-      },
-    });
-
-    const contractBuyer = await prisma.contractContacts.create({
-      data: {
-        contractId: createdContract.id,
-        contactId: selectedBuyer.id,
-        contactType: ContactType.BUYER,
-      },
-    });
-
-    const contractSeller = await prisma.contractContacts.create({
-      data: {
-        contractId: createdContract.id,
-        contactId: selectedSeller.id,
-        contactType: ContactType.SELLER,
-      },
-    });
-
-    await prisma.contracts.update({
-      where: {
-        id: createdContract.id,
-      },
-      data: {
+        templateId,
         contacts: {
-          connect: [
+          create: [
             {
-              id: contractBuyer.id,
+              contactId: firstPartyId,
+              contactType: contractType === "SALE" ? "seller" : "landlord"
             },
             {
-              id: contractSeller.id,
-            },
-          ],
-        },
+              contactId: secondPartyId,
+              contactType: contractType === "SALE" ? "buyer" : "renter"
+            }
+          ]
+        }
       },
+      include: {
+        contacts: {
+          include: {
+            contacts: true
+          }
+        },
+        property: true,
+        template: {
+          include: {
+            steps: true
+          }
+        }
+      }
     });
 
-    // Criar transação de débito
+    // Criar transação de débito com o preço do template
     await createDebitTransaction(prisma, {
       userId: session.secure.userId,
       contractId: createdContract.id,
       subType: TransactionSubType.contractCreation,
+      customAmount: template.price
     });
 
     return {
       success: true,
+      contract: createdContract,
     };
   } catch (error) {
     console.error("Error creating contract:", error);
     return {
       error: "Failed to create contract",
-      status: 500,
     };
   }
 });

@@ -177,16 +177,54 @@ model ContractContacts {
 }
 
 enum ContractType {
-  buyOrSell  // Gets template of buy and sell (CPCV)
-  rent // Gets template of rent
+  SALE
+  RENT
 }
+
+enum ContractTemplateType {
+  SALE
+  RENT
+  VEHICLE_SALE
+  // Outros tipos futuros
+}
+
+model ContractTemplate {
+  id          Int                 @id @default(autoincrement())
+  name        String
+  description String?
+  type        ContractTemplateType
+  html        String              @db.Text
+  price       Float               @default(0)
+  isActive    Boolean             @default(true)
+  steps       ContractStep[]
+  createdAt   DateTime            @default(now())
+  updatedAt   DateTime            @updatedAt
+  contracts   Contracts[]
+}
+
+model ContractStep {
+  id                Int              @id @default(autoincrement())
+  step             Int
+  title            Json             // Para suportar i18n { "en": "...", "pt": "..." }
+  description      Json             // Para suportar i18n { "en": "...", "pt": "..." }
+  templateId       Int
+  template         ContractTemplate @relation(fields: [templateId], references: [id])
+  createdAt        DateTime         @default(now())
+  updatedAt        DateTime         @updatedAt
+
+  @@unique([step, templateId])
+}
+
 model Contracts {
   id Int @id @default(autoincrement())
 
   // ContractType
   price Float
+  deposit Float?
+  paymentMethod String?
   contractType ContractType
   htmlContent String? // Store the HTML content
+  shareToken String? @unique // Token para compartilhamento
 
   // Contacts
   contacts ContractContacts[]
@@ -201,6 +239,10 @@ model Contracts {
 
   // Transaction
   transactions Transactions[]
+
+  // Template
+  templateId Int
+  template   ContractTemplate @relation(fields: [templateId], references: [id])
 
   createdAt DateTime @default(now())
   updatedAt DateTime @updatedAt

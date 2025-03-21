@@ -3,13 +3,13 @@ import { NuxtApp } from "nuxt/app";
 
 declare module "nuxt/app" {
   interface NuxtApp {
-    $t: (key: string, locale?: string) => string;
+    $t: (key: string, params?: any[], locale?: string) => string;
   }
 }
 
 declare module "@vue/runtime-core" {
   interface ComponentCustomProperties {
-    $t: (key: string, locale?: string) => string;
+    $t: (key: string, params?: any[], locale?: string) => string;
   }
 }
 

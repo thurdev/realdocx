@@ -9,26 +9,31 @@
     <DropdownMenuContent align="end">
       <DropdownMenuItem @click="openViewDialog">
         <Eye class="mr-2 h-4 w-4" />
-        <span>Visualizar</span>
+        <span>{{ $t('shared.actions.view') }}</span>
+      </DropdownMenuItem>
+      <DropdownMenuItem @click="handleShare">
+        <Share2 class="mr-2 h-4 w-4" />
+        <span>{{ $t('contracts.share.button') }}</span>
       </DropdownMenuItem>
       <DropdownMenuItem @click="handleDownload" :disabled="isDownloading">
         <Download class="mr-2 h-4 w-4" :class="{ 'animate-spin': isDownloading }" />
-        <span>Download PDF</span>
+        <span>{{ $t('contracts.downloadAsPDF') }}</span>
       </DropdownMenuItem>
       <DropdownMenuItem @click="navigateToEdit">
         <Edit class="mr-2 h-4 w-4" />
-        <span>Editar</span>
+        <span>{{ $t('shared.actions.edit') }}</span>
       </DropdownMenuItem>
       <DropdownMenuItem @click="handleDelete">
         <Trash class="mr-2 h-4 w-4" />
-        <span>Excluir</span>
+        <span>{{ $t('shared.actions.delete') }}</span>
       </DropdownMenuItem>
     </DropdownMenuContent>
   </DropdownMenu>
 
   <ViewContractDialog
-    v-model:open="isViewDialogOpen"
+    :is-open="isViewDialogOpen"
     :contract="contract"
+    @update:open="isViewDialogOpen = $event"
   />
 </template>
 
@@ -40,10 +45,13 @@ import {
   DropdownMenuItem,
   DropdownMenuTrigger,
 } from "@/components/ui/dropdown-menu";
-import { MoreHorizontal, Edit, Trash, Eye, Download } from "lucide-vue-next";
+import { MoreHorizontal, Edit, Trash, Eye, Download, Share2 } from "lucide-vue-next";
 import type { Contract } from "./_contract";
 import ViewContractDialog from "@/components/contract/ViewContractDialog.vue";
 import { generateContractHtml } from '~/utils/contract-html';
+import type { Toast } from '~/types/toast';
+import { useToast } from "~/components/ui/toast";
+import { useNuxtApp } from 'nuxt/app';
 
 const props = defineProps<{
   contract: Contract;
@@ -53,6 +61,9 @@ const router = useRouter();
 const isViewDialogOpen = ref(false);
 const isDownloading = ref(false);
 const html2pdfModule = ref<any>(null);
+
+const { $t } = useNuxtApp();
+const toast = useToast();
 
 // Load html2pdf only on client side
 onMounted(async () => {
@@ -116,5 +127,29 @@ const handleDownload = async () => {
 const handleDelete = async () => {
   // TODO: Implement delete functionality
   console.log("Delete contract:", props.contract.id);
+};
+
+const handleShare = async () => {
+  try {
+    const response = await $fetch<{ shareToken: string; shareUrl: string; error?: string }>(`/api/contracts/${props.contract.id}/share`, {
+      method: 'POST'
+    });
+    
+    if (!response.error && response.shareUrl) {
+      await navigator.clipboard.writeText(response.shareUrl);
+      toast.toast({
+        title: $t('contracts.share.success'),
+        variant: 'success',
+        duration: 3000
+      });
+    }
+  } catch (error) {
+    console.error('Error sharing contract:', error);
+    toast.toast({
+      title: $t('contracts.share.error'),
+      variant: 'errors',
+      duration: 3000
+    });
+  }
 };
 </script> 

@@ -16,19 +16,22 @@ export const createDebitTransaction = async (prisma: any, {
   userId,
   contractId,
   subType,
+  customAmount,
 }: {
   userId: number;
   contractId?: number;
   subType: DebitTransactionType;
+  customAmount?: number;
 }) => {
-  // Mapear subType para o preço correspondente
-  const priceMap: Record<DebitTransactionType, number> = {
-    [TransactionSubType.contractCreation]: PRICES.CONTRACT_CREATION,
-    [TransactionSubType.contractEdit]: PRICES.CONTRACT_EDIT,
-    [TransactionSubType.contractDownload]: PRICES.CONTRACT_DOWNLOAD,
-  };
-
-  const amount = priceMap[subType];
+  // Se houver um valor customizado, use-o, caso contrário use o valor padrão do mapa
+  const amount = customAmount ?? (() => {
+    const priceMap: Record<DebitTransactionType, number> = {
+      [TransactionSubType.contractCreation]: PRICES.CONTRACT_CREATION,
+      [TransactionSubType.contractEdit]: PRICES.CONTRACT_EDIT,
+      [TransactionSubType.contractDownload]: PRICES.CONTRACT_DOWNLOAD,
+    };
+    return priceMap[subType];
+  })();
 
   return prisma.transactions.create({
     data: {

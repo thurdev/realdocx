@@ -8,7 +8,7 @@ export default defineNuxtPlugin({
   async setup(nuxtApp) {
     const language = useLanguage();
 
-    const $t = (key: string, locale?: string) => {
+    const $t = (key: string, params?: any[], locale?: string) => {
       if (!key) return "";
       locale = locale || language.value;
       try {
@@ -22,7 +22,16 @@ export default defineNuxtPlugin({
             return key;
           }
         }
-        return value[locale] || key;
+        let translation = value[locale] || key;
+        
+        // Replace parameters in the translation string
+        if (params && Array.isArray(params)) {
+          params.forEach((param, index) => {
+            translation = translation.replace(`{${index}}`, param.toString());
+          });
+        }
+        
+        return translation;
       } catch (error) {
         console.error(`Error loading translations: ${error}`);
         return key;

@@ -38,6 +38,10 @@
       "delete": {
         "en": "Delete",
         "pt": "Excluir"
+      },
+      "view": {
+        "en": "View",
+        "pt": "Visualizar"
       }
     },
     "success": {
@@ -51,6 +55,22 @@
     "createdAt": {
       "en": "Created At",
       "pt": "Criado em"
+    },
+    "loading": {
+      "en": "Loading...",
+      "pt": "Carregando..."
+    },
+    "contractCreated": {
+      "en": "Contract created successfully!",
+      "pt": "Contrato criado com sucesso!"
+    },
+    "contractError": {
+      "en": "An error occurred while creating the contract. Please try again.",
+      "pt": "Ocorreu um erro ao criar o contrato. Por favor, tente novamente."
+    },
+    "insufficientBalance": {
+      "en": "You need €{amount} to create a contract. Your current balance is €{balance}",
+      "pt": "Você precisa de €{amount} para criar um contrato. Seu saldo atual é €{balance}"
     }
   },
   "sidebar": {
@@ -848,6 +868,86 @@
       "en": "Create Contract",
       "pt": "Criar Contrato"
     },
+    "description": {
+      "en": "Create a new contract",
+      "pt": "Criar um novo contrato"
+    },
+    "type": {
+      "en": "Contract Type",
+      "pt": "Tipo de Contrato"
+    },
+    "selectType": {
+      "en": "Select contract type",
+      "pt": "Selecione o tipo de contrato"
+    },
+    "types": {
+      "sale": {
+        "en": "Sale",
+        "pt": "Compra e Venda"
+      },
+      "rent": {
+        "en": "Rent",
+        "pt": "Arrendamento"
+      }
+    },
+    "preview": {
+      "en": "Contract Preview",
+      "pt": "Prévia do Contrato"
+    },
+    "price": {
+      "en": "Contract Price",
+      "pt": "Preço do Contrato"
+    },
+    "insufficientBalance": {
+      "en": "Insufficient balance. You need €%s more.",
+      "pt": "Saldo insuficiente. Você precisa de mais €%s."
+    },
+    "steps": {
+      "1": {
+        "title": {
+          "en": "Contract Type",
+          "pt": "Tipo de Contrato"
+        },
+        "description": {
+          "en": "Select the type of contract you want to create",
+          "pt": "Selecione o tipo de contrato que deseja criar"
+        }
+      },
+      "2": {
+        "title": {
+          "en": "Contract Parties",
+          "pt": "Partes do Contrato"
+        },
+        "description_cpcv": {
+          "en": "Select the seller and buyer",
+          "pt": "Selecione o vendedor e comprador"
+        },
+        "description_rent": {
+          "en": "Select the landlord and tenant",
+          "pt": "Selecione o senhorio e arrendatário"
+        }
+      },
+      "3": {
+        "title": {
+          "en": "Property",
+          "pt": "Imóvel"
+        },
+        "description": {
+          "en": "Select the property for the contract",
+          "pt": "Selecione o imóvel para o contrato"
+        }
+      },
+      "4": {
+        "title": {
+          "en": "Contract Preview",
+          "pt": "Pré-visualização do Contrato"
+        },
+        "description": {
+          "en": "Review and edit the contract details",
+          "pt": "Revise e edite os detalhes do contrato"
+        }
+      }
+    },
     "empty": {
       "en": "No contracts created yet.",
       "pt": "Nenhum contrato criado ainda."
@@ -856,43 +956,57 @@
       "en": "Create your first contract",
       "pt": "Criar seu primeiro contrato"
     },
-    "price": {
-      "en": "Contract Price",
-      "pt": "Preço do Contrato"
-    },
     "balance": {
       "en": "Current Balance",
       "pt": "Saldo Atual"
-    },
-    "insufficientBalance": {
-      "en": "Insufficient balance. Required: €{0}",
-      "pt": "Saldo insuficiente. Necessário: €{0}"
     },
     "saveWarning": {
       "en": "By saving this contract, €{0} will be deducted from your balance.",
       "pt": "Ao salvar este contrato, €{0} será deduzido do seu saldo."
     },
-    "preview": {
-      "en": "Preview",
-      "pt": "Pré-visualização"
-    },
     "balanceWarning": {
       "en": "Current Balance: €{0}",
       "pt": "Saldo atual: €{0}"
     },
-    "selectType": {
-      "en": "Select contract type",
-      "pt": "Selecione o tipo de contrato"
+    "downloadAsPDF": {
+      "en": "Download as PDF",
+      "pt": "Baixar como PDF"
     },
-    "types": {
-      "sale": {
-        "en": "Sale Contract",
-        "pt": "Contrato de Venda"
+    "downloadAsDocx": {
+      "en": "Download as DOCX",
+      "pt": "Baixar como DOCX"
+    },
+    "downloadSuccess": {
+      "en": "Download started successfully",
+      "pt": "Download iniciado com sucesso"
+    },
+    "errors": {
+      "downloadFailed": {
+        "en": "Failed to generate document",
+        "pt": "Falha ao gerar documento"
       },
-      "rent": {
-        "en": "Rent Contract",
-        "pt": "Contrato de Arrendamento"
+      "loadFailed": {
+        "en": "Failed to load contract",
+        "pt": "Falha ao carregar contrato"
       }
+    },
+    "share": {
+      "button": {
+        "en": "Share",
+        "pt": "Compartilhar"
+      },
+      "success": {
+        "en": "Share link copied to clipboard!",
+        "pt": "Link de compartilhamento copiado para a área de transferência!"
+      },
+      "error": {
+        "en": "Error generating share link",
+        "pt": "Erro ao gerar link de compartilhamento"
+      }
+    },
+    "selectTypeInfo": {
+      "en": "Please select a contract type to proceed with the creation",
+      "pt": "Por favor, selecione um tipo de contrato para prosseguir com a criação"
     }
   },
   "wallet": {
