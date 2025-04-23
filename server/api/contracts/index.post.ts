@@ -22,7 +22,9 @@ export default defineEventHandler(async (event) => {
     paymentMethod,
     contractType,
     htmlContent,
-    templateId
+    templateId,
+    duration,
+    rentDueDay
   } = await readBody(event);
 
   // Buscar o template e seu preço
@@ -81,6 +83,8 @@ export default defineEventHandler(async (event) => {
         generatedBy: session.secure.userId,
         htmlContent,
         templateId,
+        duration: contractType === "RENT" ? duration : undefined,
+        rentDueDay: contractType === "RENT" ? rentDueDay : undefined,
         contacts: {
           create: [
             {

@@ -1,5 +1,5 @@
 export interface Property {
-  id?: number;
+  id: number;
   fraction: string;
   floor: string;
   destination: string;
@@ -10,4 +10,4 @@ export interface Property {
   postalCode: string;
   createdAt?: string;
   updatedAt?: string;
-} 
+}

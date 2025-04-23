@@ -18,7 +18,7 @@
     },
     "delete": {
       "en": "Delete",
-      "pt": "Excluir"
+      "pt": "Apagar"
     },
     "actions": {
       "en": "Actions",
@@ -71,6 +71,18 @@
     "insufficientBalance": {
       "en": "You need €{amount} to create a contract. Your current balance is €{balance}",
       "pt": "Você precisa de €{amount} para criar um contrato. Seu saldo atual é €{balance}"
+    },
+    "confirmDelete": {
+      "en": "Are you sure you want to delete this item?",
+      "pt": "Tem certeza que deseja apagar este item?"
+    },
+    "deleted": {
+      "en": "Deleted successfully",
+      "pt": "Apagado com sucesso"
+    },
+    "deletedDescription": {
+      "en": "The item has been deleted successfully",
+      "pt": "O item foi apagado com sucesso"
     }
   },
   "sidebar": {
@@ -439,6 +451,10 @@
         "en": "Whoops! Something went wrong.",
         "pt": "Ups! Algo correu mal."
       },
+      "addCredits": {
+        "en": "Couldn't add credits. Please try again.",
+        "pt": "Não foi possível adicionar créditos. Por favor, tente novamente."
+      },
       "register": {
         "missingFields": {
           "en": "Please fill all the fields",
@@ -462,6 +478,14 @@
           "en": "Google authentication failed.",
           "pt": "Autenticação Google falhou."
         }
+      },
+      "addCard": {
+        "en": "Couldn't add card. Please try again.",
+        "pt": "Não foi possível adicionar o cartão. Por favor, tente novamente."
+      },
+      "removeCard": {
+        "en": "Couldn't remove card. Please try again.",
+        "pt": "Não foi possível remover o cartão. Por favor, tente novamente."
       }
     },
     "success": {
@@ -860,6 +884,14 @@
     }
   },
   "contracts": {
+    "downloadMinuta": {
+      "en": "Download Minuta",
+      "pt": "Baixar Minuta"
+    },
+    "clauses": {
+      "en": "Clauses",
+      "pt": "Cláusulas"
+    },
     "title": {
       "en": "Contracts List",
       "pt": "Lista de Contratos"
@@ -873,8 +905,8 @@
       "pt": "Criar um novo contrato"
     },
     "type": {
-      "en": "Contract Type",
-      "pt": "Tipo de Contrato"
+      "en": "Select contract type:",
+      "pt": "Selecione o tipo de contrato:"
     },
     "selectType": {
       "en": "Select contract type",
@@ -1010,13 +1042,41 @@
     }
   },
   "wallet": {
+    "removing": {
+      "en": "Removing...",
+      "pt": "Removendo..."
+    },
     "overview": {
       "en": "Overview",
       "pt": "Visão Geral"
     },
+    "cardAdded": {
+      "en": "Card added successfully!",
+      "pt": "Cartão adicionado com sucesso!"
+    },
+    "paymentMethods": {
+      "en": "Payment Methods",
+      "pt": "Métodos de Pagamento"
+    },
+    "remove": {
+      "en": "Remove",
+      "pt": "Remover"
+    },
+    "cardRemoved": {
+      "en": "Card removed successfully!",
+      "pt": "Cartão removido com sucesso!"
+    },
     "addCard": {
       "en": "Add Card",
       "pt": "Adicionar Cartão"
+    },
+    "addCardDescription": {
+      "en": "Add a new payment method to your wallet.",
+      "pt": "Adicione um novo método de pagamento à sua carteira."
+    },
+    "saveCard": {
+      "en": "Save Card",
+      "pt": "Salvar Cartão"
     },
     "billingHistory": {
       "en": "Billing History",

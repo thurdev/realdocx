@@ -363,7 +363,10 @@
                 </div>
               </div>
 
-              <div class="flex w-full h-full justify-end self-end gap-2">
+              
+              <div
+                class="flex justify-end self-end gap-2 fixed right-[1rem] bottom-[1rem] p-2 rounded"
+              >
                 <Button
                   variant="ghost"
                   @click="handleBackClick(prevStep)"
@@ -390,7 +393,7 @@
       </CardContent>
     </Card>
 
-    <ContactCreateTour @step-next="handleStepNext" @tour-start="handleTourStart" @tour-complete="handleTourComplete" />
+    <!--<ContactCreateTour @step-next="handleStepNext" @tour-start="handleTourStart" @tour-complete="handleTourComplete" />-->
   </div>
 </template>
 

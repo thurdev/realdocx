@@ -1,6 +1,7 @@
 import { AuthPostRequest } from "./auth";
 import { checkPasswordHash } from "@/helpers/auth";
 import prisma from "~/lib/prisma";
+import { customerAuth } from "~/server/utils/stripe";
 
 export default defineEventHandler(async (event) => {
   const { email, password } = await readBody<AuthPostRequest>(event);
@@ -35,6 +36,23 @@ export default defineEventHandler(async (event) => {
     });
   }
 
+  const customer = await customerAuth({
+    email: user.email,
+    name: user.name ?? user.email.split("@")[0],
+    stripeCustomerId: user.stripeCustomerId,
+  });
+
+  if (customer.id) {
+    await prisma.users.update({
+      where: {
+        id: user.id,
+      },
+      data: {
+        stripeCustomerId: customer.id,
+      },
+    });
+  }
+
   await setUserSession(event, {
     // User data
     user: {
@@ -48,6 +66,7 @@ export default defineEventHandler(async (event) => {
     // Private data accessible only on server/ routes
     secure: {
       userId: user.id,
+      stripeCustomerId: user.stripeCustomerId as string,
     },
     // Any extra fields for the session data
     loggedInAt: new Date(),

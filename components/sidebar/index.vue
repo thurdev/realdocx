@@ -34,11 +34,13 @@
             v-for="(item, index) in group.links"
             :key="index"
             class="flex items-center gap-4 p-1 rounded cursor-pointer hover:bg-gray-100 dark:hover:bg-sidebar-accent/80 dark:text-white"
-            :class="[`tour-target-${item.tourTarget}`, {
-              'border-r-4 border-blue-500 bg-gray-100 hover:bg-gray-200 dark:bg-sidebar-accent !text-blue-500':
-                route.path === item.link,
-              
-            }]"
+            :class="[
+              `tour-target-${item.tourTarget}`,
+              {
+                'border-r-4 border-blue-500 bg-gray-100 hover:bg-gray-200 dark:bg-sidebar-accent !text-blue-500':
+                  route.path === item.link,
+              },
+            ]"
             :to="item.link"
           >
             <Button class="w-4" variant="invisible">
@@ -74,6 +76,10 @@
               >
                 <div class="truncate text-xs">
                   {{ user?.name }}
+                  <br />
+                  <span class="text-gray-500">
+                    {{ formattedBalance }}
+                  </span>
                 </div>
                 <div>
                   <i class="fal fa-angles-up-down"></i>
@@ -132,10 +138,7 @@
                 <i class="fa-light fa-cog" />
                 {{ $t("sidebar.settings") }}
               </DropdownMenuItem>
-              <DropdownMenuItem
-                @click="goTo('/wallet')"
-                class="cursor-pointer"
-              >
+              <DropdownMenuItem @click="goTo('/wallet')" class="cursor-pointer">
                 <i class="fa-light fa-credit-card" />
                 {{ $t("sidebar.wallet") }}
               </DropdownMenuItem>
@@ -155,9 +158,9 @@
 <script setup lang="ts">
 const { user, clear } = useUserSession();
 import { useSidebar } from "~/composable/useSidebar";
+import { useWallet } from "~/composable/useWallet";
 import { useLanguage } from "~/composable/useLanguage";
 import { Avatar, AvatarFallback, AvatarImage } from "@/components/ui/avatar";
-
 import {
   DropdownMenu,
   DropdownMenuContent,
@@ -167,10 +170,20 @@ import {
   DropdownMenuTrigger,
   DropdownMenuGroup,
 } from "@/components/ui/dropdown-menu";
+
 const colorMode = useColorMode();
 const route = useRoute();
 const sidebar = useSidebar();
 const language = useLanguage();
+const wallet = useWallet();
+
+const formattedBalance = computed(() => {
+  return new Intl.NumberFormat("pt-PT", {
+    style: "currency",
+    currency: "EUR",
+  }).format(wallet?.balance.value);
+});
+
 const toggleSidebar = () => {
   sidebar.value = !sidebar.value;
 };

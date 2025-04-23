@@ -1,4 +1,4 @@
-import { ContractType } from '@prisma/client'
+import { ContractType } from "@prisma/client";
 
 export interface ContractStep {
   step: number;
@@ -17,6 +17,17 @@ export interface ContractTemplate {
   name: string;
   description?: string;
   type: ContractType;
+  clausules: {
+    name: string;
+    description: string;
+    fields: {
+      name: {
+        pt: string;
+        en: string;
+      };
+      type: string;
+    }[];
+  }[];
   html: string;
   price: number;
   isActive: boolean;
@@ -64,4 +75,4 @@ export interface ContractFormData {
   paymentMethod: string;
   contractType: ContractType;
   templateId: number;
-} 
+}

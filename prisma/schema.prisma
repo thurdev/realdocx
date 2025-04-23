@@ -196,6 +196,7 @@ model ContractTemplate {
   html        String              @db.Text
   price       Float               @default(0)
   isActive    Boolean             @default(true)
+  clausules   Json?               @default("[]") // Para suportar i18n { "en": "...", "pt": "..." }
   steps       ContractStep[]
   createdAt   DateTime            @default(now())
   updatedAt   DateTime            @updatedAt
@@ -225,6 +226,8 @@ model Contracts {
   contractType ContractType
   htmlContent String? // Store the HTML content
   shareToken String? @unique // Token para compartilhamento
+  duration Int? // Duração do contrato em meses (para arrendamento)
+  rentDueDay Int? // Dia do mês para pagamento (para arrendamento)
 
   // Contacts
   contacts ContractContacts[]

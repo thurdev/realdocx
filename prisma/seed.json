@@ -1,13 +1,52 @@
 {
   "templates": [
     {
+      "id": 1,
       "name": "Contrato Promessa de Compra e Venda",
       "description": "Template base para contratos de compra e venda (CPCV)",
       "type": "SALE",
       "html": "<!-- Template HTML do CPCV -->\n<div style=\"font-family: Arial, sans-serif; line-height: 1.6; max-width: 800px; margin: auto;\">\n  <h1 style=\"text-align: center; font-size: 2rem; font-weight: bold; margin-bottom: 3rem;\">CONTRATO PROMESSA DE COMPRA E VENDA</h1>\n  \n  <div class=\"section\">\n    <h2 class=\"clause\">1. Partes</h2>\n    <h3>Primeiros Outorgantes - Parte Vendedora:</h3>\n    <div class=\"party-info\">\n      <p class=\"inline\"><strong>Nome:</strong> <span id=\"sellerName\" contenteditable=\"true\" class=\"editable\">{{seller.name}}</span></p>\n      <p class=\"inline\"><strong>NIF:</strong> <span id=\"sellerVat\" contenteditable=\"true\" class=\"editable\">{{seller.vat}}</span></p>\n      <p class=\"inline\"><strong>Estado Civil:</strong> <span id=\"sellerMaritalStatus\" contenteditable=\"true\" class=\"editable\">{{seller.maritalStatus}}</span></p>\n      <p><strong>Residência:</strong> <span id=\"sellerAddress\" contenteditable=\"true\" class=\"editable\">{{seller.address}}</span></p>\n    </div>\n    \n    <h3>Segundos Outorgantes - Parte Compradora:</h3>\n    <div class=\"party-info\">\n      <p class=\"inline\"><strong>Nome:</strong> <span id=\"buyerName\" contenteditable=\"true\" class=\"editable\">{{buyer.name}}</span></p>\n      <p class=\"inline\"><strong>NIF:</strong> <span id=\"buyerVat\" contenteditable=\"true\" class=\"editable\">{{buyer.vat}}</span></p>\n      <p class=\"inline\"><strong>Estado Civil:</strong> <span id=\"buyerMaritalStatus\" contenteditable=\"true\" class=\"editable\">{{buyer.maritalStatus}}</span></p>\n      <p><strong>Residência:</strong> <span id=\"buyerAddress\" contenteditable=\"true\" class=\"editable\">{{buyer.address}}</span></p>\n    </div>\n  </div>\n\n  <div class=\"section\">\n    <h2 class=\"clause\">2. Objeto do Contrato</h2>\n    <p>A Parte Vendedora promete vender e a Parte Compradora promete comprar o seguinte imóvel:</p>\n    <div class=\"property-info\">\n      <p class=\"inline\"><strong>Fração:</strong> <span id=\"propertyFraction\" contenteditable=\"true\" class=\"editable\">{{property.fraction}}</span></p>\n      <p class=\"inline\"><strong>Andar:</strong> <span id=\"propertyFloor\" contenteditable=\"true\" class=\"editable\">{{property.floor}}</span></p>\n      <p class=\"inline\"><strong>Destino:</strong> <span id=\"propertyDestination\" contenteditable=\"true\" class=\"editable\">{{property.destination}}</span></p>\n      <p><strong>Endereço:</strong> <span id=\"propertyAddress\" contenteditable=\"true\" class=\"editable\">{{property.address}}</span></p>\n    </div>\n  </div>\n  \n  <div class=\"section\">\n    <h2 class=\"clause\">3. Preço e Condições de Pagamento</h2>\n    <div class=\"payment-info\">\n      <p class=\"inline\"><strong>Valor Total do Imóvel (€):</strong> <input id=\"propertyPrice\" type=\"number\" class=\"input-field\" value=\"{{contract.price}}\" @input=\"handleInputChange\"></p>\n      <p class=\"inline\"><strong>Sinal (€):</strong> <input id=\"propertyDeposit\" type=\"number\" class=\"input-field\" value=\"{{contract.deposit}}\" @input=\"handleInputChange\"></p>\n      <p><strong>Forma de Pagamento:</strong> <input id=\"paymentMethod\" type=\"text\" class=\"input-field-large\" value=\"{{contract.paymentMethod}}\" @input=\"handleInputChange\"></p>\n    </div>\n  </div>\n  \n  <div class=\"section\">\n    <h2 class=\"clause\">4. Escritura e Prazo</h2>\n    <p>A escritura pública será celebrada até o dia <span id=\"contractDate\" contenteditable=\"true\" class=\"editable\">[Data da Escritura]</span>.</p>\n  </div>\n  \n  <div class=\"section\">\n    <h2 class=\"clause\">5. Encargos e Obrigações</h2>\n    <p>O imóvel será entregue livre de quaisquer ónus, hipotecas ou encargos.</p>\n    <p>Todas as despesas relacionadas à escritura serão pagas pela Parte Compradora.</p>\n  </div>\n  \n  <div class=\"section\">\n    <h2 class=\"clause\">6. Penalizações por Incumprimento</h2>\n    <p>Se a Parte Compradora não cumprir o contrato, perderá o valor pago como sinal.</p>\n    <p>Se a Parte Vendedora não cumprir o contrato, deverá devolver o sinal em dobro.</p>\n  </div>\n  \n  <div class=\"section\">\n    <h2 class=\"clause\">7. Lei Aplicável e Foro</h2>\n    <p>O presente contrato rege-se pelas leis portuguesas e, em caso de litígio, as partes elegem o foro do local do imóvel.</p>\n  </div>\n  \n  <div class=\"section\">\n    <h2 class=\"clause\">Local e Data</h2>\n    <p><span id=\"contractDate\" contenteditable=\"true\" class=\"editable\">[Data]</span></p>\n    \n    <h2 class=\"clause\">Assinaturas</h2>\n    <div class=\"signatures\">\n      <div class=\"signature-block\">\n        <p><strong>Vendedor(es):</strong></p>\n        <span id=\"sellerSignature\">__________________________</span>\n      </div>\n      <div class=\"signature-block\">\n        <p><strong>Comprador(es):</strong></p>\n        <span id=\"buyerSignature\">__________________________</span>\n      </div>\n    </div>\n  </div>\n\n  <style>\n    .section { margin-bottom: 2rem; }\n    .clause { font-size: 1.5rem; font-weight: bold; margin: 2rem 0 1.5rem; color: #1a1a1a; }\n    .inline { display: inline-block; margin-right: 1rem; }\n    .editable { border: 1px dashed #999; border-radius: 4px; padding: 2px 6px; min-width: 50px; display: inline-block; }\n    .input-field { border: 1px solid #999; border-radius: 4px; padding: 4px 8px; width: 120px; margin: 0 4px; }\n    .input-field-large { border: 1px solid #999; border-radius: 4px; padding: 4px 8px; width: 300px; margin: 0 4px; }\n    .signatures { margin-top: 3rem; }\n    .signature-block { margin-bottom: 4rem; }\n  </style>\n</div>",
-      "isActive": true
+      "isActive": true,
+      "clausules": [
+        {
+          "name": "Clausula Teste",
+          "description": "Clausula de teste",
+          "fields": [
+            {
+              "name": {
+                "pt": "Nome",
+                "en": "Name"
+              },
+              "type": "text"
+            },
+            {
+              "name": {
+                "pt": "Número",
+                "en": "Number"
+              },
+              "type": "number"
+            },
+            {
+              "name": {
+                "pt": "Data",
+                "en": "Date"
+              },
+              "type": "date"
+            },
+            {
+              "name": {
+                "pt": "Opção",
+                "en": "Option"
+              },
+              "type": "select",
+              "options": ["Opção 1", "Opção 2", "Opção 3"]
+            }
+          ]
+        }
+      ]
     },
     {
+      "id": 2,
       "name": "Contrato de Arrendamento",
       "description": "Template base para contratos de arrendamento",
       "type": "RENT",
@@ -15,4 +54,4 @@
       "isActive": true
     }
   ]
-} 
+}

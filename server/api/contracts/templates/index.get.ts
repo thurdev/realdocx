@@ -13,28 +13,29 @@ export default defineEventHandler(async (event) => {
   try {
     const templates = await prisma.contractTemplate.findMany({
       where: {
-        isActive: true
+        isActive: true,
       },
       select: {
         id: true,
         name: true,
         description: true,
         type: true,
+        clausules: true,
         html: true,
         price: true,
         steps: {
           orderBy: {
-            step: 'asc'
+            step: "asc",
           },
           select: {
             step: true,
             title: true,
-            description: true
-          }
+            description: true,
+          },
         },
         createdAt: true,
-        updatedAt: true
-      }
+        updatedAt: true,
+      },
     });
 
     return templates;
@@ -44,4 +45,4 @@ export default defineEventHandler(async (event) => {
       error: "Failed to fetch templates",
     };
   }
-}); 
+});

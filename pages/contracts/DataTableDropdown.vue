@@ -1,12 +1,14 @@
 <template>
   <DropdownMenu>
     <DropdownMenuTrigger as-child>
-      <Button variant="ghost" class="h-8 w-8 p-0">
+      <Button variant="ghost" class="w-8 h-8 p-0">
         <span class="sr-only">Open menu</span>
-        <MoreHorizontal class="h-4 w-4" />
+        <MoreHorizontal class="w-4 h-4" />
       </Button>
     </DropdownMenuTrigger>
     <DropdownMenuContent align="end">
+      <DropdownMenuLabel>{{ $t('shared.actions') }}</DropdownMenuLabel>
+      <DropdownMenuSeparator />
       <DropdownMenuItem @click="openViewDialog">
         <Eye class="mr-2 h-4 w-4" />
         <span>{{ $t('shared.actions.view') }}</span>
@@ -23,7 +25,7 @@
         <Edit class="mr-2 h-4 w-4" />
         <span>{{ $t('shared.actions.edit') }}</span>
       </DropdownMenuItem>
-      <DropdownMenuItem @click="handleDelete">
+      <DropdownMenuItem @click="handleDeleteContract">
         <Trash class="mr-2 h-4 w-4" />
         <span>{{ $t('shared.actions.delete') }}</span>
       </DropdownMenuItem>
@@ -43,6 +45,8 @@ import {
   DropdownMenu,
   DropdownMenuContent,
   DropdownMenuItem,
+  DropdownMenuLabel,
+  DropdownMenuSeparator,
   DropdownMenuTrigger,
 } from "@/components/ui/dropdown-menu";
 import { MoreHorizontal, Edit, Trash, Eye, Download, Share2 } from "lucide-vue-next";
@@ -50,7 +54,7 @@ import type { Contract } from "./_contract";
 import ViewContractDialog from "@/components/contract/ViewContractDialog.vue";
 import { generateContractHtml } from '~/utils/contract-html';
 import type { Toast } from '~/types/toast';
-import { useToast } from "~/components/ui/toast";
+import { useToast } from "@/components/ui/toast/use-toast";
 import { useNuxtApp } from 'nuxt/app';
 
 const props = defineProps<{
@@ -63,7 +67,7 @@ const isDownloading = ref(false);
 const html2pdfModule = ref<any>(null);
 
 const { $t } = useNuxtApp();
-const toast = useToast();
+const { toast } = useToast();
 
 // Load html2pdf only on client side
 onMounted(async () => {
@@ -124,9 +128,28 @@ const handleDownload = async () => {
   }
 };
 
-const handleDelete = async () => {
-  // TODO: Implement delete functionality
-  console.log("Delete contract:", props.contract.id);
+const handleDeleteContract = async () => {
+  const response = await $fetch<{ success?: boolean; error?: string }>('/api/contracts/delete', {
+    method: 'POST',
+    body: { id: props.contract.id },
+  });
+
+  console.log(response)
+
+  if (response.success) {
+    toast({
+      title: $t('shared.deleted'),
+      description: $t('shared.deletedDescription'),
+      variant: 'success',
+    });
+    navigateTo('/contracts?deleted=' + props.contract.id);
+  } else if (response.error) {
+    toast({
+      title: $t('shared.error'),
+      description: response.error,
+      variant: 'errors',
+    });
+  }
 };
 
 const handleShare = async () => {
@@ -137,7 +160,7 @@ const handleShare = async () => {
     
     if (!response.error && response.shareUrl) {
       await navigator.clipboard.writeText(response.shareUrl);
-      toast.toast({
+      toast({
         title: $t('contracts.share.success'),
         variant: 'success',
         duration: 3000
@@ -145,7 +168,7 @@ const handleShare = async () => {
     }
   } catch (error) {
     console.error('Error sharing contract:', error);
-    toast.toast({
+    toast({
       title: $t('contracts.share.error'),
       variant: 'errors',
       duration: 3000

@@ -45,8 +45,19 @@ import { Button } from "@/components/ui/button";
 import DataTable from "@/components/dataTable/DataTable.vue";
 
 const contracts = ref<Contract[]>([]);
+const route = useRoute();
+
+const fetchContracts = async () => {
+  contracts.value = await $fetch<Contract[]>("/api/contracts");
+};
 
 onMounted(async () => {
-  contracts.value = await $fetch<Contract[]>("/api/contracts");
+  await fetchContracts();
+});
+
+watch(() => route.query.deleted, async () => {
+  if (route.query.deleted) {
+    await fetchContracts();
+  }
 });
 </script>
