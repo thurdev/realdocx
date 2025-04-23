@@ -4,9 +4,13 @@
     <div class="flex gap-4 flex-wrap justify-center">
       <Card
         class="flex-1 hover:transform hover:scale-105 transition-transform duration-200 ease-in-out cursor-pointer"
+        :class="{
+          'bg-blue-50 border-blue-200':
+            selectedTemplateIndex === templateIndex.toString(),
+        }"
         v-for="(template, templateIndex) in templates"
-        @click="selectedTemplateIndex = templateIndex.toString()"
         :key="templateIndex"
+        @click="selectedTemplateIndex = templateIndex.toString()"
       >
         <CardHeader class="flex flex-col gap-4 items-center justify-center">
           <i class="fa-light text-5xl text-primary" :class="template.icon" />

@@ -177,13 +177,16 @@ const sidebar = useSidebar();
 const language = useLanguage();
 const wallet = useWallet();
 
+onMounted(() => {
+  wallet.fetchBalance();
+});
+
 const formattedBalance = computed(() => {
   return new Intl.NumberFormat("pt-PT", {
     style: "currency",
     currency: "EUR",
   }).format(wallet?.balance.value);
 });
-
 const toggleSidebar = () => {
   sidebar.value = !sidebar.value;
 };

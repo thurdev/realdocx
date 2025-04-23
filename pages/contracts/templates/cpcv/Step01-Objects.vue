@@ -15,7 +15,17 @@
               :key="contact.id"
               :value="contact.id?.toString() ?? ''"
             >
-              {{ contact.name }}
+              <div class="flex items-center gap-2">
+                <img
+                  :src="
+                    contact.image ||
+                    'https://static.vecteezy.com/system/resources/previews/036/594/092/non_2x/man-empty-avatar-photo-placeholder-for-social-networks-resumes-forums-and-dating-sites-male-and-female-no-photo-images-for-unfilled-user-profile-free-vector.jpg'
+                  "
+                  class="w-8 h-8 rounded-lg object-cover"
+                  alt="Contact image"
+                />
+                <span>{{ contact.name }}</span>
+              </div>
             </SelectItem>
           </SelectGroup>
           <div v-else class="p-4 text-center">
@@ -48,7 +58,17 @@
               :key="contact.id"
               :value="contact.id?.toString() ?? ''"
             >
-              {{ contact.name }}
+              <div class="flex items-center gap-2">
+                <img
+                  :src="
+                    contact.image ||
+                    'https://static.vecteezy.com/system/resources/previews/036/594/092/non_2x/man-empty-avatar-photo-placeholder-for-social-networks-resumes-forums-and-dating-sites-male-and-female-no-photo-images-for-unfilled-user-profile-free-vector.jpg'
+                  "
+                  class="w-8 h-8 rounded-lg object-cover"
+                  alt="Contact image"
+                />
+                <span>{{ contact.name }}</span>
+              </div>
             </SelectItem>
           </SelectGroup>
           <div v-else class="p-4 text-center">

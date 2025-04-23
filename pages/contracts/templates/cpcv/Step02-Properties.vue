@@ -15,12 +15,22 @@
               :key="property.id"
               :value="property?.id?.toString()"
             >
-              <div class="flex flex-col">
-                <span class="font-medium">[#{{ property.id }}]</span>
-                <span class="text-sm text-gray-500">
-                  {{ property.city }}, {{ property.neighborhood }},
-                  {{ property.address }}, {{ property.number }}
-                </span>
+              <div class="flex items-center gap-4">
+                <img
+                  :src="
+                    property.image ||
+                    'https://saterdesign.com/cdn/shop/products/property-placeholder_a9ec7710-1f1e-4654-9893-28c34e3b6399.jpg?v=1500393334'
+                  "
+                  class="w-8 h-8 rounded-lg object-cover"
+                  alt="Property image"
+                />
+                <div class="flex flex-col">
+                  <span class="font-medium">[#{{ property.id }}]</span>
+                  <span class="text-sm text-gray-500">
+                    {{ property.city }}, {{ property.neighborhood }},
+                    {{ property.address }}, {{ property.number }}
+                  </span>
+                </div>
               </div>
             </SelectItem>
           </SelectGroup>

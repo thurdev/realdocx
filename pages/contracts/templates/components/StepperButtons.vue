@@ -3,7 +3,7 @@
     class="flex justify-end self-end gap-2 fixed right-[1rem] bottom-[1rem] p-2 rounded"
   >
     <Button
-      v-if="currentStep > 1"
+      v-if="currentStep > -1"
       class="mt-4"
       variant="ghost"
       @click="emits('back', prevStep)"

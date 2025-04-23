@@ -302,6 +302,15 @@ const handleNextClick = async (func: Function) => {
 };
 
 const handleBackClick = (func: Function) => {
+  if (currentStep.value === -1) {
+    return;
+  }
+
+  if (currentStep.value === 0) {
+    currentStep.value = -1;
+    return;
+  }
+
   func();
 };
 

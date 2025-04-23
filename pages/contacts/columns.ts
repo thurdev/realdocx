@@ -3,7 +3,23 @@ import { h } from "vue";
 import type { Contact } from "./_contacts";
 import DataTableDropdown from "./DataTableDropdown.vue";
 
-export const createColumns = ($t: (key: string) => string): ColumnDef<Contact>[] => [
+export const createColumns = (
+  $t: (key: string) => string
+): ColumnDef<Contact>[] => [
+  {
+    accessorKey: "image",
+    header: () => h("div", { class: "text-center" }, "Imagem"),
+    cell: ({ row }) =>
+      h("div", { class: "flex justify-center" }, [
+        h("img", {
+          src:
+            row.original.image ||
+            "https://static.vecteezy.com/system/resources/previews/036/594/092/non_2x/man-empty-avatar-photo-placeholder-for-social-networks-resumes-forums-and-dating-sites-male-and-female-no-photo-images-for-unfilled-user-profile-free-vector.jpg",
+          class: "min-w-16 min-h-16 w-16 h-16 rounded-lg object-cover",
+          alt: "Contact image",
+        }),
+      ]),
+  },
   {
     accessorKey: "id",
     header: () => h("div", { class: "text-right" }, "ID"),
@@ -18,19 +34,36 @@ export const createColumns = ($t: (key: string) => string): ColumnDef<Contact>[]
   },
   {
     accessorKey: "name",
-    header: () => h("div", { class: "text-left" }, $t("cpcv.contacts.modals.form.inputs.name")),
+    header: () =>
+      h(
+        "div",
+        { class: "text-left" },
+        $t("cpcv.contacts.modals.form.inputs.name")
+      ),
     cell: ({ row }) =>
       h("div", { class: "text-left font-medium" }, row.original.name),
   },
   {
     accessorKey: "vat",
-    header: () => h("div", { class: "text-left" }, $t("cpcv.contacts.modals.form.inputs.nif")),
-    cell: ({ row }) => h("div", { class: "text-left font-medium" }, row.original.vat),
+    header: () =>
+      h(
+        "div",
+        { class: "text-left" },
+        $t("cpcv.contacts.modals.form.inputs.nif")
+      ),
+    cell: ({ row }) =>
+      h("div", { class: "text-left font-medium" }, row.original.vat),
   },
   {
     accessorKey: "contactType",
-    header: () => h("div", { class: "text-left" }, $t("cpcv.contacts.modals.contactType")),
-    cell: ({ row }) => h("div", { class: "text-left font-medium" }, $t(`cpcv.contacts.modals.types.${row.original.contactType}`)),
+    header: () =>
+      h("div", { class: "text-left" }, $t("cpcv.contacts.modals.contactType")),
+    cell: ({ row }) =>
+      h(
+        "div",
+        { class: "text-left font-medium" },
+        $t(`cpcv.contacts.modals.types.${row.original.contactType}`)
+      ),
   },
   {
     accessorKey: "country",

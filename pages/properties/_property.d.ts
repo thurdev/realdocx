@@ -24,4 +24,5 @@ export type Property = {
   chargesAP: string;
   chargesDate: string;
   createdAt: string;
+  image?: string;
 };

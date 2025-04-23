@@ -70,6 +70,7 @@ model Contacts {
   // Contact Info
   name  String
   vat String
+  image String? // Campo de imagem para contatos
 
   // Marital
   maritalStatus MaritalStatus
@@ -80,9 +81,6 @@ model Contacts {
   identityNumber String
   identityExpirationDate DateTime
   identityIssuer String
-
-
-
 
   // Contact Address
   country String // Company or Individual
@@ -117,6 +115,7 @@ model Contacts {
 model Properties {
   id    Int     @id @default(autoincrement())
   // Property Info
+  image String? // Campo de imagem para propriedades
   fraction String // Compiscão (H)
   floor String // Andar
   destination String // Destino (Habitacao, Comercio, Serviços)

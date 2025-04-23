@@ -2,6 +2,7 @@ export interface Contact {
   id?: number;
   name: string;
   vat: string;
+  image?: string;
   maritalStatus: string;
   marriedUnderRegime: string;
   identityType: string;
@@ -21,4 +22,4 @@ export interface Contact {
   contactType: string;
   createdAt?: string;
   updatedAt?: string;
-} 
+}

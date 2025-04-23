@@ -20,4 +20,5 @@ export type Contact = {
   companySocialCapital: string;
   contactType: CustomerType;
   createdAt?: string;
+  image?: string;
 };

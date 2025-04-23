@@ -1,5 +1,6 @@
 export interface Property {
   id: number;
+  image?: string;
   fraction: string;
   floor: string;
   destination: string;
