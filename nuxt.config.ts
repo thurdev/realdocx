@@ -40,14 +40,14 @@ export default defineNuxtConfig({
         {
           src: "https://accounts.google.com/gsi/client",
           async: true,
-          defer: true
-        }
+          defer: true,
+        },
       ],
     },
   },
   googleSignIn: {
     clientId:
-      "1095108654667-4basuj8t8uiu2e0dft50ofij4olbc0q0.apps.googleusercontent.com"
+      "1095108654667-4basuj8t8uiu2e0dft50ofij4olbc0q0.apps.googleusercontent.com",
   },
   vue: {
     // custom element
@@ -57,11 +57,6 @@ export default defineNuxtConfig({
   },
   ssr: true,
   nitro: {
-    preset: 'vercel'
-  },
-  runtimeConfig: {
-    public: {
-      googleClientId: "1095108654667-4basuj8t8uiu2e0dft50ofij4olbc0q0.apps.googleusercontent.com"
-    }
+    preset: "vercel",
   },
 });

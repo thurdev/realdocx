@@ -3,7 +3,7 @@ import type { Property } from "../properties/_property";
 
 export enum ContactType {
   individual = "individual",
-  company = "company"
+  company = "company",
 }
 
 export enum IdentityType {
@@ -11,31 +11,31 @@ export enum IdentityType {
   oldIdCard = "oldIdCard",
   passport = "passport",
   drivingLicense = "drivingLicense",
-  residencePermit = "residencePermit"
+  residencePermit = "residencePermit",
 }
 
 export enum MaritalStatus {
   single = "single",
   married = "married",
   divorced = "divorced",
-  widowed = "widowed"
+  widowed = "widowed",
 }
 
 export enum ContractType {
   buyOrSell = "buyOrSell",
-  rent = "rent"
+  rent = "rent",
 }
 
 export enum ContactsType {
   seller = "seller",
   buyer = "buyer",
   renter = "renter",
-  landlord = "landlord"
+  landlord = "landlord",
 }
 
 export enum TransactionType {
   credit = "credit",
-  debit = "debit"
+  debit = "debit",
 }
 
 interface ContractContact {
@@ -55,6 +55,8 @@ export interface Contract {
   propertyId: number;
   property: Property;
   generatedBy: number;
+  duration?: number;
+  createdAt?: string;
   user?: {
     id: number;
     name?: string;

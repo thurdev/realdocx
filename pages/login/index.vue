@@ -57,11 +57,12 @@
 </template>
 
 <script lang="ts" setup>
-console.log('[DEBUG-SETUP] Login page setup iniciado');
+console.log("[DEBUG-SETUP] Login page setup iniciado");
 
 definePageMeta({
   middleware: "redirect-loggedin",
   colorMode: "light",
+  ssr: false,
 });
 
 import {
@@ -105,7 +106,7 @@ const handleLogin = async () => {
 };
 
 const oAuthGoogle = async (credential?: string) => {
-  console.log('[DEBUG] oAuthGoogle called with credential:', !!credential);
+  console.log("[DEBUG] oAuthGoogle called with credential:", !!credential);
   if (credential) {
     const decodedUser = decodeCredential(credential);
     const authResponse = await $fetch<string>("/api/auth/google", {
@@ -134,12 +135,12 @@ const oAuthGoogle = async (credential?: string) => {
 // Google
 useOneTap({
   onSuccess: (response: CredentialResponse) => {
-    console.log('[DEBUG] OneTap success:', response);
+    console.log("[DEBUG] OneTap success:", response);
     const { credential } = response;
     oAuthGoogle(credential);
   },
   onError: () => {
-    console.error('[DEBUG] OneTap error');
+    console.error("[DEBUG] OneTap error");
     toast({
       title: $t(`endpoints.errors.label`),
       description: $t("endpoints.errors.auth.googleAuth"),
@@ -147,19 +148,19 @@ useOneTap({
     });
   },
   cancelOnTapOutside: false,
-  context: "signin"
+  context: "signin",
 });
 
 // handle success event
 const handleGoogleLoginSuccess = async (response: CredentialResponse) => {
-  console.log('[DEBUG] Google login success:', response);
+  console.log("[DEBUG] Google login success:", response);
   const { credential } = response;
   oAuthGoogle(credential);
 };
 
 // handle an error event
 const handleGoogleLoginError = (error: any) => {
-  console.error('[DEBUG] Google login error:', error);
+  console.error("[DEBUG] Google login error:", error);
   toast({
     title: $t(`endpoints.errors.label`),
     description: $t("endpoints.errors.auth.googleAuth"),
@@ -168,18 +169,23 @@ const handleGoogleLoginError = (error: any) => {
 };
 
 onBeforeMount(() => {
-  console.log('[DEBUG] Before Mount');
+  console.log("[DEBUG] Before Mount");
 });
 
 onMounted(() => {
-  console.log('[DEBUG] Component Mounted');
+  console.log("[DEBUG] Component Mounted");
   try {
-    console.log('[DEBUG] Document Ready State:', document.readyState);
-    console.log('[DEBUG] Window Object Available:', typeof window !== 'undefined');
-    console.log('[DEBUG] Runtime Config:', runtimeConfig.public.googleClientId);
-    console.log('[DEBUG] Google Object:', typeof window.google !== 'undefined' ? 'Available' : 'Not Available');
+    console.log("[DEBUG] Document Ready State:", document.readyState);
+    console.log(
+      "[DEBUG] Window Object Available:",
+      typeof window !== "undefined"
+    );
+    console.log(
+      "[DEBUG] Google Object:",
+      typeof window.google !== "undefined" ? "Available" : "Not Available"
+    );
   } catch (error) {
-    console.error('[DEBUG] Error in onMounted:', error);
+    console.error("[DEBUG] Error in onMounted:", error);
   }
 });
 </script>

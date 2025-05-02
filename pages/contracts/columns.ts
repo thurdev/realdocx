@@ -1,13 +1,12 @@
-import { ColumnDef } from "@tanstack/vue-table";
+import type { ColumnDef } from "@tanstack/vue-table";
 import { h } from "vue";
 import type { Contract } from "./_contract";
 import { ContractType, ContactsType } from "./_contract";
 import DataTableDropdown from "./DataTableDropdown.vue";
-import { ContractType as PrismaContractType } from "@prisma/client";
 
 const contractTypeLabels: Record<ContractType, string> = {
   [ContractType.buyOrSell]: "Compra e Venda",
-  [ContractType.rent]: "Arrendamento"
+  [ContractType.rent]: "Arrendamento",
 };
 
 export const columns: ColumnDef<Contract>[] = [
@@ -34,7 +33,7 @@ export const columns: ColumnDef<Contract>[] = [
         currency: "EUR",
       }).format(price);
 
-      if (type === PrismaContractType.RENT) {
+      if (type === ContractType.rent) {
         return `${formattedPrice}/mês`;
       }
       return formattedPrice;
@@ -45,7 +44,9 @@ export const columns: ColumnDef<Contract>[] = [
     header: "Tipo",
     cell: ({ row }) => {
       const type = row.original.contractType;
-      return type === PrismaContractType.SALE ? "Compra e Venda" : "Arrendamento";
+      return type === ContractType.buyOrSell
+        ? "Compra e Venda"
+        : "Arrendamento";
     },
   },
   {
@@ -54,8 +55,8 @@ export const columns: ColumnDef<Contract>[] = [
     cell: ({ row }) => {
       const type = row.original.contractType;
       const duration = row.original.duration;
-      
-      if (type === PrismaContractType.RENT && duration) {
+
+      if (type === ContractType.rent && duration) {
         return `${duration} meses`;
       }
       return "-";
@@ -65,7 +66,7 @@ export const columns: ColumnDef<Contract>[] = [
     accessorKey: "createdAt",
     header: "Data",
     cell: ({ row }) => {
-      return new Date(row.original.createdAt).toLocaleDateString("pt-PT");
+      return new Date(row.original.createdAt ?? "").toLocaleDateString("pt-PT");
     },
   },
   {
@@ -73,9 +74,13 @@ export const columns: ColumnDef<Contract>[] = [
     header: () => h("div", { class: "text-right" }, "Vendedor"),
     cell: ({ row }) => {
       const contact = row.original.contacts.find(
-        c => c.contactType === ContactsType.seller
+        (c) => c.contactType === ContactsType.seller
       )?.contacts;
-      return h("div", { class: "text-right font-medium" }, contact?.name || "-");
+      return h(
+        "div",
+        { class: "text-right font-medium" },
+        contact?.name || "-"
+      );
     },
   },
   {
@@ -83,9 +88,13 @@ export const columns: ColumnDef<Contract>[] = [
     header: () => h("div", { class: "text-right" }, "Comprador"),
     cell: ({ row }) => {
       const contact = row.original.contacts.find(
-        c => c.contactType === ContactsType.buyer
+        (c) => c.contactType === ContactsType.buyer
       )?.contacts;
-      return h("div", { class: "text-right font-medium" }, contact?.name || "-");
+      return h(
+        "div",
+        { class: "text-right font-medium" },
+        contact?.name || "-"
+      );
     },
   },
   {
@@ -103,4 +112,4 @@ export const columns: ColumnDef<Contract>[] = [
       );
     },
   },
-]; 
+];
