@@ -1,4 +1,4 @@
-import { ContractType } from "@prisma/client";
+import type { ContractType } from "../pages/contracts/_contract";
 
 export interface ContractStep {
   step: number;
