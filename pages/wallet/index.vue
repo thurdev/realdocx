@@ -283,7 +283,6 @@ import { Input } from "@/components/ui/input";
 import { useToast } from "@/components/ui/toast/use-toast";
 import { Loader2 } from "lucide-vue-next";
 import type { ColumnDef } from "@tanstack/vue-table";
-import { Transactions } from "@prisma/client";
 const { $t } = useNuxtApp();
 // Estado
 const currentPage = ref(1);
@@ -306,7 +305,7 @@ const walletData = ref({
 });
 
 const transactions = ref({
-  transactions: [],
+  transactions: [] as Transaction[],
   pagination: {
     total: 0,
     pages: 1,
@@ -381,8 +380,17 @@ const totalSpent = computed(() => {
     .reduce((total, transaction) => total + transaction.amount, 0);
 });
 
+// Definir tipo local para transações:
+type Transaction = {
+  id: string;
+  createdAt: string;
+  type: string;
+  amount: number;
+  subType?: string;
+};
+
 // Colunas para as tabelas
-const transactionColumns: ColumnDef<Transactions>[] = [
+const transactionColumns: ColumnDef<Transaction>[] = [
   {
     accessorKey: "createdAt",
     header: () => $t("wallet.transactions.date"),

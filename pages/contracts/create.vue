@@ -67,7 +67,7 @@ import { useNuxtApp } from "#app";
 import type { Contact } from "@/types/contacts";
 import type { Property } from "@/types/properties";
 import type { ContractTemplate } from "@/types/contracts";
-import { ContractType } from "@prisma/client";
+import { ContractType } from "./_contract";
 import { Download, Loader2 } from "lucide-vue-next";
 
 import { Card, CardContent } from "@/components/ui/card";
@@ -111,7 +111,7 @@ const selectedProperty = computed(() =>
 
 const isSaleContract = computed(() => {
   if (!selectedTemplate.value?.type) return false;
-  return selectedTemplate.value.type === ContractType.SALE;
+  return selectedTemplate.value.type === ContractType.buyOrSell;
 });
 
 interface Step {
@@ -291,7 +291,7 @@ const parseCPCVHtmlToJson = (
   };
 
   // Dados específicos por tipo de contrato
-  if (selectedTemplate.value.type === "RENT") {
+  if (selectedTemplate.value.type === ContractType.rent) {
     return {
       ...baseData,
       price: parseFloat(formData.monthlyRent || "0"),
@@ -329,7 +329,7 @@ const generateContractHtml = (): string => {
   };
 
   // Se for contrato de arrendamento, inverte as partes
-  if (selectedTemplate.value.type === "RENT") {
+  if (selectedTemplate.value.type === ContractType.rent) {
     data.landlord = selectedSeller.value;
     data.tenant = selectedBuyer.value;
   }
