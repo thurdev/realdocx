@@ -62,7 +62,6 @@ console.log("[DEBUG-SETUP] Login page setup iniciado");
 definePageMeta({
   middleware: "redirect-loggedin",
   colorMode: "light",
-  ssr: false,
 });
 
 import {
