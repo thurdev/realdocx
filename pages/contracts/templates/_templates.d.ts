@@ -6,4 +6,16 @@ export type ContractTemplate = {
   html: string;
   price: number;
   icon: string;
+  objectsHtml: {
+    seller: string;
+    buyer: string;
+  };
+};
+
+export type ContractResponse = {
+  success?: boolean;
+  error?: string;
+  currentBalance?: number;
+  requiredAmount?: number;
+  status?: string;
 };

@@ -6,8 +6,11 @@
     class="w-full flex gap-12"
   >
     <div
-      class="mx-auto flex max-w-md flex-col justify-start gap-10 flex-1 max-h-[500px] overflow-y-auto"
-      v-if="selectedTemplate && currentStep > -1"
+      id="stepper-container"
+      class="mx-auto flex max-w-md flex-col justify-start gap-10 flex-1 max-h-[500px] overflow-y-auto transition-all duration-300"
+      :class="[isLastStep ? 'w-0 opacity-0' : 'w-full opacity-100']"
+      v-if="selectedTemplate && currentStep > -1 && isStepperVisible"
+      @transitionend="handleTransitionEnd"
     >
       <StepperItem
         v-for="step in steps"
@@ -15,6 +18,7 @@
         v-slot="{ state }"
         class="relative flex w-full items-start gap-6"
         :step="step.step"
+        :data-step="step.step"
       >
         <StepperSeparator
           v-if="step.step !== steps[steps.length - 1].step"
@@ -62,24 +66,30 @@
     <!-- Steps -->
     <DefaultTemplateStep v-if="currentStep === -1" v-model="selectedTemplate" />
     <!-- If selected template is CPCV -->
-    <CPCVForm
+    <div
+      class="flex-1 transition-all duration-500 ease-in-out"
       v-if="selectedTemplate?.type === 'CPCV' && currentStep > -1"
-      :current-step="currentStep"
-      :is-last-step="isLastStep"
-      :extra-clauses="selectedClauses"
-      :data="{
-        selectedSeller,
-        selectedBuyer,
-        selectedProperty,
-        selectedClauses,
-        selectedTemplate,
-      }"
-      @onSelectBuyer="handleSelectBuyer"
-      @onSelectSeller="handleSelectSeller"
-      @onSelectProperty="handleSelectProperty"
-      @onSelectClauses="handleSelectClauses"
-      @onExtraClauseValue="handleExtraClauseValue"
-    />
+    >
+      <CPCVForm
+        v-if="selectedTemplate?.type === 'CPCV' && currentStep > -1"
+        :current-step="currentStep"
+        :is-last-step="isLastStep"
+        :extra-clauses="selectedClauses"
+        :data="{
+          selectedSeller,
+          selectedBuyer,
+          selectedProperty: selectedProperty as Property,
+          selectedClauses,
+          selectedTemplate,
+        }"
+        @onSelectBuyer="handleSelectBuyer"
+        @onSelectSeller="handleSelectSeller"
+        @onSelectProperty="handleSelectProperty"
+        @onSelectClauses="handleSelectClauses"
+        @onExtraClauseValue="handleExtraClauseValue"
+        @onHTMLGenerated="handleHTMLGenerated"
+      />
+    </div>
 
     <StepperButtons
       :next-step="nextStep"
@@ -87,7 +97,7 @@
       :current-step="currentStep"
       :is-loading="isLoading"
       :disabled="isNextButtonDisabled"
-      :button-next-label="$t('shared.next')"
+      :button-next-label="buttonNextLabel"
       @next="handleNextClick"
       @back="handleBackClick"
     />
@@ -106,20 +116,17 @@ import DefaultTemplateStep from "./DefaultTemplateStep.vue";
 import CPCVForm, { type Clause } from "./cpcv/CPCVForm.vue";
 import type { ContractTemplate } from "./_templates";
 import type { Contact } from "~/types/contacts";
+import type { Property } from "~/types/properties";
+import { saveContract } from ".";
 
 const wallet = useWallet();
 const { toast } = useToast();
+const { $t } = useNuxtApp();
 
 onMounted(async () => {
   // Fetch templates when the component is mounted
   await wallet.fetchBalance();
 });
-
-interface Step {
-  step: number;
-  title: string;
-  description: string;
-}
 
 const steps = computed(() => {
   if (!selectedTemplate.value) {
@@ -128,6 +135,7 @@ const steps = computed(() => {
 
   const type = selectedTemplate.value.type;
 
+  // TODO: Translate the steps
   switch (type) {
     case "CPCV":
       let stps = [
@@ -143,7 +151,12 @@ const steps = computed(() => {
         },
         {
           step: 2,
-          title: "Cláusulas",
+          title: "Prazos",
+          description: "Aqui podes definir os prazos do contrato",
+        },
+        {
+          step: 3,
+          title: "Cláusulas (Opcional)",
           description:
             "Selecione as cláusulas adicionais que desejas incluir no contrato",
         },
@@ -160,8 +173,8 @@ const steps = computed(() => {
           ...stps,
           ...selectedClauses.value.map((clause, index) => ({
             step: stps.length + index,
-            title: clause.name + "(Extra)",
-            description: clause.description,
+            title: $t(clause.name) + " (Extra)",
+            description: $t(clause.description),
           })),
         ];
       }
@@ -194,27 +207,27 @@ const isLastStep = computed(() => {
 const selectedTemplate = ref<ContractTemplate>();
 const currentStep = ref(-1);
 const isLoading = ref(false);
+const htmlContent = ref("");
 
 // CPCV Values
-const selectedSeller = ref<Contact>();
-const selectedBuyer = ref<Contact>();
-const selectedProperty = ref<number>();
+const selectedSeller = ref<Contact[]>([]);
+const selectedBuyer = ref<Contact[]>([]);
+const selectedProperty = ref<Property>();
 const selectedClauses = ref<Clause[]>([]);
 
-const handleSelectBuyer = (contact: Contact) => {
-  selectedSeller.value = contact;
+const handleSelectBuyer = (contacts: Contact[]) => {
+  selectedBuyer.value = contacts;
 };
 
-const handleSelectSeller = (contact: Contact) => {
-  selectedBuyer.value = contact;
+const handleSelectSeller = (contacts: Contact[]) => {
+  selectedSeller.value = contacts;
 };
 
-const handleSelectProperty = (propertyId: number) => {
-  selectedProperty.value = propertyId;
+const handleSelectProperty = (property: Property) => {
+  selectedProperty.value = property;
 };
 
 const handleSelectClauses = (clauses: Clause[]) => {
-  console.log(clauses);
   selectedClauses.value = clauses;
 };
 
@@ -223,11 +236,9 @@ const handleExtraClauseValue = (value: any) => {
   if (!clause) {
     return;
   }
-  console.log("found");
   clause.key = value.key;
   clause.value = value.value;
   clause.html = value.html;
-  console.log("updated", clause);
 };
 
 const isNextButtonDisabled = computed(() => {
@@ -246,7 +257,7 @@ const isNextButtonDisabled = computed(() => {
   if (selectedTemplate.value?.type === "CPCV") {
     // Check if the current step has value selected
     if (currentStep.value === 0) {
-      return !selectedSeller.value || !selectedBuyer.value;
+      return !selectedSeller.value?.length || !selectedBuyer.value?.length;
     }
 
     if (currentStep.value === 1) {
@@ -257,46 +268,44 @@ const isNextButtonDisabled = computed(() => {
   return false;
 });
 
+const handleHTMLGenerated = (html: string) => {
+  htmlContent.value = html;
+};
+
 const handleNextClick = async (func: Function) => {
   if (currentStep.value === -1) {
     currentStep.value = 0;
     return;
   }
 
-  // console.log({
-  //   selectedSeller: selectedSeller.value,
-  //   selectedBuyer: selectedBuyer.value,
-  //   selectedProperty: selectedProperty.value,
-  //   selectedClauses: selectedClauses.value,
-  // });
+  // Scroll para o stepper atual
+  const stepperContainer = document.querySelector("#stepper-container");
+  const activeStep = document.querySelector(
+    `[data-step="${currentStep.value + 1}"]`
+  ) as HTMLElement;
 
-  // Validações por step
+  if (stepperContainer && activeStep && !isLastStep.value) {
+    stepperContainer.scrollTo({
+      top: activeStep.offsetTop - 20,
+      behavior: "smooth",
+    });
+  }
 
-  // if (
-  //   currentStep.value === 2 &&
-  //   (!selectedSellerId.value || !selectedBuyerId.value)
-  // ) {
-  //   toast({
-  //     title: "Erro",
-  //     description: "Por favor, selecione ambas as partes do contrato",
-  //     variant: "errors",
-  //   });
-  //   return;
-  // }
+  if (isLastStep.value) {
+    if (!selectedProperty.value) return;
 
-  // if (currentStep.value === 3 && !selectedPropertyId.value) {
-  //   toast({
-  //     title: "Erro",
-  //     description: "Por favor, selecione um imóvel",
-  //     variant: "errors",
-  //   });
-  //   return;
-  // }
-
-  // if (currentStep.value === steps.value.length) {
-  //   await saveContract();
-  //   return;
-  // }
+    await saveContract(
+      {
+        firstPartyId: selectedSeller.value[0].id ?? 0,
+        secondPartyId: selectedBuyer.value[0].id ?? 0,
+        propertyId: selectedProperty.value.id,
+        contractType: selectedTemplate.value?.type,
+      },
+      htmlContent.value,
+      selectedTemplate.value?.id ?? 0
+    );
+    return;
+  }
 
   func();
 };
@@ -311,6 +320,7 @@ const handleBackClick = (func: Function) => {
     return;
   }
 
+  currentStep.value = currentStep.value - 1;
   func();
 };
 
@@ -327,4 +337,24 @@ watch(
     emit("selectedTemplate", newValue);
   }
 );
+
+watch(isLastStep, (newValue) => {
+  if (!newValue) {
+    isStepperVisible.value = true;
+  }
+});
+
+const isStepperVisible = ref(true);
+
+const handleTransitionEnd = (event: TransitionEvent) => {
+  if (event.propertyName === "opacity" && isLastStep.value) {
+    isStepperVisible.value = false;
+  }
+};
+
+const buttonNextLabel = computed(() => {
+  return currentStep.value === steps.value.length - 1
+    ? $t("shared.save")
+    : $t("shared.next");
+});
 </script>

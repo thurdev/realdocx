@@ -1,20 +1,26 @@
 <template>
   <div>
     <div class="flex items-center justify-between mb-8">
-      <div>
-        <h2 class="text-3xl font-bold tracking-tight">
-          {{ $t("cpcv.contacts.modals.contactType") }}
-        </h2>
-        <p class="text-muted-foreground">
-          {{ $t("cpcv.contacts.modals.contactTypeDescription") }}
-        </p>
+      <div class="flex items-center justify-center gap-4">
+        <div>
+          <Button
+            variant="ghost"
+            class="rounded-full w-12 h-12 hover:shadow hover:bg-white text-xl"
+            @click="router.push('/contacts')"
+          >
+            <i class="fa-light fa-arrow-left"></i>
+          </Button>
+        </div>
+        <div>
+          <h2 class="text-3xl font-bold tracking-tight">
+            {{ $t("cpcv.contacts.modals.contactType") }}
+          </h2>
+          <p class="text-muted-foreground">
+            {{ $t("cpcv.contacts.modals.contactTypeDescription") }}
+          </p>
+        </div>
       </div>
-      <div>
-        <Button variant="outline" @click="router.push('/contacts')">
-          <i class="fa-light fa-arrow-left mr-2"></i>
-          {{ $t("shared.back") }}
-        </Button>
-      </div>
+      <div></div>
     </div>
 
     <Card>
@@ -103,7 +109,9 @@
               <!-- Detalhes Pessoais -->
               <div class="flex flex-col flex-1 gap-4" v-if="currentStep === 1">
                 <div>
-                  <Label>{{ $t("cpcv.contacts.modals.form.inputs.name") }}</Label>
+                  <Label>{{
+                    $t("cpcv.contacts.modals.form.inputs.name")
+                  }}</Label>
                   <Input
                     class="tour-target-input-name"
                     v-model="newCustomer.name"
@@ -112,7 +120,9 @@
                 </div>
 
                 <div>
-                  <Label>{{ $t("cpcv.contacts.modals.form.inputs.nif") }}</Label>
+                  <Label>{{
+                    $t("cpcv.contacts.modals.form.inputs.nif")
+                  }}</Label>
                   <Input
                     class="tour-target-input-nif"
                     v-model="newCustomer.vat"
@@ -127,7 +137,7 @@
                   <Label>{{
                     $t("cpcv.contacts.modals.form.inputs.maritalStatus.label")
                   }}</Label>
-                  <Select v-model="newCustomer.maritalStatus" >
+                  <Select v-model="newCustomer.maritalStatus">
                     <SelectTrigger class="tour-target-select-marital-status">
                       <SelectValue
                         :placeholder="
@@ -195,7 +205,9 @@
                   <Input
                     class="tour-target-input-country"
                     v-model="newCustomer.country"
-                    :placeholder="$t('cpcv.contacts.modals.form.inputs.country')"
+                    :placeholder="
+                      $t('cpcv.contacts.modals.form.inputs.country')
+                    "
                   />
                 </div>
 
@@ -206,12 +218,16 @@
                   <Input
                     class="tour-target-input-district"
                     v-model="newCustomer.district"
-                    :placeholder="$t('cpcv.contacts.modals.form.inputs.district')"
+                    :placeholder="
+                      $t('cpcv.contacts.modals.form.inputs.district')
+                    "
                   />
                 </div>
 
                 <div>
-                  <Label>{{ $t("cpcv.contacts.modals.form.inputs.city") }}</Label>
+                  <Label>{{
+                    $t("cpcv.contacts.modals.form.inputs.city")
+                  }}</Label>
                   <Input
                     class="tour-target-input-city"
                     v-model="newCustomer.city"
@@ -239,7 +255,9 @@
                   <Input
                     class="tour-target-input-address"
                     v-model="newCustomer.address"
-                    :placeholder="$t('cpcv.contacts.modals.form.inputs.address')"
+                    :placeholder="
+                      $t('cpcv.contacts.modals.form.inputs.address')
+                    "
                   />
                 </div>
 
@@ -250,7 +268,9 @@
                   <Input
                     class="tour-target-input-zip-code"
                     v-model="newCustomer.zipCode"
-                    :placeholder="$t('cpcv.contacts.modals.form.inputs.zipCode')"
+                    :placeholder="
+                      $t('cpcv.contacts.modals.form.inputs.zipCode')
+                    "
                   />
                 </div>
               </div>
@@ -261,7 +281,9 @@
                   <Label>Tipo de Documento</Label>
                   <Select v-model="newCustomer.identityType">
                     <SelectTrigger class="tour-target-select-identity-type">
-                      <SelectValue placeholder="Selecione o tipo de documento" />
+                      <SelectValue
+                        placeholder="Selecione o tipo de documento"
+                      />
                     </SelectTrigger>
                     <SelectContent>
                       <SelectGroup>
@@ -272,7 +294,9 @@
                           >Bilhete de Identidade</SelectItem
                         >
                         <SelectItem value="passport">Passaporte</SelectItem>
-                        <SelectItem value="drivingLicense">Residência</SelectItem>
+                        <SelectItem value="drivingLicense"
+                          >Residência</SelectItem
+                        >
                         <SelectItem value="residencePermit"
                           >Carta de Condução</SelectItem
                         >
@@ -320,7 +344,9 @@
                     class="tour-target-input-company-registration"
                     v-model="newCustomer.companyRegistration"
                     :placeholder="
-                      $t('cpcv.contacts.modals.form.inputs.comercialRegistration')
+                      $t(
+                        'cpcv.contacts.modals.form.inputs.comercialRegistration'
+                      )
                     "
                   />
                 </div>
@@ -333,7 +359,9 @@
                     class="tour-target-input-company-code"
                     v-model="newCustomer.companyCode"
                     :placeholder="
-                      $t('cpcv.contacts.modals.form.inputs.permanentCertificate')
+                      $t(
+                        'cpcv.contacts.modals.form.inputs.permanentCertificate'
+                      )
                     "
                   />
                 </div>
@@ -345,7 +373,9 @@
                   <Input
                     class="tour-target-input-company-rcbe-code"
                     v-model="newCustomer.companyRCBECode"
-                    :placeholder="$t('cpcv.contacts.modals.form.inputs.codeRCBE')"
+                    :placeholder="
+                      $t('cpcv.contacts.modals.form.inputs.codeRCBE')
+                    "
                   />
                 </div>
 
@@ -363,7 +393,6 @@
                 </div>
               </div>
 
-              
               <div
                 class="flex justify-end self-end gap-2 fixed right-[1rem] bottom-[1rem] p-2 rounded"
               >
@@ -404,10 +433,7 @@ definePageMeta({
   colorMode: "light",
 });
 
-import {
-  Card,
-  CardContent,
-} from "@/components/ui/card";
+import { Card, CardContent } from "@/components/ui/card";
 import { Button } from "@/components/ui/button";
 import {
   Select,
@@ -430,7 +456,7 @@ const { $t } = useNuxtApp();
 import { Check, Circle, Dot } from "lucide-vue-next";
 import { CustomerType, MaritalStatus } from "./contacts.config";
 import type { Contact } from "./_contacts";
-import ContactCreateTour from './ContactCreateTour.vue';
+import ContactCreateTour from "./ContactCreateTour.vue";
 
 const selectedType = ref(false);
 const newCustomer = ref<Contact>({
@@ -596,10 +622,10 @@ const handleStepNext = (step: number) => {
   selectedType.value = true;
   newCustomer.value.contactType = CustomerType.Individual;
   console.log(step);
-  if(step === 3) {
-    currentStep.value = 2
-  }else if(step === 9) {
-    currentStep.value = 4
+  if (step === 3) {
+    currentStep.value = 2;
+  } else if (step === 9) {
+    currentStep.value = 4;
   }
 };
 

@@ -1,4 +1,4 @@
-import prisma from "~/lib/prisma";
+import templates from "./data.json";
 
 export default defineEventHandler(async (event) => {
   const session = await getUserSession(event);
@@ -11,33 +11,6 @@ export default defineEventHandler(async (event) => {
   }
 
   try {
-    const templates = await prisma.contractTemplate.findMany({
-      where: {
-        isActive: true,
-      },
-      select: {
-        id: true,
-        name: true,
-        description: true,
-        type: true,
-        clausules: true,
-        html: true,
-        price: true,
-        steps: {
-          orderBy: {
-            step: "asc",
-          },
-          select: {
-            step: true,
-            title: true,
-            description: true,
-          },
-        },
-        createdAt: true,
-        updatedAt: true,
-      },
-    });
-
     return templates;
   } catch (error) {
     console.error("Error fetching templates:", error);

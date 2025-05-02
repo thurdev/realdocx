@@ -187,34 +187,6 @@ enum ContractTemplateType {
   // Outros tipos futuros
 }
 
-model ContractTemplate {
-  id          Int                 @id @default(autoincrement())
-  name        String
-  description String?
-  type        ContractTemplateType
-  html        String              @db.Text
-  price       Float               @default(0)
-  isActive    Boolean             @default(true)
-  clausules   Json?               @default("[]") // Para suportar i18n { "en": "...", "pt": "..." }
-  steps       ContractStep[]
-  createdAt   DateTime            @default(now())
-  updatedAt   DateTime            @updatedAt
-  contracts   Contracts[]
-}
-
-model ContractStep {
-  id                Int              @id @default(autoincrement())
-  step             Int
-  title            Json             // Para suportar i18n { "en": "...", "pt": "..." }
-  description      Json             // Para suportar i18n { "en": "...", "pt": "..." }
-  templateId       Int
-  template         ContractTemplate @relation(fields: [templateId], references: [id])
-  createdAt        DateTime         @default(now())
-  updatedAt        DateTime         @updatedAt
-
-  @@unique([step, templateId])
-}
-
 model Contracts {
   id Int @id @default(autoincrement())
 
@@ -244,7 +216,6 @@ model Contracts {
 
   // Template
   templateId Int
-  template   ContractTemplate @relation(fields: [templateId], references: [id])
 
   createdAt DateTime @default(now())
   updatedAt DateTime @updatedAt

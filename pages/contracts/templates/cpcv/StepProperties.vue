@@ -1,0 +1,118 @@
+<template>
+  <div class="flex flex-col flex-1 gap-4">
+    <div class="property-select space-y-2">
+      <Label class="text-sm font-medium text-gray-700">Imóvel</Label>
+      <Popover v-model:open="open">
+        <PopoverTrigger as-child>
+          <Button
+            variant="outline"
+            role="combobox"
+            :aria-expanded="open"
+            class="w-full justify-between bg-white border-gray-200 hover:border-gray-300"
+          >
+            <div class="flex items-center gap-4" v-if="selectedProperty">
+              <img
+                :src="
+                  selectedProperty.image ||
+                  'https://saterdesign.com/cdn/shop/products/property-placeholder_a9ec7710-1f1e-4654-9893-28c34e3b6399.jpg?v=1500393334'
+                "
+                class="w-8 h-8 rounded-lg object-cover"
+                alt="Property image"
+              />
+              <div class="flex flex-col text-left">
+                <span class="font-medium">[#{{ selectedProperty.id }}]</span>
+                <span class="text-sm text-gray-500">
+                  {{ selectedProperty.city }},
+                  {{ selectedProperty.neighborhood }},
+                  {{ selectedProperty.address }}, {{ selectedProperty.number }}
+                </span>
+              </div>
+            </div>
+            <span v-else>Selecione o Imóvel</span>
+            <ChevronsUpDown class="ml-2 h-4 w-4 shrink-0 opacity-50" />
+          </Button>
+        </PopoverTrigger>
+        <PopoverContent class="w-full p-0">
+          <Command>
+            <CommandInput placeholder="Pesquisar imóvel..." />
+            <CommandEmpty>Nenhum imóvel encontrado.</CommandEmpty>
+            <CommandList>
+              <CommandGroup v-if="properties.length > 0">
+                <CommandItem
+                  v-for="property in properties"
+                  :key="property.id"
+                  :value="property.id.toString()"
+                  @select="handleSelect(property)"
+                >
+                  <div class="flex items-center gap-4">
+                    <img
+                      :src="
+                        property.image ||
+                        'https://saterdesign.com/cdn/shop/products/property-placeholder_a9ec7710-1f1e-4654-9893-28c34e3b6399.jpg?v=1500393334'
+                      "
+                      class="w-8 h-8 rounded-lg object-cover"
+                      alt="Property image"
+                    />
+                    <div class="flex flex-col">
+                      <span class="font-medium">[#{{ property.id }}]</span>
+                      <span class="text-sm text-gray-500">
+                        {{ property.city }}, {{ property.neighborhood }},
+                        {{ property.address }}, {{ property.number }}
+                      </span>
+                    </div>
+                  </div>
+                </CommandItem>
+              </CommandGroup>
+              <div v-else class="p-4 text-center">
+                <p class="text-gray-500 mb-2">Nenhum imóvel cadastrado</p>
+                <NuxtLink
+                  to="/properties/create"
+                  class="text-primary hover:underline font-medium"
+                >
+                  Clique aqui para adicionar um imóvel
+                </NuxtLink>
+              </div>
+            </CommandList>
+          </Command>
+        </PopoverContent>
+      </Popover>
+    </div>
+  </div>
+</template>
+
+<script setup lang="ts">
+import { ref } from "vue";
+import type { Property } from "@/types/properties";
+import { Button } from "@/components/ui/button";
+import {
+  Command,
+  CommandEmpty,
+  CommandGroup,
+  CommandInput,
+  CommandItem,
+  CommandList,
+} from "@/components/ui/command";
+import {
+  Popover,
+  PopoverContent,
+  PopoverTrigger,
+} from "@/components/ui/popover";
+import { ChevronsUpDown } from "lucide-vue-next";
+
+const props = defineProps<{
+  properties: Property[];
+}>();
+
+const open = ref(false);
+const selectedProperty = ref<Property | null>(null);
+
+const emit = defineEmits<{
+  onSelectProperty: [number];
+}>();
+
+const handleSelect = (property: Property) => {
+  selectedProperty.value = property;
+  emit("onSelectProperty", property.id);
+  open.value = false;
+};
+</script>

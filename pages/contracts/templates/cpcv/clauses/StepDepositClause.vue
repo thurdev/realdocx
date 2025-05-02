@@ -18,6 +18,10 @@
 import type { Clause } from "../CPCVForm.vue";
 import { debounce } from "lodash";
 
+const props = defineProps<{
+  clause: Clause;
+}>();
+
 const emit = defineEmits<{
   (
     e: "on-extra-clause-value",
@@ -25,17 +29,8 @@ const emit = defineEmits<{
   ): void;
 }>();
 
-const props = defineProps<{
-  clause: Clause;
-}>();
-
 const inputValueThrottled = debounce(async (value: string) => {
   emit("on-extra-clause-value", {
-    key: "extra-clause-deposit-value",
-    value: value,
-    ...props.clause,
-  });
-  console.log("Emitted", {
     key: "extra-clause-deposit-value",
     value: value,
     ...props.clause,

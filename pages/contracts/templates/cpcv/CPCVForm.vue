@@ -1,40 +1,48 @@
 <template>
-  <Step01Objects
+  <StepObjects
     v-if="currentStep === 0"
     :contacts="contacts"
     @on-select-seller="handleSelectSeller"
     @on-select-buyer="handleSelectBuyer"
   />
-  <Step02Properties
+  <StepProperties
     v-if="currentStep === 1"
     :properties="properties"
     @on-select-property="handleSelectProperty"
   />
-  <Step03ExtraClause
+  <StepDeadlines
     v-if="currentStep === 2"
+    @on-select-clauses="handleSelectClause"
+  />
+  <StepExtraClause
+    v-if="currentStep === 3"
     @on-select-clauses="handleSelectClause"
   />
   <template v-for="(clause, index) in extraClauses" :key="index">
     <component
-      v-if="currentStep === 3 + index"
+      v-if="currentStep === 4 + index"
       :is="clause.component"
       :clause="clause"
       @on-extra-clause-value="handleExtraClauseValue"
     />
   </template>
-  <Step04Review v-if="isLastStep" :data="data" />
+  <Step04Review
+    v-if="isLastStep"
+    :data="data"
+    @on-html-generated="handleHTMLGenerated"
+  />
 </template>
 
 <script setup lang="ts">
 import type { Contact } from "~/types/contacts";
-import {
-  Step01Objects,
-  Step02Properties,
-  Step03ExtraClause,
-  Step04Review,
-} from "./";
 import type { Property } from "~/types/properties";
 import type { ContractTemplate } from "../_templates";
+
+import StepObjects from "./StepObjects.vue";
+import StepProperties from "./StepProperties.vue";
+import StepDeadlines from "./StepDeadlines.vue";
+import StepExtraClause from "./StepExtraClause.vue";
+import StepReview from "./StepReview.vue";
 
 export interface Clause {
   name: string;
@@ -47,14 +55,15 @@ export interface Clause {
 }
 
 const emits = defineEmits<{
-  onSelectSeller: [Contact];
-  onSelectBuyer: [Contact];
-  onSelectProperty: [number];
+  onSelectSeller: [Contact[]];
+  onSelectBuyer: [Contact[]];
+  onSelectProperty: [Property];
   onSelectClauses: [Clause[]];
   onExtraClauseValue: [any];
+  onHTMLGenerated: [string];
   data: {
-    selectedSeller?: Contact;
-    selectedBuyer?: Contact;
+    selectedSeller: Contact[];
+    selectedBuyer: Contact[];
     selectedProperty?: Property;
     selectedClauses: Clause[];
     selectedTemplate: ContractTemplate;
@@ -66,8 +75,8 @@ defineProps<{
   extraClauses: Clause[];
   isLastStep: boolean;
   data: {
-    selectedSeller: Contact;
-    selectedBuyer: Contact;
+    selectedSeller: Contact[];
+    selectedBuyer: Contact[];
     selectedProperty: Property;
     selectedClauses: Clause[];
     selectedTemplate: ContractTemplate;
@@ -82,16 +91,17 @@ onMounted(async () => {
   properties.value = await $fetch<Property[]>("/api/properties");
 });
 
-const handleSelectSeller = (contact: Contact) => {
-  emits("onSelectSeller", contact);
+const handleSelectSeller = (contacts: Contact[]) => {
+  emits("onSelectSeller", contacts);
 };
 
-const handleSelectBuyer = (contact: Contact) => {
-  emits("onSelectBuyer", contact);
+const handleSelectBuyer = (contacts: Contact[]) => {
+  emits("onSelectBuyer", contacts);
 };
 
 const handleSelectProperty = (id: number) => {
-  emits("onSelectProperty", id);
+  const property = properties.value.find((p) => p.id === id);
+  emits("onSelectProperty", property as Property);
 };
 
 const handleSelectClause = (clauses: Clause[]) => {
@@ -100,5 +110,9 @@ const handleSelectClause = (clauses: Clause[]) => {
 
 const handleExtraClauseValue = (value: any) => {
   emits("onExtraClauseValue", value);
+};
+
+const handleHTMLGenerated = (htmlContent: string) => {
+  emits("onHTMLGenerated", htmlContent);
 };
 </script>

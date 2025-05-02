@@ -17,6 +17,12 @@
           <div class="flex flex-col items-center justify-center">
             <CardTitle class="text-xl">{{ template.name }}</CardTitle>
             <CardDescription>{{ template.description }}</CardDescription>
+            <CardFooter>
+              <p class="text-sm text-gray-500">
+                {{ $t("contracts.price") }}
+                <span class="font-bold">€{{ template.price }}</span>
+              </p>
+            </CardFooter>
           </div>
         </CardHeader>
       </Card>

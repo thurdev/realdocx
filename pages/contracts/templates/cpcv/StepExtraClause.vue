@@ -20,7 +20,7 @@
         <label
           :for="'clause-' + clauseIndex"
           class="text-sm text-gray-700 cursor-pointer"
-          >{{ clause.name }}</label
+          >{{ $t(clause.name) }}</label
         >
       </div>
     </div>

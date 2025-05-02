@@ -2,7 +2,7 @@
   <div class="flex flex-col flex-1 gap-4">
     <div class="seller-select space-y-2">
       <Label class="text-sm font-medium text-gray-700"> Vendedor </Label>
-      <Select v-model="selectedSellerId">
+      <Select v-model="selectedSellerId" multiple>
         <SelectTrigger
           class="w-full bg-white border-gray-200 hover:border-gray-300"
         >
@@ -11,7 +11,7 @@
         <SelectContent>
           <SelectGroup v-if="contacts.length > 0">
             <SelectItem
-              v-for="contact in contacts"
+              v-for="contact in sellerContacts"
               :key="contact.id"
               :value="contact.id?.toString() ?? ''"
             >
@@ -43,7 +43,7 @@
 
     <div class="buyer-select space-y-2">
       <Label class="text-sm font-medium text-gray-700"> Comprador </Label>
-      <Select v-model="selectedBuyerId">
+      <Select v-model="selectedBuyerId" multiple>
         <SelectTrigger
           class="w-full bg-white border-gray-200 hover:border-gray-300"
         >
@@ -52,9 +52,7 @@
         <SelectContent>
           <SelectGroup v-if="contacts.length > 0">
             <SelectItem
-              v-for="contact in contacts.filter(
-                (c) => c.id?.toString() !== selectedSellerId
-              )"
+              v-for="contact in buyerContacts"
               :key="contact.id"
               :value="contact.id?.toString() ?? ''"
             >
@@ -94,29 +92,29 @@ const props = defineProps<{
   contacts: Contact[];
 }>();
 
-const selectedSellerId = ref<string>("-1");
-const selectedBuyerId = ref<string>("-1");
+const selectedSellerId = ref<string[]>([]);
+const selectedBuyerId = ref<string[]>([]);
 
 watch(selectedSellerId, (newValue) => {
-  const selectedContact = props.contacts.find(
-    (contact) => contact.id === Number(newValue)
+  const selectedContact = props.contacts.filter((c) =>
+    newValue.includes(c.id?.toString() ?? "")
   );
-  selectedSeller.value = selectedContact ?? undefined;
+  selectedSeller.value = selectedContact;
 });
 
 watch(selectedBuyerId, (newValue) => {
-  const selectedContact = props.contacts.find(
-    (contact) => contact.id === Number(newValue)
+  const selectedContact = props.contacts.filter((c) =>
+    newValue.includes(c.id?.toString() ?? "")
   );
-  selectedBuyer.value = selectedContact ?? undefined;
+  selectedBuyer.value = selectedContact;
 });
 
-const selectedSeller = ref<Contact>();
-const selectedBuyer = ref<Contact>();
+const selectedSeller = ref<Contact[]>();
+const selectedBuyer = ref<Contact[]>();
 
 const emits = defineEmits<{
-  onSelectBuyer: [Contact];
-  onSelectSeller: [Contact];
+  onSelectBuyer: [Contact[]];
+  onSelectSeller: [Contact[]];
 }>();
 
 watch(selectedSeller, (contact) => {
@@ -127,5 +125,17 @@ watch(selectedSeller, (contact) => {
 watch(selectedBuyer, (contact) => {
   if (!contact) return;
   emits("onSelectBuyer", contact);
+});
+
+const buyerContacts = computed(() => {
+  return props.contacts.filter((c) => {
+    return !selectedSellerId.value.find((id) => id === c.id?.toString());
+  });
+});
+
+const sellerContacts = computed(() => {
+  return props.contacts.filter(
+    (c) => !selectedBuyerId.value?.includes(c.id?.toString() ?? "")
+  );
 });
 </script>

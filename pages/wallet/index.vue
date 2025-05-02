@@ -282,6 +282,8 @@ import { Label } from "@/components/ui/label";
 import { Input } from "@/components/ui/input";
 import { useToast } from "@/components/ui/toast/use-toast";
 import { Loader2 } from "lucide-vue-next";
+import type { ColumnDef } from "@tanstack/vue-table";
+import { Transactions } from "@prisma/client";
 const { $t } = useNuxtApp();
 // Estado
 const currentPage = ref(1);
@@ -380,7 +382,7 @@ const totalSpent = computed(() => {
 });
 
 // Colunas para as tabelas
-const transactionColumns = [
+const transactionColumns: ColumnDef<Transactions>[] = [
   {
     accessorKey: "createdAt",
     header: () => $t("wallet.transactions.date"),
@@ -402,10 +404,9 @@ const transactionColumns = [
   {
     accessorKey: "contract",
     header: () => $t("wallet.transactions.description"),
-    cell: ({ row }) =>
-      row.original.contract
-        ? $t("wallet.transactions.contract", [row.original.contract.id])
-        : "-",
+    cell: ({ row }) => {
+      return row.original.subType;
+    },
   },
 ];
 

@@ -30,6 +30,7 @@ export interface ContractTemplate {
   }[];
   html: string;
   price: number;
+  downloadPrice: number;
   isActive: boolean;
   steps: ContractStep[];
   createdAt: string;

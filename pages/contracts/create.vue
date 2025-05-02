@@ -21,11 +21,21 @@
       <div class="flex items-center gap-8">
         <Button
           variant="outline"
-          @click="router.push('/contracts')"
+          @click="handleDownloadMinuta"
           v-if="selectedTemplate"
+          :disabled="isDownloading"
         >
-          <Download />
-          {{ $t("contracts.downloadMinuta") }} 5.00€
+          <template v-if="isDownloading">
+            <div class="flex items-center gap-2">
+              <Loader2 class="h-4 w-4 animate-spin" />
+              {{ $t("shared.processing") }}
+            </div>
+          </template>
+          <template v-else>
+            <Download class="mr-2 h-4 w-4" />
+            {{ $t("contracts.downloadMinuta") }}
+            {{ selectedTemplate.downloadPrice }}€
+          </template>
         </Button>
       </div>
     </div>
@@ -58,12 +68,13 @@ import type { Contact } from "@/types/contacts";
 import type { Property } from "@/types/properties";
 import type { ContractTemplate } from "@/types/contracts";
 import { ContractType } from "@prisma/client";
-import { Download } from "lucide-vue-next";
+import { Download, Loader2 } from "lucide-vue-next";
 
 import { Card, CardContent } from "@/components/ui/card";
 import { Button } from "@/components/ui/button";
 import { useToast } from "@/components/ui/toast/use-toast";
 import type { ContractFormData } from "@/types/contracts";
+import { useWallet } from "@/composable/useWallet";
 
 const router = useRouter();
 const { $t } = useNuxtApp();
@@ -156,6 +167,12 @@ interface ContractResponse {
   currentBalance?: number;
   requiredAmount?: number;
   status?: string;
+}
+
+const wallet = useWallet();
+
+interface MinutaResponse {
+  file: string;
 }
 
 onMounted(async () => {
@@ -453,16 +470,6 @@ const handleNextClick = async (func: Function) => {
   func();
 };
 
-const handleBackClick = (func: Function) => {
-  func();
-};
-
-const buttonNextLabel = computed(() => {
-  return currentStep.value === steps.value.length
-    ? $t("shared.save")
-    : $t("shared.next");
-});
-
 const handleStepNext = (step: number) => {
   console.log(step);
 };
@@ -479,6 +486,77 @@ const handleTourComplete = () => {
 
 const handleSelectedTemplate = (template: ContractTemplate) => {
   selectedTemplateId.value = template.id.toString();
+};
+
+const isDownloading = ref(false);
+
+const handleDownloadMinuta = async () => {
+  if (!selectedTemplate.value?.id) return;
+
+  await wallet.fetchBalance();
+
+  if (wallet.balance.value < selectedTemplate.value.downloadPrice) {
+    useToast().toast({
+      title: $t("shared.error"),
+      description: $t("shared.insufficientBalance", [
+        selectedTemplate.value.price,
+      ]),
+    });
+    return;
+  }
+
+  try {
+    isDownloading.value = true;
+    const response = await $fetch<MinutaResponse>(
+      `/api/contracts/download-minuta?id=${selectedTemplate.value.id}`
+    );
+
+    // File is in base64
+    if (response.file) {
+      // Decodifica o base64 para um Blob
+      const byteCharacters = atob(response.file);
+      const byteNumbers = new Array(byteCharacters.length);
+
+      for (let i = 0; i < byteCharacters.length; i++) {
+        byteNumbers[i] = byteCharacters.charCodeAt(i);
+      }
+
+      const byteArray = new Uint8Array(byteNumbers);
+      const blob = new Blob([byteArray], { type: "application/docx" });
+
+      // Cria uma URL para o Blob
+      const url = window.URL.createObjectURL(blob);
+
+      // Cria um elemento <a> para download
+      const link = document.createElement("a");
+      link.href = url;
+      link.download = `minuta-${selectedTemplate.value.id}.docx`; // Nome do arquivo para download
+
+      // Adiciona o link ao documento, clica nele e remove
+      document.body.appendChild(link);
+      link.click();
+      document.body.removeChild(link);
+
+      // Limpa a URL criada
+      window.URL.revokeObjectURL(url);
+
+      useToast().toast({
+        title: $t("shared.success"),
+        description: $t("shared.minutaDownloaded"),
+        variant: "success",
+      });
+      await wallet.fetchBalance();
+    }
+  } catch (error) {
+    console.error("Error downloading minuta:", error);
+    useToast().toast({
+      title: $t("shared.error"),
+      description: $t("shared.minutaError"),
+      variant: "errors",
+    });
+  } finally {
+    isDownloading.value = false;
+  }
 };
 </script>
 

@@ -83,6 +83,18 @@
     "deletedDescription": {
       "en": "The item has been deleted successfully",
       "pt": "O item foi apagado com sucesso"
+    },
+    "minutaDownloaded": {
+      "en": "Draft contract downloaded successfully!",
+      "pt": "Minuta baixada com sucesso!"
+    },
+    "minutaError": {
+      "en": "Error downloading draft contract",
+      "pt": "Erro ao baixar minuta"
+    },
+    "processing": {
+      "en": "Processing...",
+      "pt": "Processando..."
     }
   },
   "sidebar": {
@@ -884,13 +896,77 @@
     }
   },
   "contracts": {
+    "review": {
+      "en": "Review Contract",
+      "pt": "Revisar Contrato"
+    },
     "downloadMinuta": {
       "en": "Download Minuta",
       "pt": "Baixar Minuta"
     },
     "clauses": {
-      "en": "Clauses",
-      "pt": "Cláusulas"
+      "en": "Clauses (Optionals)",
+      "pt": "Cláusulas (Opcionais)",
+      "deposit": {
+        "title": {
+          "en": "Deposit Clause",
+          "pt": "Cláusula de Depósito"
+        },
+        "description": {
+          "en": "The deposit clause is a clause that sets the amount of money that the buyer must pay to the seller as a deposit.",
+          "pt": "A cláusula de depósito é uma cláusula que define o valor de dinheiro que o comprador deve pagar ao vendedor como depósito."
+        }
+      },
+      "deed-deadline": {
+        "title": {
+          "en": "Deed Deadline Clause",
+          "pt": "Cláusula de Prazo para Escritura"
+        },
+        "description": {
+          "en": "The deed deadline clause is a clause that sets the deadline for the buyer to sign the deed.",
+          "pt": "A cláusula de prazo para escritura é uma cláusula que define o prazo para o comprador assinar a escritura."
+        }
+      },
+      "financing": {
+        "title": {
+          "en": "Financing Clause",
+          "pt": "Cláusula de Financiamento"
+        },
+        "description": {
+          "en": "The financing clause is a clause that sets the conditions for the buyer to finance the purchase of the property.",
+          "pt": "A cláusula de financiamento é uma cláusula que define as condições para o comprador financiar a compra do imóvel."
+        }
+      },
+      "expenses": {
+        "title": {
+          "en": "Expenses Clause",
+          "pt": "Cláusula de Encargos"
+        },
+        "description": {
+          "en": "The expenses clause is a clause that sets the expenses for the purchase of the property.",
+          "pt": "A cláusula de encargos é uma cláusula que define os encargos para a compra do imóvel."
+        }
+      },
+      "onus": {
+        "title": {
+          "en": "Onus Clause",
+          "pt": "Cláusula de Ônus"
+        },
+        "description": {
+          "en": "The onus clause is a clause that sets the onus for the purchase of the property.",
+          "pt": "A cláusula de ônus é uma cláusula que define o ônus para a compra do imóvel."
+        }
+      },
+      "penalty": {
+        "title": {
+          "en": "Penalty Clause",
+          "pt": "Cláusula de Multa"
+        },
+        "description": {
+          "en": "The penalty clause is a clause that sets the penalty for the purchase of the property.",
+          "pt": "A cláusula de multa é uma cláusula que define a multa para a compra do imóvel."
+        }
+      }
     },
     "title": {
       "en": "Contracts List",

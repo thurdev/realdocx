@@ -1,16 +1,22 @@
 <template>
   <div>
     <div class="flex items-center justify-between mb-8">
-      <div>
-        <h2 class="text-3xl font-bold tracking-tight">Criar Propriedade</h2>
-        <p class="text-muted-foreground">Preencha os dados da propriedade</p>
+      <div class="flex items-center justify-center gap-4">
+        <div>
+          <Button
+            variant="ghost"
+            class="rounded-full w-12 h-12 hover:shadow hover:bg-white text-xl"
+            @click="router.push('/properties')"
+          >
+            <i class="fa-light fa-arrow-left"></i>
+          </Button>
+        </div>
+        <div>
+          <h2 class="text-3xl font-bold tracking-tight">Criar Propriedade</h2>
+          <p class="text-muted-foreground">Preencha os dados da propriedade</p>
+        </div>
       </div>
-      <div>
-        <Button variant="outline" @click="router.push('/properties')">
-          <i class="fa-light fa-arrow-left mr-2"></i>
-          Voltar
-        </Button>
-      </div>
+      <div></div>
     </div>
 
     <Card>

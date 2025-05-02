@@ -5,7 +5,7 @@
 - [x] **Esquecer a ideia de ser dinâmico.**
 - [x] **Alterar os preços diretamente no código ou no `.env`.**
 - [x] **Separar o código para evitar desorganização.**
-- [ ] **Remover os templates do backend.**
+- [x] **Remover os templates do backend.**
 
 ---
 
@@ -16,7 +16,7 @@
 - [x] **Alterar os textos dos selects no Rent para "Arrendatário" e "Senhorio" (baseado no `contractType`).**
 - [x] **Alterar os textos dos selects no CPCV para "Comprador" e "Vendedor".**
 - [x] **Gerar o preview em HTML para possibilitar a edição e geração de PDF.**
-- [ ] **Adicionar imagem da propriedade e do usuário nas tabelas e no select da propriedade ao criar contrato.**
+- [x] **Adicionar imagem da propriedade e do usuário nas tabelas e no select da propriedade ao criar contrato.**
 
 ---
 
@@ -31,13 +31,9 @@
 
 - [x] **Alterar a página de criação de contratos para seguir o estilo da página de criação de contatos (com steps e header).**
 - [x] **Adicionar steps para cláusulas, permitindo que o cliente selecione cláusulas durante a criação do contrato.**
-- [ ] **No último step (preview), mostrar apenas a primeira página do contrato (sem cláusulas completas).
-      (Fazer uma função para cortar o HTML) (EMITAR O CPCV IGUAL A MINUTA QUE EU VOU RECEBER)
-      E NO BOTAO DE AVANCAR APARECER COMPRAR COM O PRECO**
-- [ ] **Adicionar botão para download da minuta no início do formulário (pago).**
-- [ ] ** Corrigir botao de voltar**
-- [ ] **No preview na criacao do contrato (ultimo step), escoder os steps com animacao, e ao clicar voltar, voltar com animacao os steps**
-- [ ] **Todas as paginas o botao de voltar (setinha) estar na esquerda atrás do titulo**
+- [x] **Adicionar botão para download da minuta no início do formulário (pago).**
+- [x] ** Corrigir botao de voltar na hora de criar o contrato só não está funcionando quando o currentStep é 1**
+- [x] **No preview na criacao do contrato (ultimo step), escoder os steps com animacao, e ao clicar voltar, voltar com animacao os steps**
 - [x] **Adicionar mensagem para selecionar o template do contrato.**
 - [x] **Fix default template step ta bugado o -1**
 - [x] **Adicionar o preco do contrato no card do contrato na hora da selecao**
@@ -47,6 +43,15 @@
 ---
 
 - [x] **Adicionar saldo na sidebar.**
-- [ ] **Permitir múltiplos compradores/vendedores no contrato.**
-- [ ] **Na hora de selecionar o imovel/contato poder pesquisar.**
-- [ ] **Ao clicar next, dar scroll para o step atual. (isso é para quando tiver varias clausulas extras, assim os steps ficam com um scroll por conta do max-height ai o que faz sentido é dar um scroll nessa div (se nao tiver ainda max width adicionar))**
+- [x] **Na hora de selecionar o imovel/contato poder pesquisar.**
+- [x] **Ao clicar next, dar scroll para o step atual. (isso é para quando tiver varias clausulas extras, assim os steps ficam com um scroll por conta do max-height ai o que faz sentido é dar um scroll nessa div (se nao tiver ainda max width adicionar))**
+- [x] **Todas as paginas o botao de voltar (setinha) estar na esquerda atrás do titulo**
+- [/] **Permitir múltiplos compradores/vendedores no contrato.**
+- [ ] V0 Tirar edicao do template no preview
+- [ ] \*\*No último step (preview), mostrar apenas a primeira página do contrato (sem cláusulas completas). (Fazer uma função para cortar o HTML)
+- [ ] **No contrato que for baixado, as keys aparecerem com bg laranja**
+- [ ] **No select do imovel criacao do contrato, adicionar um padding no select**
+- [ ] No ultimo step mostrar o preco do contrato no botao
+- [ ] Wallet page usar o saldo do composable
+- [ ] Bloquear o path do nuxt para os meus components / Se nao mover todos os arquivos que nao sao paginas para o /components/
+- [ ] Editar o template somente na pagina de templates ja criado (na lista), o edit do template é completo usar rich text editor.

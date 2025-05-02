@@ -2,6 +2,9 @@ import prisma from "~/lib/prisma";
 import { createDebitTransaction } from "~/server/config/prices";
 import { TransactionSubType } from "~/server/utils/types";
 import { ContractType } from "@prisma/client";
+import templates from "./templates/data.json";
+// TODO FIX CHANGE TO ANOTHER FILE THE TEMPLATES INSTEAD OF THE ENDPOINT OF GETTING TEMPLATES
+// THEN UPDATE THE FRONTEND TO GET THE TEMPLATES FROM THE ENDPOINT OF GETTING TEMPLATES
 
 export default defineEventHandler(async (event) => {
   const session = await getUserSession(event);
@@ -13,30 +16,26 @@ export default defineEventHandler(async (event) => {
     };
   }
 
-  const { 
-    firstPartyId,
-    secondPartyId,
-    propertyId,
-    price,
-    deposit,
-    paymentMethod,
+  const {
+    // firstPartyId,
+    // secondPartyId,
+    // propertyId,
+    // price,
+    // deposit,
+    // paymentMethod,
     contractType,
     htmlContent,
     templateId,
-    duration,
-    rentDueDay
+    // duration,
+    // rentDueDay,
   } = await readBody(event);
 
-  // Buscar o template e seu preço
-  const template = await prisma.contractTemplate.findFirst({
-    where: {
-      id: templateId
-    }
-  });
+  // Buscar o template do array do frontend
+  const template = templates.find((t) => t.id === templateId);
 
   if (!template) {
     return {
-      error: "Template not found"
+      error: "Template not found",
     };
   }
 
@@ -75,42 +74,37 @@ export default defineEventHandler(async (event) => {
     // Criar o contrato
     const createdContract = await prisma.contracts.create({
       data: {
-        price,
-        deposit,
-        paymentMethod,
+        price: 0,
+        deposit: 0,
+        paymentMethod: "cash",
         contractType,
-        propertyId,
+        propertyId: 0,
         generatedBy: session.secure.userId,
         htmlContent,
         templateId,
-        duration: contractType === "RENT" ? duration : undefined,
-        rentDueDay: contractType === "RENT" ? rentDueDay : undefined,
+        // duration: contractType === "RENT" ? duration : undefined,
+        // rentDueDay: contractType === "RENT" ? rentDueDay : undefined,
         contacts: {
           create: [
             {
-              contactId: firstPartyId,
-              contactType: contractType === "SALE" ? "seller" : "landlord"
+              contactId: 1,
+              contactType: contractType === "SALE" ? "seller" : "landlord",
             },
             {
-              contactId: secondPartyId,
-              contactType: contractType === "SALE" ? "buyer" : "renter"
-            }
-          ]
-        }
+              contactId: 1,
+              contactType: contractType === "SALE" ? "buyer" : "renter",
+            },
+          ],
+        },
       },
       include: {
         contacts: {
           include: {
-            contacts: true
-          }
+            contacts: true,
+          },
         },
         property: true,
-        template: {
-          include: {
-            steps: true
-          }
-        }
-      }
+      },
     });
 
     // Criar transação de débito com o preço do template
@@ -118,7 +112,7 @@ export default defineEventHandler(async (event) => {
       userId: session.secure.userId,
       contractId: createdContract.id,
       subType: TransactionSubType.contractCreation,
-      customAmount: template.price
+      customAmount: template.price,
     });
 
     return {
