@@ -41,39 +41,109 @@ export default defineEventHandler(async (event) => {
     };
   }
 
-  // TODO: Check variables, some might be required and some might be optional
+  const extra: Record<string, any> = {};
+
+  // Because every field is optional, we need to check if the field is present
+  if (country) {
+    extra.country = country;
+  }
+
+  if (district) {
+    extra.district = district;
+  }
+
+  if (city) {
+    extra.city = city;
+  }
+
+  if (neighborhood) {
+    extra.neighborhood = neighborhood;
+  }
+
+  if (neighborhood) {
+    extra.neighborhood = neighborhood;
+  }
+
+  if (address) {
+    extra.address = address;
+  }
+
+  if (number) {
+    extra.number = number;
+  }
+
+  if (postalCode) {
+    extra.postalCode = postalCode;
+  }
+
+  if (fraction) {
+    extra.fraction = fraction;
+  }
+
+  if (floor) {
+    extra.floor = floor;
+  }
+
+  if (destination) {
+    extra.destination = destination;
+  }
+
+  if (matrixRegistration) {
+    extra.matrixRegistration = matrixRegistration;
+  }
+
+  if (buildingDescriptionNumber) {
+    extra.buildingDescriptionNumber = buildingDescriptionNumber;
+  }
+
+  if (buildingDescriptionRegistry) {
+    extra.buildingDescriptionRegistry = buildingDescriptionRegistry;
+  }
+
+  if (luNumber) {
+    extra.luNumber = luNumber;
+  }
+
+  if (luDate) {
+    extra.luDate = new Date(luDate);
+  }
+
+  if (luIssuer) {
+    extra.luIssuer = luIssuer;
+  }
+
+  if (ecLetter) {
+    extra.ecLetter = ecLetter;
+  }
+
+  if (ecNumber) {
+    extra.ecNumber = ecNumber;
+  }
+
+  if (ecValidUntil) {
+    extra.ecValidUntil = new Date(ecValidUntil);
+  }
+
+  if (chargesType) {
+    extra.chargesType = chargesType;
+  }
+
+  if (chargesBank) {
+    extra.chargesBank = chargesBank;
+  }
+
+  if (chargesAP) {
+    extra.chargesAP = chargesAP;
+  }
+
+  if (chargesDate) {
+    extra.chargesDate = new Date(chargesDate);
+  }
 
   // Create the contact
   await prisma.properties.create({
     data: {
-      // Address info,
-      country,
-      district,
-      city,
-      neighborhood,
-      postalCode,
-      address,
-      number,
-      // Property info,
-      fraction,
-      floor,
-      destination,
-      // Matrix info,
-      matrixRegistration,
-      buildingDescriptionNumber,
-      buildingDescriptionRegistry,
-      // Lu info,
-      luNumber,
-      luDate: new Date(luDate),
-      luIssuer,
-      // Ec info,
-      ecLetter,
-      ecNumber,
-      ecValidUntil: new Date(ecValidUntil),
-      chargesType,
-      chargesBank,
-      chargesAP,
-      chargesDate: new Date(chargesDate),
+      ...extra,
       // Owner
       userId: session.secure.userId,
     },

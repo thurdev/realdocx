@@ -845,6 +845,10 @@
       "pt": "Erro ao excluir imóvel"
     },
     "inputs": {
+      "country": {
+        "en": "Country",
+        "pt": "País"
+      },
       "fraction": {
         "en": "Fraction",
         "pt": "Fração"

@@ -69,6 +69,32 @@
               side="top"
               class="w-[--reka-popper-anchor-width]"
             >
+              <DropdownMenuItem class="flex items-center flex-row gap-2">
+                <p>{{ $t("sidebar.language") }}:</p>
+                <div class="flex items-center justify-around gap-2">
+                  <Button
+                    variant="outline"
+                    @click="language = 'pt'"
+                    class="p-0 rounded-full relative w-8 h-7"
+                  >
+                    <img
+                      class="w-8 h-7 rounded-full absolute top-0 left-0"
+                      src="https://upload.wikimedia.org/wikipedia/commons/thumb/a/a8/Flag_of_Portugal_%28official%29.svg/509px-Flag_of_Portugal_%28official%29.svg.png"
+                    />
+                  </Button>
+
+                  <Button
+                    variant="outline"
+                    @click="language = 'en'"
+                    class="p-0 rounded-full relative w-8 h-7"
+                  >
+                    <img
+                      class="w-8 h-7 rounded-full absolute top-0 left-0"
+                      src="https://upload.wikimedia.org/wikipedia/commons/thumb/a/a5/Flag_of_the_United_Kingdom_%281-2%29.svg/960px-Flag_of_the_United_Kingdom_%281-2%29.svg.png"
+                    />
+                  </Button>
+                </div>
+              </DropdownMenuItem>
               <DropdownMenuItem @click="goTo('/settings')">
                 <span>{{ $t("sidebar.settings") }}</span>
               </DropdownMenuItem>
@@ -109,8 +135,10 @@ import {
 } from "@/components/ui/sidebar";
 import { useSidebar } from "@/components/ui/sidebar";
 import { useWallet } from "~/composable/useWallet";
+import { useLanguage } from "~/composable/useLanguage";
 const { user, clear } = useUserSession();
 const { state } = useSidebar();
+const language = useLanguage();
 
 const items = [
   {
