@@ -12,12 +12,8 @@
           </Button>
         </div>
         <div>
-          <h2 class="text-3xl font-bold tracking-tight">
-            {{ $t("cpcv.contacts.modals.contactType") }}
-          </h2>
-          <p class="text-muted-foreground">
-            {{ $t("cpcv.contacts.modals.contactTypeDescription") }}
-          </p>
+          <h2 class="text-3xl font-bold tracking-tight">Criar Contacto</h2>
+          <p class="text-muted-foreground">Preencha os dados do contacto</p>
         </div>
       </div>
       <div></div>

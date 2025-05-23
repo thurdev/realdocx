@@ -14,32 +14,24 @@
         </h1>
       </div>
     </SidebarHeader>
-    <SidebarContent>
-      <template v-for="item in items" :key="item.title">
-        <SidebarGroupLabel>
-          <h1>
-            {{ $t(item.title) }}
-          </h1>
-        </SidebarGroupLabel>
-        <SidebarGroup>
-          <SidebarGroupContent>
-            <SidebarMenu>
-              <SidebarMenuItem v-for="link in item.links" :key="link.title">
-                <SidebarMenuButton asChild>
-                  <a
-                    :href="link.url"
-                    :class="
-                      link.url === route.path ? 'bg-blue-500 text-white' : ''
-                    "
-                  >
-                    <component :is="link.icon" />
-                    <span>{{ $t(link.title) }}</span>
-                  </a>
-                </SidebarMenuButton>
-              </SidebarMenuItem>
-            </SidebarMenu>
-          </SidebarGroupContent>
-        </SidebarGroup>
+    <SidebarContent class="px-2">
+      <template v-for="(item, itemIndex) in items" :key="itemIndex">
+        <SidebarMenu>
+          <SidebarMenuItem v-for="link in item.links" :key="link.title">
+            <SidebarMenuButton asChild>
+              <NuxtLink
+                :to="link.url"
+                :class="[
+                  link.url === route.path ? 'bg-blue-500 text-white' : '',
+                  'p-4 pb-6 pt-6',
+                ]"
+              >
+                <component class="" :is="link.icon" />
+                <span class="font-medium">{{ $t(link.title) }}</span>
+              </NuxtLink>
+            </SidebarMenuButton>
+          </SidebarMenuItem>
+        </SidebarMenu>
       </template>
     </SidebarContent>
 
@@ -130,9 +122,7 @@ import {
 import {
   Sidebar,
   SidebarContent,
-  SidebarGroup,
-  SidebarGroupContent,
-  SidebarGroupLabel,
+  SidebarFooter,
   SidebarMenu,
   SidebarMenuButton,
   SidebarMenuItem,
@@ -147,7 +137,6 @@ const language = useLanguage();
 const route = useRoute();
 const items = [
   {
-    title: "sidebar.home",
     links: [
       {
         title: "sidebar.dashboard",
@@ -157,48 +146,30 @@ const items = [
     ],
   },
   {
-    title: "sidebar.contacts",
     links: [
       {
         title: "sidebar.listContacts",
         icon: Users,
         url: "/contacts",
       },
-      {
-        title: "sidebar.contactsCreate",
-        icon: UserRoundPlus,
-        url: "/contacts/create",
-      },
     ],
   },
 
   {
-    title: "sidebar.properties",
     links: [
       {
         title: "sidebar.listProperties",
         icon: House,
         url: "/properties",
       },
-      {
-        title: "sidebar.propertiesCreate",
-        icon: HousePlus,
-        url: "/properties/create",
-      },
     ],
   },
   {
-    title: "sidebar.contracts",
     links: [
       {
         title: "sidebar.listContracts",
         icon: File,
         url: "/contracts",
-      },
-      {
-        title: "sidebar.contractsCreate",
-        icon: FilePlus,
-        url: "/contracts/create",
       },
     ],
   },

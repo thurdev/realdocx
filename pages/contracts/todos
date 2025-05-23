@@ -56,3 +56,11 @@
 - [/] Bloquear o path do nuxt para os meus components / Se nao mover todos os arquivos que nao sao paginas para o /components/
 - [ ] Editar o template somente na pagina de templates ja criado (na lista), o edit do template é completo usar rich text editor.
 - [ ] Adicionar search nos contatos na pagina de criar contato, e se nao encontrar texto para adicionar contato.
+
+23/05/20225
+
+- [ ] Terminar edicao do contato (modal fechar, toast bonitinho, reload da tabela)
+- [ ] Edicao do imovel em modal, passar o form de criar imovel para componente.
+- [ ] Adicionar contato ou imovel na criacao do contrato através de modal com os componentes.
+- [ ] Adicionar header do step no contato e no imovel igual tem no contrato
+- [ ] Todos os inputs ao invés de digite colocar exemplo do que deve ser digitado

@@ -130,6 +130,7 @@ model Properties {
   district String? // Distrito
   neighborhood String? // Freguesia
   address String? // Morada
+  side String? // Lado
   number String? // Numero
   city String? // Localidade
   postalCode String? // Codigo Postal
@@ -142,6 +143,7 @@ model Properties {
   ecLetter String? // Letra do Certificado Energético
   ecNumber String? // Certificado Energético
   ecValidUntil DateTime? // Data do Certificado Energético
+  propertyType String? // Tipo de Imóvel
 
   // charges (Despesas)
   chargesType String? // Tipo de Despesa

@@ -213,37 +213,106 @@
         <div class="flex flex-col flex-1 gap-4" v-if="currentStep === 2">
           <div>
             <Label>{{ $t("cpcv.contacts.modals.form.inputs.country") }}</Label>
-            <Input
-              class="tour-target-input-country"
-              v-model="country"
-              :placeholder="$t('cpcv.contacts.modals.form.inputs.country')"
-            />
+            <Popover v-model:open="openSearchCountry">
+              <PopoverTrigger
+                class="text-sm w-full text-left border border-gray-200 px-4 py-2 rounded-md bg-white hover:border-gray-300"
+              >
+                {{ country || "Selecione ou escreva o país" }}
+              </PopoverTrigger>
+
+              <PopoverContent class="w-full p-0">
+                <Command v-model="country">
+                  <CommandInput
+                    placeholder="Pesquisar país..."
+                    @keydown.enter="handleCountryInput"
+                  />
+                  <CommandList>
+                    <CommandEmpty>
+                      Nenhum país encontrado.
+                      <br />
+                      Pressione <b>enter</b> para salvar o país.
+                    </CommandEmpty>
+                    <CommandGroup>
+                      <CommandItem
+                        v-for="ctry in countries"
+                        :key="ctry"
+                        :value="ctry"
+                        @select="openSearchCountry = false"
+                      >
+                        <Check
+                          :class="
+                            cn(
+                              'mr-2 h-4 w-4',
+                              country === ctry ? 'opacity-100' : 'opacity-0'
+                            )
+                          "
+                        />
+                        {{ ctry }}
+                      </CommandItem>
+                    </CommandGroup>
+                  </CommandList>
+                </Command>
+              </PopoverContent>
+            </Popover>
           </div>
 
           <div>
-            <Label>{{ $t("cpcv.contacts.modals.form.inputs.state") }}</Label>
-            <Input
-              class="tour-target-input-state"
-              v-model="state"
-              :placeholder="$t('cpcv.contacts.modals.form.inputs.state')"
-            />
+            <Label>{{ $t("cpcv.contacts.modals.form.inputs.district") }}</Label>
+            <Popover v-model:open="openSearchDistrict">
+              <PopoverTrigger as-child>
+                <Button
+                  variant="outline"
+                  :aria-expanded="openSearchDistrict"
+                  class="w-full justify-between text-sm font-normal"
+                >
+                  {{ state || "Selecione ou escreva o distrito" }}
+                  <ChevronsUpDown class="ml-2 h-4 w-4 shrink-0 opacity-50" />
+                </Button>
+              </PopoverTrigger>
+              <PopoverContent class="w-full p-0">
+                <Command v-model="state">
+                  <CommandInput
+                    placeholder="Pesquisar distrito..."
+                    @keydown.enter="handleDistrictInput"
+                  />
+                  <CommandEmpty>
+                    Nenhum distrito encontrado.
+                    <br />
+                    Pressione <b>enter</b> para salvar o distrito.
+                  </CommandEmpty>
+                  <CommandList>
+                    <CommandGroup>
+                      <CommandItem
+                        v-for="district in districts"
+                        :key="district.value"
+                        :value="district.value"
+                        @select="openSearchDistrict = false"
+                      >
+                        <Check
+                          :class="
+                            cn(
+                              'mr-2 h-4 w-4',
+                              state === district.value
+                                ? 'opacity-100'
+                                : 'opacity-0'
+                            )
+                          "
+                        />
+                        {{ district.label }}
+                      </CommandItem>
+                    </CommandGroup>
+                  </CommandList>
+                </Command>
+              </PopoverContent>
+            </Popover>
           </div>
 
           <div>
-            <Label>{{ $t("cpcv.contacts.modals.form.inputs.city") }}</Label>
+            <Label>{{ $t("cpcv.contacts.modals.form.inputs.concelho") }}</Label>
             <Input
-              class="tour-target-input-city"
+              class="tour-target-input-concelho"
               v-model="city"
-              :placeholder="$t('cpcv.contacts.modals.form.inputs.city')"
-            />
-          </div>
-
-          <div>
-            <Label>{{ $t("cpcv.contacts.modals.form.inputs.address") }}</Label>
-            <Input
-              class="tour-target-input-address"
-              v-model="address"
-              :placeholder="$t('cpcv.contacts.modals.form.inputs.address')"
+              :placeholder="$t('cpcv.contacts.modals.form.inputs.concelho')"
             />
           </div>
 
@@ -255,6 +324,15 @@
               class="tour-target-input-neighborhood"
               v-model="neighborhood"
               :placeholder="$t('cpcv.contacts.modals.form.inputs.neighborhood')"
+            />
+          </div>
+
+          <div>
+            <Label>{{ $t("cpcv.contacts.modals.form.inputs.address") }}</Label>
+            <Input
+              class="tour-target-input-address"
+              v-model="address"
+              :placeholder="$t('cpcv.contacts.modals.form.inputs.address')"
             />
           </div>
 
@@ -464,7 +542,21 @@ import {
   StepperTrigger,
 } from "@/components/ui/stepper";
 const { $t } = useNuxtApp();
-import { Check, Circle, Dot } from "lucide-vue-next";
+import { Check, Circle, Dot, ChevronsUpDown } from "lucide-vue-next";
+import { cn } from "@/lib/utils";
+import {
+  Command,
+  CommandEmpty,
+  CommandGroup,
+  CommandInput,
+  CommandItem,
+  CommandList,
+} from "@/components/ui/command";
+import {
+  Popover,
+  PopoverContent,
+  PopoverTrigger,
+} from "@/components/ui/popover";
 
 import { useToast } from "@/components/ui/toast/use-toast";
 const { toast } = useToast();
@@ -545,7 +637,7 @@ const handleNextClick = async (func: Function) => {
       companyRCBECode: companyRCBECode.value,
       companySocialCapital: companySocialCapital.value,
       contactType: contactType.value,
-      marriedContactId: marriedContactId.value,
+      marriedContactId: marriedContactId.value ?? "",
     };
     const response = await $fetch<{ success?: boolean }>(
       "/api/contacts/create",
@@ -625,4 +717,74 @@ watch(
   },
   { immediate: true }
 );
+
+const openSearchCountry = ref(false);
+const openSearchDistrict = ref(false);
+
+const countries = [
+  "Alemanha",
+  "Áustria",
+  "Bélgica",
+  "Bulgária",
+  "Chipre",
+  "Croácia",
+  "Dinamarca",
+  "Eslováquia",
+  "Eslovénia",
+  "Espanha",
+  "Estónia",
+  "Finlândia",
+  "França",
+  "Grécia",
+  "Hungria",
+  "Irlanda",
+  "Itália",
+  "Letónia",
+  "Lituânia",
+  "Luxemburgo",
+  "Malta",
+  "Países Baixos",
+  "Polónia",
+  "Portugal",
+  "Roménia",
+  "Suécia",
+  "República Checa",
+];
+
+const districts = [
+  { value: "Aveiro", label: "Aveiro" },
+  { value: "Beja", label: "Beja" },
+  { value: "Braga", label: "Braga" },
+  { value: "Bragança", label: "Bragança" },
+  { value: "Castelo Branco", label: "Castelo Branco" },
+  { value: "Coimbra", label: "Coimbra" },
+  { value: "Évora", label: "Évora" },
+  { value: "Faro", label: "Faro" },
+  { value: "Guarda", label: "Guarda" },
+  { value: "Leiria", label: "Leiria" },
+  { value: "Lisboa", label: "Lisboa" },
+  { value: "Portalegre", label: "Portalegre" },
+  { value: "Porto", label: "Porto" },
+  { value: "Santarém", label: "Santarém" },
+  { value: "Setúbal", label: "Setúbal" },
+  { value: "Viana do Castelo", label: "Viana do Castelo" },
+  { value: "Vila Real", label: "Vila Real" },
+  { value: "Viseu", label: "Viseu" },
+  { value: "Açores", label: "Açores" },
+  { value: "Madeira", label: "Madeira" },
+];
+
+const handleCountryInput = (event: KeyboardEvent) => {
+  if (event.key === "Enter") {
+    country.value = (event.target as HTMLInputElement).value;
+    openSearchCountry.value = false;
+  }
+};
+
+const handleDistrictInput = (event: KeyboardEvent) => {
+  if (event.key === "Enter") {
+    state.value = (event.target as HTMLInputElement).value;
+    openSearchDistrict.value = false;
+  }
+};
 </script>

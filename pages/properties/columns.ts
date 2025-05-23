@@ -22,99 +22,70 @@ export const createColumns = (
   },
   {
     accessorKey: "id",
-    header: () => h("div", { class: "text-right" }, "ID"),
+    header: () => h("div", { class: "text-left" }, "ID"),
     cell: ({ row }) =>
-      h("div", { class: "text-right font-medium" }, row.original.id ?? "-"),
+      h("div", { class: "text-left font-medium" }, row.original.id ?? "-"),
   },
-  {
-    accessorKey: "fraction",
-    header: () =>
-      h(
-        "div",
-        { class: "text-right" },
-        $t("properties.inputs.fraction") ?? "-"
-      ),
-    cell: ({ row }) =>
-      h(
-        "div",
-        { class: "text-right font-medium" },
-        row.original.fraction ?? "-"
-      ),
-  },
-  {
-    accessorKey: "floor",
-    header: () =>
-      h("div", { class: "text-right" }, $t("properties.inputs.floor") ?? "-"),
-    cell: ({ row }) =>
-      h("div", { class: "text-right font-medium" }, row.original.floor ?? "-"),
-  },
-  {
-    accessorKey: "country",
-    header: () =>
-      h("div", { class: "text-right" }, $t("properties.inputs.country") ?? "-"),
-    cell: ({ row }) =>
-      h(
-        "div",
-        { class: "text-right font-medium" },
-        row.original.country ?? "-"
-      ),
-  },
+
   {
     accessorKey: "district",
     header: () =>
-      h(
-        "div",
-        { class: "text-right" },
-        $t("properties.inputs.district") ?? "-"
-      ),
+      h("div", { class: "text-left" }, $t("properties.inputs.district") ?? "-"),
     cell: ({ row }) =>
-      h(
-        "div",
-        { class: "text-right font-medium" },
-        row.original.district ?? "-"
-      ),
-  },
-  {
-    accessorKey: "city",
-    header: () =>
-      h("div", { class: "text-right" }, $t("properties.inputs.city") ?? "-"),
-    cell: ({ row }) =>
-      h("div", { class: "text-right font-medium" }, row.original.city ?? "-"),
+      h("div", {
+        class: "text-left font-medium",
+        innerHTML: `${row.original.district} <br/> ${row.original.city} <br/> ${row.original.neighborhood}`,
+      }),
   },
   {
     accessorKey: "address",
     header: () =>
-      h("div", { class: "text-right" }, $t("properties.inputs.address") ?? "-"),
+      h("div", { class: "text-left" }, $t("properties.inputs.address") ?? "-"),
     cell: ({ row }) =>
-      h(
-        "div",
-        { class: "text-right font-medium" },
-        row.original.address ?? "-"
-      ),
+      h("div", { class: "text-left font-medium" }, row.original.address ?? "-"),
   },
   {
     accessorKey: "postalCode",
     header: () =>
       h(
         "div",
-        { class: "text-right" },
+        { class: "text-left" },
         $t("properties.inputs.postalCode") ?? "-"
       ),
     cell: ({ row }) =>
       h(
         "div",
-        { class: "text-right font-medium" },
+        { class: "text-left font-medium" },
         row.original.postalCode ?? "-"
       ),
+  },
+
+  {
+    accessorKey: "fraction",
+    header: () =>
+      h("div", { class: "text-left" }, $t("properties.inputs.fraction") ?? "-"),
+    cell: ({ row }) =>
+      h(
+        "div",
+        { class: "text-left font-medium" },
+        row.original.fraction ?? "-"
+      ),
+  },
+  {
+    accessorKey: "floor",
+    header: () =>
+      h("div", { class: "text-left" }, $t("properties.inputs.floor") ?? "-"),
+    cell: ({ row }) =>
+      h("div", { class: "text-left font-medium" }, row.original.floor ?? "-"),
   },
   {
     accessorKey: "createdAt",
     header: () =>
-      h("div", { class: "text-right" }, $t("shared.createdAt") ?? "-"),
+      h("div", { class: "text-left" }, $t("shared.createdAt") ?? "-"),
     cell: ({ row }) =>
       h(
         "div",
-        { class: "text-right font-medium" },
+        { class: "text-left font-medium" },
         row.original.createdAt
           ? new Date(row.original.createdAt).toLocaleDateString()
           : "-"
@@ -122,7 +93,7 @@ export const createColumns = (
   },
   {
     id: "actions",
-    header: () => h("div", { class: "text-right" }, $t("shared.actions.title")),
+    header: () => h("div", { class: "text-left" }, $t("shared.actions.title")),
     cell: ({ row }) => h(DataTableDropdown, { row: row.original }),
   },
 ];

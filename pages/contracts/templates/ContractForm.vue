@@ -74,6 +74,7 @@
       class="flex-1 transition-all duration-500 ease-in-out"
       v-if="selectedTemplate?.type === 'CPCV' && currentStep > -1"
     >
+      <h1 class="text-xl font-bold pb-4">{{ steps[currentStep].title }}</h1>
       <CPCVForm
         v-if="selectedTemplate?.type === 'CPCV' && currentStep > -1"
         :current-step="currentStep"

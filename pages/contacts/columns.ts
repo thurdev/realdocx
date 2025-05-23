@@ -24,14 +24,13 @@ export const createColumns = (
   {
     accessorKey: "id",
     header: () => h("div", { class: "text-right" }, "ID"),
-    cell: ({ row }) =>
-      h("div", { class: "text-right font-medium" }, row.original.id),
+    cell: ({ row }) => h("div", { class: "text-right " }, row.original.id),
   },
   {
     accessorKey: "type",
     header: () => h("div", { class: "text-right" }, "Tipo"),
     cell: ({ row }) =>
-      h("div", { class: "text-right font-medium" }, row.original.contactType),
+      h("div", { class: "text-right " }, row.original.contactType),
   },
   {
     accessorKey: "name",
@@ -41,8 +40,7 @@ export const createColumns = (
         { class: "text-left" },
         $t("cpcv.contacts.modals.form.inputs.name")
       ),
-    cell: ({ row }) =>
-      h("div", { class: "text-left font-medium" }, row.original.name),
+    cell: ({ row }) => h("div", { class: "text-left " }, row.original.name),
   },
   {
     accessorKey: "vat",
@@ -53,7 +51,7 @@ export const createColumns = (
         $t("cpcv.contacts.modals.form.inputs.nif")
       ),
     cell: ({ row }) =>
-      h("div", { class: "text-left font-medium" }, row.original.vat ?? "-"),
+      h("div", { class: "text-left " }, row.original.vat ?? "-"),
   },
   {
     accessorKey: "contactType",
@@ -62,7 +60,7 @@ export const createColumns = (
     cell: ({ row }) =>
       h(
         "div",
-        { class: "text-left font-medium" },
+        { class: "text-left " },
         $t(`cpcv.contacts.modals.types.${row.original.contactType}`)
       ),
   },
@@ -70,21 +68,13 @@ export const createColumns = (
     accessorKey: "country",
     header: () => h("div", { class: "text-right" }, "País"),
     cell: ({ row }) =>
-      h(
-        "div",
-        { class: "text-right font-medium" },
-        row.original.country ?? "-"
-      ),
+      h("div", { class: "text-right " }, row.original.country ?? "-"),
   },
   {
     accessorKey: "address",
     header: () => h("div", { class: "text-right" }, "Morada"),
     cell: ({ row }) =>
-      h(
-        "div",
-        { class: "text-right font-medium" },
-        row.original.address ?? "-"
-      ),
+      h("div", { class: "text-right " }, row.original.address ?? "-"),
   },
   {
     accessorKey: "createdAt",
@@ -92,7 +82,7 @@ export const createColumns = (
     cell: ({ row }) =>
       h(
         "div",
-        { class: "text-right font-medium" },
+        { class: "text-right " },
         row.original?.createdAt
           ? new Date(row.original.createdAt).toLocaleDateString()
           : "-"

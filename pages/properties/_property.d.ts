@@ -1,5 +1,8 @@
 export type Property = {
   link?: string;
+  side?: string;
+  propertyType?: string;
+  description?: string;
   id: number;
   price: number;
   country: string;

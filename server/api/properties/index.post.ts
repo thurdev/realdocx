@@ -33,6 +33,8 @@ export default defineEventHandler(async (event) => {
     chargesBank,
     chargesAP,
     chargesDate, // Date
+    side,
+    propertyType,
   } = await readBody(event);
 
   if (!session.secure.userId) {
@@ -138,6 +140,14 @@ export default defineEventHandler(async (event) => {
 
   if (chargesDate) {
     extra.chargesDate = new Date(chargesDate);
+  }
+
+  if (side) {
+    extra.side = side;
+  }
+
+  if (propertyType) {
+    extra.propertyType = propertyType;
   }
 
   // Create the contact

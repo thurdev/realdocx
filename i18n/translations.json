@@ -123,8 +123,8 @@
       "pt": "Contractos"
     },
     "listContracts": {
-      "en": "List Contracts",
-      "pt": "Listar Contratos"
+      "en": "Contracts",
+      "pt": "Contratos"
     },
     "contractsCreate": {
       "en": "Create Contract",
@@ -135,8 +135,8 @@
       "pt": "Contatos"
     },
     "listContacts": {
-      "en": "List Contacts",
-      "pt": "Listar Contatos"
+      "en": "Contacts",
+      "pt": "Contatos"
     },
     "contactsCreate": {
       "en": "Create Contact",
@@ -147,8 +147,8 @@
       "pt": "Imóveis"
     },
     "listProperties": {
-      "en": "List Properties",
-      "pt": "Listar Imóveis"
+      "en": "Properties",
+      "pt": "Imóveis"
     },
     "propertiesCreate": {
       "en": "Create Property",
@@ -303,6 +303,10 @@
             "address": {
               "en": "Address",
               "pt": "Morada"
+            },
+            "concelho": {
+              "en": "County",
+              "pt": "Concelho"
             },
             "city": {
               "en": "City",
