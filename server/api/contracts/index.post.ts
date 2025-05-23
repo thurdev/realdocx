@@ -17,17 +17,12 @@ export default defineEventHandler(async (event) => {
   }
 
   const {
-    // firstPartyId,
-    // secondPartyId,
-    // propertyId,
-    // price,
-    // deposit,
-    // paymentMethod,
+    firstPartyIds,
+    secondPartyIds,
+    propertyId,
     contractType,
     htmlContent,
     templateId,
-    // duration,
-    // rentDueDay,
   } = await readBody(event);
 
   // Buscar o template do array do frontend
@@ -70,6 +65,8 @@ export default defineEventHandler(async (event) => {
     };
   }
 
+  const cType = contractType === "CPCV" ? "SALE" : "RENT";
+
   try {
     // Criar o contrato
     const createdContract = await prisma.contracts.create({
@@ -77,23 +74,21 @@ export default defineEventHandler(async (event) => {
         price: 0,
         deposit: 0,
         paymentMethod: "cash",
-        contractType,
-        propertyId: 0,
+        propertyId,
         generatedBy: session.secure.userId,
         htmlContent,
         templateId,
-        // duration: contractType === "RENT" ? duration : undefined,
-        // rentDueDay: contractType === "RENT" ? rentDueDay : undefined,
+        contractType: cType,
         contacts: {
           create: [
-            {
-              contactId: 1,
-              contactType: contractType === "SALE" ? "seller" : "landlord",
-            },
-            {
-              contactId: 1,
-              contactType: contractType === "SALE" ? "buyer" : "renter",
-            },
+            ...firstPartyIds.map((id: number) => ({
+              contactId: id,
+              contactType: "seller",
+            })),
+            ...secondPartyIds.map((id: number) => ({
+              contactId: id,
+              contactType: "buyer",
+            })),
           ],
         },
       },

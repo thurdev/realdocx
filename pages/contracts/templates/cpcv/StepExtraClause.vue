@@ -31,6 +31,7 @@
 import { ref, watch } from "vue";
 import type { Clause } from "./CPCVForm.vue";
 import { clauses } from ".";
+const { $t } = useNuxtApp();
 
 const selectedClausules = ref<Clause[]>([]);
 

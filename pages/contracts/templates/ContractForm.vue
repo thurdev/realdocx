@@ -49,13 +49,17 @@
         <div class="flex flex-col gap-1">
           <StepperTitle
             :class="[state === 'active' && 'text-primary']"
-            class="text-sm font-semibold transition lg:text-base"
+            class="text-sm font-semibold transition lg:text-base break-words text-wrap"
           >
             {{ step.title }}
           </StepperTitle>
           <StepperDescription
-            :class="[state === 'active' && 'text-primary']"
-            class="sr-only text-xs text-muted-foreground transition md:not-sr-only lg:text-sm"
+            :class="[
+              state === 'active' && 'text-primary',
+              {
+                'text-green-600': step.auto,
+              },
+            ]"
           >
             {{ step.description }}
           </StepperDescription>
@@ -141,21 +145,81 @@ const steps = computed(() => {
       let stps = [
         {
           step: 0,
-          title: "Partes",
+          title: "1. Outorgantes",
           description: "Preencha os dados do vendedor e comprador",
         },
         {
           step: 1,
-          title: "Imóvel",
+          title: "2. Imóvel",
           description: "Selecione o imóvel que será utilizado no contrato",
         },
         {
           step: 2,
-          title: "Prazos",
-          description: "Aqui podes definir os prazos do contrato",
+          title: "Objeto",
+          description: "Clausula automaticamente preenchida pelo advogado.",
+          auto: true,
         },
         {
           step: 3,
+          title: "Preço e condições de pagamento",
+          description: "Preencha as informações de pagamento do imóvel",
+        },
+        {
+          step: 4,
+          title: "Prazo",
+          description: "Selecione o imóvel que será utilizado no contrato",
+        },
+        {
+          step: 5,
+          title: "Despesas e Encargos",
+          description: "Selecione o imóvel que será utilizado no contrato",
+        },
+        {
+          step: 6,
+          title: "Tradição do imóvel",
+          description: "Selecione o imóvel que será utilizado no contrato",
+        },
+        {
+          step: 7,
+          title: "Incumprimento Definitivo",
+          description: "Clausula automaticamente preenchida pelo advogado.",
+          auto: true,
+        },
+        // notificacao, dropdown (email, carta, email ou carta)
+        {
+          step: 8,
+          title: "Notificações",
+          description: "Selecione a forma de notificação",
+        },
+        {
+          step: 9,
+          title: "Alterações",
+          description: "Selecione o imóvel que será utilizado no contrato",
+        },
+        {
+          step: 10,
+          title: "Branqueamento de Capitais",
+          description: "Selecione o imóvel que será utilizado no contrato",
+        },
+        {
+          step: 11,
+          title: "Declarações",
+          description: "Selecione o imóvel que será utilizado no contrato",
+        },
+        {
+          step: 11,
+          title: "Lei aplicável e Foro competente",
+          description: "Selecione o imóvel que será utilizado no contrato",
+        },
+        // O RECONHECIMENTO O TEXTO DENTRO DO CONTRATO MUDA DE ACORDO COM O
+        // QUE A PESSOA SELECIONAR DENTRO DA CLAUSULA
+        {
+          step: 12,
+          title: "Reconhecimentos",
+          description: "Selecione o imóvel que será utilizado no contrato",
+        },
+        {
+          step: 13,
           title: "Cláusulas (Opcional)",
           description:
             "Selecione as cláusulas adicionais que desejas incluir no contrato",
@@ -272,9 +336,17 @@ const handleHTMLGenerated = (html: string) => {
   htmlContent.value = html;
 };
 
+// TODO: Fix this function func() or step +1 (same applies for handleBackClick)
 const handleNextClick = async (func: Function) => {
   if (currentStep.value === -1) {
     currentStep.value = 0;
+    return;
+  }
+
+  // If step is auto, means that it will automatically included in the contract, so we skip the step
+  if (steps.value[currentStep.value + 1]?.auto) {
+    func();
+    // currentStep.value = currentStep.value + 1;
     return;
   }
 
@@ -286,7 +358,7 @@ const handleNextClick = async (func: Function) => {
 
   if (stepperContainer && activeStep && !isLastStep.value) {
     stepperContainer.scrollTo({
-      top: activeStep.offsetTop - 20,
+      top: currentStep.value * 100,
       behavior: "smooth",
     });
   }
@@ -296,8 +368,8 @@ const handleNextClick = async (func: Function) => {
 
     await saveContract(
       {
-        firstPartyId: selectedSeller.value[0].id ?? 0,
-        secondPartyId: selectedBuyer.value[0].id ?? 0,
+        firstPartyIds: selectedSeller.value.map((c) => c.id),
+        secondPartyIds: selectedBuyer.value.map((c) => c.id),
         propertyId: selectedProperty.value.id,
         contractType: selectedTemplate.value?.type,
       },
@@ -321,6 +393,27 @@ const handleBackClick = (func: Function) => {
   }
 
   currentStep.value = currentStep.value - 1;
+
+  // Scroll para o stepper atual
+  const stepperContainer = document.querySelector("#stepper-container");
+  const activeStep = document.querySelector(
+    `[data-step="${currentStep.value}"]`
+  ) as HTMLElement;
+
+  if (stepperContainer && activeStep && !isLastStep.value) {
+    // scroll backward
+    stepperContainer.scrollTo({
+      top: currentStep.value * 252,
+      behavior: "smooth",
+    });
+  }
+
+  // If step is auto, means that it will automatically included in the contract, so we skip the step
+  if (steps.value[currentStep.value]?.auto) {
+    func();
+    return;
+  }
+
   func();
 };
 
@@ -353,8 +446,11 @@ const handleTransitionEnd = (event: TransitionEvent) => {
 };
 
 const buttonNextLabel = computed(() => {
+  if (currentStep.value === -1) {
+    return $t("shared.next");
+  }
   return currentStep.value === steps.value.length - 1
-    ? $t("shared.save")
+    ? `${$t("shared.save")} (${selectedTemplate.value?.price}€)`
     : $t("shared.next");
 });
 </script>

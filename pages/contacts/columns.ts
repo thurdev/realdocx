@@ -4,7 +4,8 @@ import type { Contact } from "./_contacts";
 import DataTableDropdown from "./DataTableDropdown.vue";
 
 export const createColumns = (
-  $t: (key: string) => string
+  $t: (key: string) => string,
+  updateContact: (updatedContact: Contact) => void
 ): ColumnDef<Contact>[] => [
   {
     accessorKey: "image",
@@ -52,7 +53,7 @@ export const createColumns = (
         $t("cpcv.contacts.modals.form.inputs.nif")
       ),
     cell: ({ row }) =>
-      h("div", { class: "text-left font-medium" }, row.original.vat),
+      h("div", { class: "text-left font-medium" }, row.original.vat ?? "-"),
   },
   {
     accessorKey: "contactType",
@@ -69,13 +70,21 @@ export const createColumns = (
     accessorKey: "country",
     header: () => h("div", { class: "text-right" }, "País"),
     cell: ({ row }) =>
-      h("div", { class: "text-right font-medium" }, row.original.country),
+      h(
+        "div",
+        { class: "text-right font-medium" },
+        row.original.country ?? "-"
+      ),
   },
   {
     accessorKey: "address",
     header: () => h("div", { class: "text-right" }, "Morada"),
     cell: ({ row }) =>
-      h("div", { class: "text-right font-medium" }, row.original.address),
+      h(
+        "div",
+        { class: "text-right font-medium" },
+        row.original.address ?? "-"
+      ),
   },
   {
     accessorKey: "createdAt",
@@ -100,6 +109,9 @@ export const createColumns = (
         { class: "text-right" },
         h(DataTableDropdown, {
           contact,
+          onDone: (contact: Contact) => {
+            updateContact(contact); // Update the contact in the table
+          },
         })
       );
     },

@@ -11,6 +11,7 @@ export const saveContract = async (
   templateId: number
 ) => {
   try {
+    console.log(json, htmlContent, templateId);
     const response = await $fetch<ContractResponse>("/api/contracts", {
       method: "POST",
       body: {

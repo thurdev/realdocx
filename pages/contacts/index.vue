@@ -2,37 +2,35 @@
   <div>
     <div class="flex items-center justify-between mb-8">
       <div>
-        <h2 class="text-3xl font-bold tracking-tight">{{ $t("cpcv.contacts.title") }}</h2>
+        <h2 class="text-3xl font-bold tracking-tight">
+          {{ $t("cpcv.contacts.title") }}
+        </h2>
         <p class="text-muted-foreground">
           {{ $t("cpcv.contacts.description") }}
         </p>
       </div>
-        <Button 
+      <Button
         class="tour-target-button"
-          @click="router.push('/contacts/create')" 
-          :disabled="isTourActive"
-        >
-          <i class="fa-light fa-plus mr-2"></i>
-          {{ $t("cpcv.contacts.modals.form.inputs.add") }}
-        </Button>
+        @click="router.push('/contacts/create')"
+        :disabled="isTourActive"
+      >
+        <i class="fa-light fa-plus mr-2"></i>
+        {{ $t("cpcv.contacts.modals.form.inputs.add") }}
+      </Button>
     </div>
 
-    <Tour
+    <!-- <Tour
       :steps="tourSteps"
       tour-key="contacts-tour"
       :trigger-button-text="$t('cpcv.contacts.tour.startTour')"
       @tour-start="handleTourStart"
       @tour-complete="handleTourComplete"
-    />
+    /> -->
 
     <Card>
       <CardContent class="pt-6">
         <div class="tour-target-table bg-white">
-          <DataTable
-            :columns="columns"
-            :data="contacts"
-            :loading="loading"
-          />
+          <DataTable :columns="columns" :data="contacts" :loading="loading" />
         </div>
       </CardContent>
     </Card>
@@ -43,17 +41,11 @@
 import { Card, CardContent } from "@/components/ui/card";
 import { Button } from "@/components/ui/button";
 import DataTable from "@/components/dataTable/DataTable.vue";
-import {
-  DropdownMenu,
-  DropdownMenuContent,
-  DropdownMenuItem,
-  DropdownMenuTrigger,
-} from "@/components/ui/dropdown-menu";
-import { MoreHorizontal, Pencil, Trash } from "lucide-vue-next";
 import { useToast } from "@/components/ui/toast/use-toast";
 import { useRouter } from "vue-router";
 import { createColumns } from "./columns";
 import Tour from "@/components/ui/Tour.vue";
+import type { Contact } from "./_contacts";
 
 definePageMeta({
   middleware: "authenticated",
@@ -62,6 +54,7 @@ definePageMeta({
 });
 
 const router = useRouter();
+const route = useRoute();
 const { $t } = useNuxtApp();
 const { toast } = useToast();
 
@@ -69,7 +62,16 @@ const loading = ref(false);
 const contacts = ref<Contact[]>([]);
 const isTourActive = ref(false);
 
-const columns = createColumns($t);
+const updateContact = (updatedContact: Contact) => {
+  const index = contacts.value.findIndex((c) => c.id === updatedContact.id);
+  if (index !== -1) {
+    contacts.value[index] = updatedContact; // Update the contact in the array
+    // update the array
+    contacts.value = [...contacts.value]; // Trigger reactivity
+  }
+};
+
+const columns = createColumns($t, updateContact);
 
 const tourSteps = ref([
   {
@@ -81,7 +83,7 @@ const tourSteps = ref([
     target: ".tour-target-table",
     content: $t("cpcv.contacts.tour.viewContacts"),
     placement: "bottom",
-  }
+  },
 ]);
 
 const handleTourStart = () => {
@@ -92,16 +94,15 @@ const handleTourComplete = () => {
   isTourActive.value = false;
 };
 
-const handleEdit = (contact: Contact) => {
-  router.push(`/contacts/${contact.id}/edit`);
-};
-
 const handleDelete = async (contact: Contact) => {
   if (!confirm($t("cpcv.contacts.confirmDelete"))) return;
 
-  const response = await $fetch<{ success?: boolean }>(`/api/contacts/${contact.id}`, {
-    method: "DELETE",
-  }).catch((err) => err.response);
+  const response = await $fetch<{ success?: boolean }>(
+    `/api/contacts/${contact.id}`,
+    {
+      method: "DELETE",
+    }
+  ).catch((err) => err.response);
 
   if (response.success) {
     toast({
@@ -123,4 +124,19 @@ const fetchContacts = async () => {
 onMounted(() => {
   fetchContacts();
 });
+
+watch(
+  () => route.query,
+  (newQuery) => {
+    if (newQuery?.deleted) {
+      toast({
+        title: $t("cpcv.contacts.deleted"),
+        description: $t("cpcv.contacts.deletedDescription"),
+        variant: "success",
+      });
+      fetchContacts();
+    }
+  },
+  { immediate: true }
+);
 </script>

@@ -3,13 +3,14 @@
     <DialogContent class="max-w-4xl max-h-[90vh] overflow-y-auto">
       <DialogHeader>
         <DialogTitle>Visualizar Contrato</DialogTitle>
-        <DialogDescription>
-          Visualização do contrato
-        </DialogDescription>
+        <DialogDescription> Visualização do contrato </DialogDescription>
       </DialogHeader>
-      
+
       <div v-if="contract" class="mt-4">
-        <div class="w-full border rounded-lg p-8 bg-white" v-html="contractHtml"></div>
+        <div
+          class="w-full border rounded-lg p-8 bg-white"
+          v-html="contractHtml"
+        ></div>
       </div>
 
       <DialogFooter class="mt-4">
@@ -20,9 +21,16 @@
 </template>
 
 <script setup lang="ts">
-import { Dialog, DialogContent, DialogDescription, DialogFooter, DialogHeader, DialogTitle } from '@/components/ui/dialog';
-import { Button } from '@/components/ui/button';
-import type { Contract } from '~/pages/contracts/_contract';
+import {
+  Dialog,
+  DialogContent,
+  DialogDescription,
+  DialogFooter,
+  DialogHeader,
+  DialogTitle,
+} from "@/components/ui/dialog";
+import { Button } from "@/components/ui/button";
+import type { Contract } from "~/pages/contracts/_contract";
 
 const props = defineProps<{
   isOpen: boolean;
@@ -30,17 +38,20 @@ const props = defineProps<{
 }>();
 
 defineEmits<{
-  'update:open': [value: boolean];
+  "update:open": [value: boolean];
 }>();
 
 const contractHtml = computed(() => {
-  if (!props.contract) return '';
-  
-  const seller = props.contract.contacts.find(c => c.contactType === 'seller')?.contacts;
-  const buyer = props.contract.contacts.find(c => c.contactType === 'buyer')?.contacts;
-  
-  if (!seller || !buyer) return '';
+  if (!props.contract) return "";
 
-  return props.contract.htmlContent
+  const seller = props.contract.contacts.find(
+    (c) => c.contactType === "seller"
+  )?.contacts;
+  const buyer = props.contract.contacts.find(
+    (c) => c.contactType === "buyer"
+  )?.contacts;
+
+  if (!seller || !buyer) return "";
+  return props.contract.htmlContent;
 });
-</script> 
+</script>

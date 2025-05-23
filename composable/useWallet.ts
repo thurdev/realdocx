@@ -5,15 +5,32 @@ interface WalletResponse {
   totalDebits?: number;
 }
 
-const _fetchBalance = async () => {
+const _fetchWallet = async () => {
   const response = await $fetch<WalletResponse>("/api/wallet/balance");
   if (response.error) {
     console.error("Error fetching balance:", response.error);
-    return 0;
+    return {
+      balance: 0,
+      totalCredits: 0,
+      totalDebits: 0,
+    };
   } else if (response.balance !== undefined) {
-    return response.balance;
+    return {
+      balance: response.balance,
+      totalCredits: response.totalCredits,
+      totalDebits: response.totalDebits,
+    };
   }
-  return 0;
+  return {
+    balance: 0,
+    totalCredits: 0,
+    totalDebits: 0,
+  };
+};
+
+const _fetchTotals = async () => {
+  const response = await $fetch<WalletResponse>("/api/wallet/totals");
+  return response;
 };
 
 export const useWallet = () => {
@@ -22,9 +39,19 @@ export const useWallet = () => {
   const totalDebits = useState<number>("totalDebits", () => 0);
 
   const fetchBalance = async () => {
-    const fetchedBalance = await _fetchBalance();
-    if (fetchedBalance !== undefined) {
-      balance.value = fetchedBalance;
+    const {
+      balance: balanceValue,
+      totalCredits: totalCreditsValue,
+      totalDebits: totalDebitsValue,
+    } = await _fetchWallet();
+    if (balanceValue !== undefined) {
+      balance.value = balanceValue;
+    }
+    if (totalCreditsValue !== undefined) {
+      totalCredits.value = totalCreditsValue;
+    }
+    if (totalDebitsValue !== undefined) {
+      totalDebits.value = totalDebitsValue;
     }
   };
 

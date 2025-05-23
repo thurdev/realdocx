@@ -98,9 +98,13 @@
     }
   },
   "sidebar": {
-    "dashboard": {
-      "en": "Dashboard",
+    "home": {
+      "en": "Home",
       "pt": "Início"
+    },
+    "dashboard": {
+      "en": "Panel",
+      "pt": "Painel"
     },
     "settings": {
       "en": "Settings",
@@ -118,13 +122,37 @@
       "en": "Contracts",
       "pt": "Contractos"
     },
+    "listContracts": {
+      "en": "List Contracts",
+      "pt": "Listar Contratos"
+    },
+    "contractsCreate": {
+      "en": "Create Contract",
+      "pt": "Criar Contrato"
+    },
     "contacts": {
       "en": "Contacts",
       "pt": "Contatos"
     },
+    "listContacts": {
+      "en": "List Contacts",
+      "pt": "Listar Contatos"
+    },
+    "contactsCreate": {
+      "en": "Create Contact",
+      "pt": "Criar Contato"
+    },
     "properties": {
       "en": "Properties",
       "pt": "Imóveis"
+    },
+    "listProperties": {
+      "en": "List Properties",
+      "pt": "Listar Imóveis"
+    },
+    "propertiesCreate": {
+      "en": "Create Property",
+      "pt": "Criar Imóvel"
     },
     "logout": {
       "en": "Logout",
@@ -287,6 +315,10 @@
             "neighborhood": {
               "en": "Neighborhood",
               "pt": "Freguesia"
+            },
+            "state": {
+              "en": "State",
+              "pt": "Estado"
             },
             "country": {
               "en": "Country",
@@ -676,6 +708,10 @@
     }
   },
   "contacts": {
+    "editContactSuccess": {
+      "en": "Contact edited successfully",
+      "pt": "Contato editado com sucesso"
+    },
     "title": {
       "en": "Contacts",
       "pt": "Contatos"

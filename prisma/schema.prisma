@@ -69,32 +69,32 @@ model Contacts {
   id    Int     @id @default(autoincrement())
   // Contact Info
   name  String
-  vat String
+  vat String?
   image String? // Campo de imagem para contatos
 
   // Marital
-  maritalStatus MaritalStatus
+  maritalStatus MaritalStatus?
   marriedUnderRegime String?
 
   // Identity Card
-  identityType IdentityType
-  identityNumber String
-  identityExpirationDate DateTime
-  identityIssuer String
+  identityType IdentityType?
+  identityNumber String?
+  identityExpirationDate DateTime?
+  identityIssuer String?
 
   // Contact Address
-  country String // Company or Individual
-  address String // Company or Individual
-  neighborhood String // Company or Individual
-  state String // Company or Individual
-  city String // Company or Individual
-  zipCode String // Company or Individual
+  country String? // Company or Individual
+  address String? // Company or Individual
+  neighborhood String? // Company or Individual
+  state String? // Company or Individual
+  city String? // Company or Individual
+  zipCode String? // Company or Individual
 
   // Company
-  companyRegistration String // Registro Comercial
-  companyCode String // Certidao Permanente
-  companyRCBECode String // Codigo RCBE
-  companySocialCapital String // Capital Social
+  companyRegistration String? // Registro Comercial
+  companyCode String? // Certidao Permanente
+  companyRCBECode String? // Codigo RCBE
+  companySocialCapital String? // Capital Social
 
   // ContactType
   contactType ContactType
@@ -102,6 +102,11 @@ model Contacts {
   // User
   userId Int
   user Users @relation(fields: [userId], references: [id])
+
+  // Married Contact
+  marriedContactId Int?
+  marriedContact Contacts? @relation("MarriedContact", fields: [marriedContactId], references: [id])
+  
   
   // Contracts 
   contactsContract ContractContacts[]
@@ -110,36 +115,39 @@ model Contacts {
   
   createdAt DateTime @default(now())
   updatedAt DateTime @updatedAt
+
+  Contacts Contacts[] @relation("MarriedContact")
 }
 
 model Properties {
   id    Int     @id @default(autoincrement())
   // Property Info
   image String? // Campo de imagem para propriedades
-  fraction String // Compiscão (H)
-  floor String // Andar
-  destination String // Destino (Habitacao, Comercio, Serviços)
-  district String // Distrito
-  neighborhood String // Freguesia
-  address String // Morada
-  number String // Numero
-  city String // Localidade
-  postalCode String // Codigo Postal
-  matrixRegistration String // Inscricao Matricial
-  buildingDescriptionNumber String // Descrição do Prédio
-  buildingDescriptionRegistry String // Conservatoria do Registo Predial
-  luNumber String // Numero de LU (Licença de Utilização)
-  luDate DateTime // Data de LU (Licença de Utilização)
-  luIssuer String // Entidade Emissora da LU (Licença de Utilização)
-  ecLetter String // Letra do Certificado Energético
-  ecNumber String // Certificado Energético
-  ecValidUntil DateTime // Data do Certificado Energético
+  fraction String? // Compiscão (H)
+  floor String? // Andar
+  destination String? // Destino (Habitacao, Comercio, Serviços)
+  country String? // Pais
+  district String? // Distrito
+  neighborhood String? // Freguesia
+  address String? // Morada
+  number String? // Numero
+  city String? // Localidade
+  postalCode String? // Codigo Postal
+  matrixRegistration String? // Inscricao Matricial
+  buildingDescriptionNumber String? // Descrição do Prédio
+  buildingDescriptionRegistry String? // Conservatoria do Registo Predial
+  luNumber String? // Numero de LU (Licença de Utilização)
+  luDate DateTime? // Data de LU (Licença de Utilização)
+  luIssuer String? // Entidade Emissora da LU (Licença de Utilização)
+  ecLetter String? // Letra do Certificado Energético
+  ecNumber String? // Certificado Energético
+  ecValidUntil DateTime? // Data do Certificado Energético
 
   // charges (Despesas)
-  chargesType String // Tipo de Despesa
-  chargesBank String // Banco
-  chargesAP String // AP
-  chargesDate DateTime // Data de Despesa
+  chargesType String? // Tipo de Despesa
+  chargesBank String? // Banco
+  chargesAP String? // AP
+  chargesDate DateTime? // Data de Despesa
   
 
   // Contracts

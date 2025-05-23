@@ -1,14 +1,13 @@
 <script setup lang="ts">
-import type { PopoverContentEmits, PopoverContentProps } from 'radix-vue'
-import type { HTMLAttributes } from 'vue'
 import { cn } from '@/lib/utils'
 import {
   PopoverContent,
-
+  type PopoverContentEmits,
+  type PopoverContentProps,
   PopoverPortal,
   useForwardPropsEmits,
-} from 'radix-vue'
-import { computed } from 'vue'
+} from 'reka-ui'
+import { computed, type HTMLAttributes } from 'vue'
 
 defineOptions({
   inheritAttrs: false,

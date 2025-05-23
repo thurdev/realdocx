@@ -10,26 +10,26 @@
     :properties="properties"
     @on-select-property="handleSelectProperty"
   />
-  <StepDeadlines
-    v-if="currentStep === 2"
+  <StepPriceAndConditions
+    v-if="currentStep === 3"
     @on-select-clauses="handleSelectClause"
   />
   <StepExtraClause
-    v-if="currentStep === 3"
+    v-if="currentStep === 13"
     @on-select-clauses="handleSelectClause"
   />
   <template v-for="(clause, index) in extraClauses" :key="index">
     <component
-      v-if="currentStep === 4 + index"
+      v-if="currentStep === 3 + index"
       :is="clause.component"
       :clause="clause"
       @on-extra-clause-value="handleExtraClauseValue"
     />
   </template>
-  <Step04Review
+  <StepReview
     v-if="isLastStep"
     :data="data"
-    @on-html-generated="handleHTMLGenerated"
+    @onHTMLGenerated="handleHTMLGenerated"
   />
 </template>
 
@@ -40,7 +40,7 @@ import type { ContractTemplate } from "../_templates";
 
 import StepObjects from "./StepObjects.vue";
 import StepProperties from "./StepProperties.vue";
-import StepDeadlines from "./StepDeadlines.vue";
+import StepPriceAndConditions from "./StepPriceAndConditions.vue";
 import StepExtraClause from "./StepExtraClause.vue";
 import StepReview from "./StepReview.vue";
 

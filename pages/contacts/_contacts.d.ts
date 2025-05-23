@@ -19,6 +19,7 @@ export type Contact = {
   companyRCBECode: string;
   companySocialCapital: string;
   contactType: CustomerType;
+  marriedContactId: string;
   createdAt?: string;
   image?: string;
 };

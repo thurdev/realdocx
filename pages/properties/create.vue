@@ -103,20 +103,138 @@
 
                 <div>
                   <Label>Destino</Label>
-                  <Input
-                    v-model="newProperty.destination"
-                    placeholder="Digite o destino"
-                  />
+
+                  <Select v-model="newProperty.destination">
+                    <SelectTrigger
+                      class="w-full bg-white border-gray-200 hover:border-gray-300"
+                    >
+                      <SelectValue
+                        placeholder="Selecione o destino do imóvel"
+                      />
+                    </SelectTrigger>
+                    <SelectContent>
+                      <SelectGroup>
+                        <SelectItem value="Residencial">Residencial</SelectItem>
+                        <SelectItem value="Comercial">Comercial</SelectItem>
+                        <SelectItem value="Industrial">Industrial</SelectItem>
+                        <SelectItem value="Terreno">Terreno</SelectItem>
+                        <SelectItem value="Outros">Outros</SelectItem>
+                      </SelectGroup>
+                    </SelectContent>
+                  </Select>
                 </div>
               </div>
 
               <!-- Localização -->
               <div class="flex flex-col flex-1 gap-4" v-if="currentStep === 2">
                 <div>
+                  <Label>País</Label>
+                  <Popover v-model:open="openSearchCountry">
+                    <PopoverTrigger
+                      class="text-sm w-full text-left border border-gray-200 px-4 py-2 rounded-md bg-white hover:border-gray-300"
+                    >
+                      {{ newProperty.country || "Selecione ou escreva o país" }}
+                    </PopoverTrigger>
+
+                    <PopoverContent class="w-full p-0">
+                      <Command v-model="newProperty.country">
+                        <CommandInput
+                          placeholder="Pesquisar país..."
+                          @keydown.enter="handleCountryInput"
+                        />
+                        <CommandList>
+                          <CommandEmpty>
+                            Nenhum país encontrado.
+                            <br />
+                            Pressione <b>enter</b> para salvar o país.
+                          </CommandEmpty>
+                          <CommandGroup>
+                            <CommandItem
+                              v-for="country in countries"
+                              :key="country"
+                              :value="country"
+                              @select="openSearchCountry = false"
+                            >
+                              <Check
+                                :class="
+                                  cn(
+                                    'mr-2 h-4 w-4',
+                                    newProperty.district === country
+                                      ? 'opacity-100'
+                                      : 'opacity-0'
+                                  )
+                                "
+                              />
+                              {{ country }}
+                            </CommandItem>
+                          </CommandGroup>
+                        </CommandList>
+                      </Command>
+                    </PopoverContent>
+                  </Popover>
+                </div>
+
+                <div>
                   <Label>Distrito</Label>
+                  <Popover v-model:open="openSearchDistrict">
+                    <PopoverTrigger as-child>
+                      <Button
+                        variant="outline"
+                        :aria-expanded="openSearchDistrict"
+                        class="w-full justify-between text-sm font-normal"
+                      >
+                        {{
+                          newProperty.district ||
+                          "Selecione ou escreva o distrito"
+                        }}
+                        <ChevronsUpDown
+                          class="ml-2 h-4 w-4 shrink-0 opacity-50"
+                        />
+                      </Button>
+                    </PopoverTrigger>
+                    <PopoverContent class="w-full p-0">
+                      <Command v-model="newProperty.district">
+                        <CommandInput
+                          placeholder="Pesquisar distrito..."
+                          @keydown.enter="handleDistrictInput"
+                        />
+                        <CommandEmpty>
+                          Nenhum distrito encontrado.
+                          <br />
+                          Pressione <b>enter</b> para salvar o distrito.
+                        </CommandEmpty>
+                        <CommandList>
+                          <CommandGroup>
+                            <CommandItem
+                              v-for="district in districts"
+                              :key="district.value"
+                              :value="district.value"
+                              @select="openSearchDistrict = false"
+                            >
+                              <Check
+                                :class="
+                                  cn(
+                                    'mr-2 h-4 w-4',
+                                    newProperty.district === district.value
+                                      ? 'opacity-100'
+                                      : 'opacity-0'
+                                  )
+                                "
+                              />
+                              {{ district.label }}
+                            </CommandItem>
+                          </CommandGroup>
+                        </CommandList>
+                      </Command>
+                    </PopoverContent>
+                  </Popover>
+                </div>
+
+                <div>
+                  <Label>Cidade</Label>
                   <Input
-                    v-model="newProperty.district"
-                    placeholder="Digite o distrito"
+                    v-model="newProperty.city"
+                    placeholder="Digite a cidade"
                   />
                 </div>
 
@@ -129,26 +247,10 @@
                 </div>
 
                 <div>
-                  <Label>Endereço</Label>
+                  <Label>Morada</Label>
                   <Input
                     v-model="newProperty.address"
-                    placeholder="Digite o endereço"
-                  />
-                </div>
-
-                <div>
-                  <Label>Número</Label>
-                  <Input
-                    v-model="newProperty.number"
-                    placeholder="Digite o número"
-                  />
-                </div>
-
-                <div>
-                  <Label>Cidade</Label>
-                  <Input
-                    v-model="newProperty.city"
-                    placeholder="Digite a cidade"
+                    placeholder="Digite a morada"
                   />
                 </div>
 
@@ -188,7 +290,7 @@
                 </div>
 
                 <div>
-                  <Label>Número LU</Label>
+                  <Label>Número da Licença de Utilização</Label>
                   <Input
                     v-model="newProperty.luNumber"
                     placeholder="Digite o número LU"
@@ -196,7 +298,7 @@
                 </div>
 
                 <div>
-                  <Label>Data LU</Label>
+                  <Label> Data da Licença de Utilização</Label>
                   <Input
                     type="date"
                     v-model="newProperty.luDate"
@@ -205,35 +307,102 @@
                 </div>
 
                 <div>
-                  <Label>Emissor LU</Label>
-                  <Input
-                    v-model="newProperty.luIssuer"
-                    placeholder="Digite o emissor LU"
-                  />
+                  <TooltipProvider>
+                    <Tooltip>
+                      <TooltipTrigger as-child>
+                        <Label for="luIssuer" class="flex gap-1"
+                          >Emissor da Licença de Utilização
+                          <Info class="size-4 text-black/50" />
+                        </Label>
+                      </TooltipTrigger>
+                      <TooltipContent>
+                        Entidade que emitiu a licença (ex: Câmara Municipal).
+                      </TooltipContent>
+                    </Tooltip>
+                  </TooltipProvider>
+
+                  <Popover v-model:open="openSearchLuIssuer">
+                    <PopoverTrigger
+                      class="text-sm w-full text-left border border-gray-200 px-4 py-2 rounded-md bg-white hover:border-gray-300"
+                    >
+                      {{
+                        newProperty.luIssuer ||
+                        "Selecione o emissor da licença de utilização"
+                      }}
+                    </PopoverTrigger>
+                    <PopoverContent class="w-full p-0">
+                      <Command v-model="newProperty.luIssuer">
+                        <CommandInput
+                          placeholder="Pesquisar entidade..."
+                          @keydown.enter="handleLuIssuerInput"
+                        />
+                        <CommandEmpty>
+                          Nenhuma entidade encontrada.
+                          <br />
+                          Pressione <b>enter</b> para salvar a entidade.
+                        </CommandEmpty>
+
+                        <CommandGroup>
+                          <CommandItem
+                            value="Câmara Municipal"
+                            @select="openSearchLuIssuer = false"
+                          >
+                            Câmara Municipal
+                          </CommandItem>
+                          <CommandItem
+                            value="IMT"
+                            @select="openSearchLuIssuer = false"
+                          >
+                            IMT
+                          </CommandItem>
+                          <CommandItem
+                            value="Outros"
+                            @select="openSearchLuIssuer = false"
+                          >
+                            Outros
+                          </CommandItem>
+                        </CommandGroup>
+                      </Command>
+                    </PopoverContent>
+                  </Popover>
                 </div>
 
                 <div>
-                  <Label>Letra EC</Label>
-                  <Input
-                    v-model="newProperty.ecLetter"
-                    placeholder="Digite a letra EC"
-                  />
+                  <Label>Letra do Certificado Energético</Label>
+                  <Select v-model="newProperty.ecLetter">
+                    <SelectTrigger>
+                      <SelectValue
+                        :placeholder="
+                          newProperty.ecLetter || 'Selecione a letra'
+                        "
+                      />
+                    </SelectTrigger>
+                    <SelectContent>
+                      <SelectItem
+                        v-for="letter in certifiedEnergyLetters"
+                        :key="letter"
+                        :value="letter"
+                      >
+                        {{ letter }}
+                      </SelectItem>
+                    </SelectContent>
+                  </Select>
                 </div>
 
                 <div>
-                  <Label>Número EC</Label>
+                  <Label>Nº do Certificado Energético</Label>
                   <Input
                     v-model="newProperty.ecNumber"
-                    placeholder="Digite o número EC"
+                    placeholder="Digite o número do certificado energético"
                   />
                 </div>
 
                 <div>
-                  <Label>Validade EC</Label>
+                  <Label>Validade do Certificado Energético</Label>
                   <Input
                     type="date"
                     v-model="newProperty.ecValidUntil"
-                    placeholder="Digite a validade EC"
+                    placeholder="Digite a validade do certificado energético"
                   />
                 </div>
               </div>
@@ -242,10 +411,24 @@
               <div class="flex flex-col flex-1 gap-4" v-if="currentStep === 4">
                 <div>
                   <Label>Tipo de Encargo</Label>
-                  <Input
-                    v-model="newProperty.chargesType"
-                    placeholder="Digite o tipo de encargo"
-                  />
+                  <Select v-model="newProperty.chargesType">
+                    <SelectTrigger>
+                      <SelectValue
+                        :placeholder="
+                          newProperty.chargesType || 'Selecione o tipo'
+                        "
+                      />
+                    </SelectTrigger>
+                    <SelectContent>
+                      <SelectItem
+                        v-for="type in chargesTypes"
+                        :key="type"
+                        :value="type"
+                      >
+                        {{ type }}
+                      </SelectItem>
+                    </SelectContent>
+                  </Select>
                 </div>
 
                 <div>
@@ -315,25 +498,48 @@ import {
   StepperTitle,
   StepperTrigger,
 } from "@/components/ui/stepper";
-import { Check, Circle, Dot } from "lucide-vue-next";
+import { Check, Circle, Dot, Info } from "lucide-vue-next";
 import type { Property } from "./_property";
 import { useToast } from "@/components/ui/toast/use-toast";
+import {
+  Tooltip,
+  TooltipContent,
+  TooltipProvider,
+  TooltipTrigger,
+} from "@/components/ui/tooltip";
+
+import {
+  Command,
+  CommandEmpty,
+  CommandGroup,
+  CommandInput,
+  CommandItem,
+  CommandList,
+} from "@/components/ui/command";
+import {
+  Popover,
+  PopoverContent,
+  PopoverTrigger,
+} from "@/components/ui/popover";
+
+import { cn } from "@/lib/utils";
 
 const router = useRouter();
 const { toast } = useToast();
 
 const currentStep = ref(1);
 const newProperty = ref<Partial<Property>>({
+  link: "",
   price: 0,
+  country: "",
+  district: "",
+  city: "",
+  neighborhood: "",
+  address: "",
+  postalCode: "",
   fraction: "",
   floor: "",
   destination: "",
-  district: "",
-  neighborhood: "",
-  address: "",
-  number: "",
-  city: "",
-  postalCode: "",
   matrixRegistration: "",
   buildingDescriptionNumber: "",
   buildingDescriptionRegistry: "",
@@ -353,7 +559,7 @@ const steps = ref([
   {
     step: 1,
     title: "1. Informações Básicas",
-    description: "Preço, fração, andar e destino",
+    description: "Fração, andar e destino",
   },
   {
     step: 2,
@@ -401,4 +607,85 @@ const handleBackClick = (func: Function) => {
 const buttonNextLabel = computed(() => {
   return currentStep.value === steps.value.length ? "Salvar" : "Próximo";
 });
+
+const districts = [
+  { value: "Aveiro", label: "Aveiro" },
+  { value: "Beja", label: "Beja" },
+  { value: "Braga", label: "Braga" },
+  { value: "Bragança", label: "Bragança" },
+  { value: "Castelo Branco", label: "Castelo Branco" },
+  { value: "Coimbra", label: "Coimbra" },
+  { value: "Évora", label: "Évora" },
+  { value: "Faro", label: "Faro" },
+  { value: "Guarda", label: "Guarda" },
+  { value: "Leiria", label: "Leiria" },
+  { value: "Lisboa", label: "Lisboa" },
+  { value: "Portalegre", label: "Portalegre" },
+  { value: "Porto", label: "Porto" },
+  { value: "Santarém", label: "Santarém" },
+  { value: "Setúbal", label: "Setúbal" },
+  { value: "Viana do Castelo", label: "Viana do Castelo" },
+  { value: "Vila Real", label: "Vila Real" },
+  { value: "Viseu", label: "Viseu" },
+  { value: "Açores", label: "Açores" },
+  { value: "Madeira", label: "Madeira" },
+];
+
+const countries = [
+  "Alemanha",
+  "Áustria",
+  "Bélgica",
+  "Bulgária",
+  "Chipre",
+  "Croácia",
+  "Dinamarca",
+  "Eslováquia",
+  "Eslovénia",
+  "Espanha",
+  "Estónia",
+  "Finlândia",
+  "França",
+  "Grécia",
+  "Hungria",
+  "Irlanda",
+  "Itália",
+  "Letónia",
+  "Lituânia",
+  "Luxemburgo",
+  "Malta",
+  "Países Baixos",
+  "Polónia",
+  "Portugal",
+  "Roménia",
+  "Suécia",
+  "República Checa",
+];
+
+const certifiedEnergyLetters = ["A", "B", "C", "D", "E"];
+
+const chargesTypes = ["Hipoteca", "Penhora", "Usufruto", "Outro"];
+
+const openSearchDistrict = ref(false);
+const openSearchCountry = ref(false);
+const openSearchLuIssuer = ref(false);
+const handleDistrictInput = (event: KeyboardEvent) => {
+  if (event.key === "Enter") {
+    newProperty.value.district = (event.target as HTMLInputElement).value;
+    openSearchDistrict.value = false;
+  }
+};
+
+const handleCountryInput = (event: KeyboardEvent) => {
+  if (event.key === "Enter") {
+    newProperty.value.country = (event.target as HTMLInputElement).value;
+    openSearchCountry.value = false;
+  }
+};
+
+const handleLuIssuerInput = (event: KeyboardEvent) => {
+  if (event.key === "Enter") {
+    newProperty.value.luIssuer = (event.target as HTMLInputElement).value;
+    openSearchLuIssuer.value = false;
+  }
+};
 </script>

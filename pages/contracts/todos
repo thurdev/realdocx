@@ -46,12 +46,13 @@
 - [x] **Na hora de selecionar o imovel/contato poder pesquisar.**
 - [x] **Ao clicar next, dar scroll para o step atual. (isso é para quando tiver varias clausulas extras, assim os steps ficam com um scroll por conta do max-height ai o que faz sentido é dar um scroll nessa div (se nao tiver ainda max width adicionar))**
 - [x] **Todas as paginas o botao de voltar (setinha) estar na esquerda atrás do titulo**
-- [/] **Permitir múltiplos compradores/vendedores no contrato.**
-- [ ] V0 Tirar edicao do template no preview
-- [ ] \*\*No último step (preview), mostrar apenas a primeira página do contrato (sem cláusulas completas). (Fazer uma função para cortar o HTML)
-- [ ] **No contrato que for baixado, as keys aparecerem com bg laranja**
-- [ ] **No select do imovel criacao do contrato, adicionar um padding no select**
-- [ ] No ultimo step mostrar o preco do contrato no botao
-- [ ] Wallet page usar o saldo do composable
-- [ ] Bloquear o path do nuxt para os meus components / Se nao mover todos os arquivos que nao sao paginas para o /components/
+- [x] **Permitir múltiplos compradores/vendedores no contrato.**
+- [x] V0 Tirar edicao do template no preview
+- [x] \*\*No último step (preview), mostrar apenas a primeira página do contrato (sem cláusulas completas). (Fazer uma função para cortar o HTML)
+- [x] **No contrato que for baixado, as keys aparecerem com bg laranja**
+- [x] **No select do imovel criacao do contrato, adicionar um padding no select**
+- [x] No ultimo step mostrar o preco do contrato no botao de guardar
+- [x] Wallet page usar o saldo do composable
+- [/] Bloquear o path do nuxt para os meus components / Se nao mover todos os arquivos que nao sao paginas para o /components/
 - [ ] Editar o template somente na pagina de templates ja criado (na lista), o edit do template é completo usar rich text editor.
+- [ ] Adicionar search nos contatos na pagina de criar contato, e se nao encontrar texto para adicionar contato.

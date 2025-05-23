@@ -1,15 +1,7 @@
 <template>
+  <!-- Intervenção Imobiliária -->
   <div class="flex-1">
-    <div>
-      <label class="block text-sm font-medium text-gray-700">
-        Data limite para Escritura
-      </label>
-      <input
-        type="date"
-        v-model="value"
-        class="mt-1 block w-full rounded-md border-gray-300 shadow-sm focus:ring focus:ring-indigo-500"
-      />
-    </div>
+    <div>NAO SEI QUAIS INPUTS</div>
   </div>
 </template>
 

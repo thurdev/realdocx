@@ -3,12 +3,12 @@
     <div class="property-select space-y-2">
       <Label class="text-sm font-medium text-gray-700">Imóvel</Label>
       <Popover v-model:open="open">
-        <PopoverTrigger as-child>
+        <PopoverTrigger as-child class="pb-4 pt-4">
           <Button
             variant="outline"
             role="combobox"
             :aria-expanded="open"
-            class="w-full justify-between bg-white border-gray-200 hover:border-gray-300"
+            class="w-full justify-between bg-white border-gray-200 hover:border-gray-300 h-12"
           >
             <div class="flex items-center gap-4" v-if="selectedProperty">
               <img

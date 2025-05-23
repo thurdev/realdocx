@@ -1,6 +1,5 @@
 <script lang="ts" setup>
-import type { RangeCalendarGridHeadProps } from 'radix-vue'
-import { RangeCalendarGridHead } from 'radix-vue'
+import { RangeCalendarGridHead, type RangeCalendarGridHeadProps } from 'reka-ui'
 
 const props = defineProps<RangeCalendarGridHeadProps>()
 </script>

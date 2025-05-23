@@ -19,7 +19,7 @@
           <div class="mt-4 flex flex-col gap-2">
             <p>{{ $t("wallet.creditBalance") }}</p>
             <span class="text-3xl"
-              >€{{ walletData.balance?.toFixed(2) || "0.00" }}</span
+              >€{{ wallet.balance.value.toFixed(2) || "0.00" }}</span
             >
             <Button
               :class="{
@@ -53,10 +53,12 @@
             <div class="flex items-center gap-4">
               <Progress v-model="progress" class="w-[100%]" />
               <div class="flex gap-1">
-                <span>€{{ walletData.totalDebits?.toFixed(2) || "0.00" }}</span>
+                <span
+                  >€{{ wallet.totalDebits.value?.toFixed(2) || "0.00" }}</span
+                >
                 <span>/</span>
                 <span
-                  >€{{ walletData.totalCredits?.toFixed(2) || "0.00" }}</span
+                  >€{{ wallet.totalCredits.value?.toFixed(2) || "0.00" }}</span
                 >
               </div>
             </div>
@@ -283,7 +285,9 @@ import { Input } from "@/components/ui/input";
 import { useToast } from "@/components/ui/toast/use-toast";
 import { Loader2 } from "lucide-vue-next";
 import type { ColumnDef } from "@tanstack/vue-table";
+import { useWallet } from "~/composable/useWallet";
 const { $t } = useNuxtApp();
+const wallet = useWallet();
 // Estado
 const currentPage = ref(1);
 const showAddCreditsDialog = ref(false);
@@ -296,13 +300,6 @@ const isLoadingRemoveCard = ref(false);
 const { toast } = useToast();
 
 const currentTab = ref("overview");
-
-// Dados da wallet
-const walletData = ref({
-  balance: 0,
-  totalCredits: 0,
-  totalDebits: 0,
-});
 
 const transactions = ref({
   transactions: [] as Transaction[],
@@ -368,8 +365,8 @@ const paymentMethods = ref<
 
 // Computed
 const progress = computed(() => {
-  if (!walletData.value.totalCredits) return 0;
-  return (walletData.value.totalDebits / walletData.value.totalCredits) * 100;
+  if (!wallet.totalCredits.value) return 0;
+  return (wallet.totalDebits.value / wallet.totalCredits.value) * 100;
 });
 
 const recentTransactions = computed(() => transactions.value.transactions);
@@ -427,15 +424,6 @@ const formatDate = (date: string) => {
   });
 };
 
-// Funções para carregar dados
-const loadWalletData = async () => {
-  try {
-    walletData.value = await $fetch("/api/wallet/balance");
-  } catch (error) {
-    console.error("Error loading wallet data:", error);
-  }
-};
-
 const loadTransactions = async (page = 1) => {
   try {
     transactions.value = await $fetch("/api/wallet/transactions", {
@@ -483,7 +471,7 @@ const handleAddCredits = async () => {
     });
 
     // Recarregar dados
-    await Promise.all([loadWalletData(), loadTransactions()]);
+    await Promise.all([wallet.fetchBalance(), loadTransactions()]);
 
     // Simular loading por 2s
     await new Promise((resolve) => setTimeout(resolve, 2000));
@@ -523,7 +511,7 @@ let elements: any;
 // Carregar dados iniciais
 onMounted(async () => {
   await Promise.all([
-    loadWalletData(),
+    wallet.fetchBalance(),
     loadTransactions(),
     loadPaymentMethods(),
   ]);
