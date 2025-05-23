@@ -26,7 +26,12 @@
             <SidebarMenu>
               <SidebarMenuItem v-for="link in item.links" :key="link.title">
                 <SidebarMenuButton asChild>
-                  <a :href="link.url">
+                  <a
+                    :href="link.url"
+                    :class="
+                      link.url === route.path ? 'bg-blue-500 text-white' : ''
+                    "
+                  >
                     <component :is="link.icon" />
                     <span>{{ $t(link.title) }}</span>
                   </a>
@@ -139,7 +144,7 @@ import { useLanguage } from "~/composable/useLanguage";
 const { user, clear } = useUserSession();
 const { state } = useSidebar();
 const language = useLanguage();
-
+const route = useRoute();
 const items = [
   {
     title: "sidebar.home",
