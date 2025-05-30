@@ -10,6 +10,7 @@ export default defineEventHandler(async (event) => {
   }
 
   const {
+    id,
     country,
     district,
     city,
@@ -20,9 +21,9 @@ export default defineEventHandler(async (event) => {
     fraction,
     floor,
     destination,
-    matrixRegistration,
-    buildingDescriptionNumber,
-    buildingDescriptionRegistry,
+    numberOfDescriptionRegistry,
+    neighborhoodDescriptionRegistry,
+    conservatoryOfDescriptionRegistry,
     luNumber,
     luDate, // Date
     luIssuer,
@@ -35,6 +36,8 @@ export default defineEventHandler(async (event) => {
     chargesDate, // Date
     side,
     propertyType,
+    matrixRegistration,
+    neighborhoodMatrixRegistration,
   } = await readBody(event);
 
   if (!session.secure.userId) {
@@ -90,16 +93,24 @@ export default defineEventHandler(async (event) => {
     extra.destination = destination;
   }
 
+  if (numberOfDescriptionRegistry) {
+    extra.numberOfDescriptionRegistry = numberOfDescriptionRegistry;
+  }
+
+  if (neighborhoodDescriptionRegistry) {
+    extra.neighborhoodDescriptionRegistry = neighborhoodDescriptionRegistry;
+  }
+
+  if (conservatoryOfDescriptionRegistry) {
+    extra.conservatoryOfDescriptionRegistry = conservatoryOfDescriptionRegistry;
+  }
+
   if (matrixRegistration) {
     extra.matrixRegistration = matrixRegistration;
   }
 
-  if (buildingDescriptionNumber) {
-    extra.buildingDescriptionNumber = buildingDescriptionNumber;
-  }
-
-  if (buildingDescriptionRegistry) {
-    extra.buildingDescriptionRegistry = buildingDescriptionRegistry;
+  if (neighborhoodMatrixRegistration) {
+    extra.neighborhoodMatrixRegistration = neighborhoodMatrixRegistration;
   }
 
   if (luNumber) {
@@ -150,14 +161,24 @@ export default defineEventHandler(async (event) => {
     extra.propertyType = propertyType;
   }
 
-  // Create the contact
-  await prisma.properties.create({
-    data: {
-      ...extra,
-      // Owner
-      userId: session.secure.userId,
-    },
-  });
+  if (id) {
+    // Update the property
+    await prisma.properties.update({
+      where: {
+        id: id,
+      },
+      data: extra,
+    });
+  } else {
+    // Create the property
+    await prisma.properties.create({
+      data: {
+        ...extra,
+        // Owner
+        userId: session.secure.userId,
+      },
+    });
+  }
 
   return {
     success: true,

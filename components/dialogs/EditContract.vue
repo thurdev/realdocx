@@ -2,13 +2,12 @@
   <Dialog :open="isOpen" @update:open="$emit('update:open', $event)">
     <DialogContent class="max-w-4xl max-h-[90vh] overflow-y-auto">
       <DialogHeader>
-        <DialogTitle>Editar Contato: {{ contact?.name }}</DialogTitle>
+        <DialogTitle>Editar Contrato</DialogTitle>
       </DialogHeader>
-      <FormsCreateContact
-        :contact="contact"
-        :successMessage="$t('contacts.editContactSuccess')"
-        @onContactCreate="handleContactUpdated"
-      />
+      <!-- FORM EDIT CONTRACT -->
+      <DialogFooter>
+        <Button @click="handleContractEdited">Salvar</Button>
+      </DialogFooter>
     </DialogContent>
   </Dialog>
 </template>
@@ -17,27 +16,36 @@
 import {
   Dialog,
   DialogContent,
-  DialogDescription,
   DialogFooter,
   DialogHeader,
   DialogTitle,
 } from "@/components/ui/dialog";
 import { Button } from "@/components/ui/button";
-import type { Contact } from "~/pages/contacts/_contacts";
+import type { Contract } from "~/pages/contracts/_contract";
 
 const props = defineProps<{
   isOpen: boolean;
-  contact?: Contact;
+  contract: Partial<Contract>;
 }>();
+
+const localContract = ref<Partial<Contract>>({});
+
+watch(
+  () => props.contract,
+  () => {
+    localContract.value = { ...props.contract };
+  },
+  { deep: true, immediate: true }
+);
 
 const emit = defineEmits<{
   "update:open": [boolean];
-  contact: [Contact];
+  contract: [Partial<Contract>];
 }>();
 
-const handleContactUpdated = (contact: Contact) => {
+const handleContractEdited = () => {
   // Emit an event to notify the parent component that the contact has been updated
   emit("update:open", false);
-  emit("contact", contact);
+  emit("contract", localContract.value);
 };
 </script>

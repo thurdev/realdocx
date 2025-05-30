@@ -111,22 +111,6 @@ onMounted(async () => {
   }
 });
 
-// Função para verificar saldo antes de baixar
-const checkBalance = async () => {
-  const response = await $fetch<{ balance: number; error?: string }>('/api/wallet/balance');
-  if ('error' in response) {
-    $toast.error($t('wallet.errors.balanceCheck'));
-    return false;
-  }
-  
-  if (response.balance < PRICES.CONTRACT_DOWNLOAD) {
-    $toast.error($t('wallet.errors.insufficientBalance'));
-    return false;
-  }
-  
-  return true;
-};
-
 // Função para download como PDF
 const downloadAsPDF = async () => {
   loadingPDF.value = true;

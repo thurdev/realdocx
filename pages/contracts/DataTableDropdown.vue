@@ -13,6 +13,11 @@
         <Eye class="mr-2 h-4 w-4" />
         <span>{{ $t("shared.actions.view") }}</span>
       </DropdownMenuItem>
+
+      <DropdownMenuItem @click="navigateToEdit">
+        <Edit class="mr-2 h-4 w-4" />
+        <span>{{ $t("shared.actions.edit") }}</span>
+      </DropdownMenuItem>
       <DropdownMenuItem @click="handleShare">
         <Share2 class="mr-2 h-4 w-4" />
         <span>{{ $t("contracts.share.button") }}</span>
@@ -23,10 +28,6 @@
           :class="{ 'animate-spin': isDownloading }"
         />
         <span>{{ $t("contracts.downloadAsPDF") }}</span>
-      </DropdownMenuItem>
-      <DropdownMenuItem @click="navigateToEdit">
-        <Edit class="mr-2 h-4 w-4" />
-        <span>{{ $t("shared.actions.edit") }}</span>
       </DropdownMenuItem>
       <DropdownMenuItem @click="handleDeleteContract">
         <Trash class="mr-2 h-4 w-4" />
@@ -39,6 +40,12 @@
     :is-open="isViewDialogOpen"
     :contract="contract"
     @update:open="isViewDialogOpen = $event"
+  />
+
+  <DialogsEditContract
+    :is-open="isEditDialogOpen"
+    :contract="contract"
+    @update:open="isEditDialogOpen = $event"
   />
 </template>
 
@@ -73,6 +80,7 @@ const props = defineProps<{
 
 const router = useRouter();
 const isViewDialogOpen = ref(false);
+const isEditDialogOpen = ref(false);
 const isDownloading = ref(false);
 const html2pdfModule = ref<any>(null);
 
@@ -87,7 +95,7 @@ onMounted(async () => {
 });
 
 const navigateToEdit = () => {
-  router.push(`/contracts/${props.contract.id}/edit`);
+  isEditDialogOpen.value = true;
 };
 
 const openViewDialog = () => {
@@ -101,45 +109,52 @@ const handleDownload = async () => {
 
   isDownloading.value = true;
 
-  /*try {
-    const seller = props.contract.contacts.find(
-      (c) => c.contactType === "seller"
-    )?.contacts;
-    const buyer = props.contract.contacts.find(
-      (c) => c.contactType === "buyer"
-    )?.contacts;
+  try {
+    const response = await $fetch<{ file: string; error?: string }>(
+      `/api/contracts/${props.contract.id}/download/pdf`,
+      {
+        method: "POST",
+      }
+    );
 
-    if (!seller || !buyer) {
-      throw new Error("Dados do contrato incompletos");
+    if ("error" in response && response.error) {
+      toast({
+        title: $t("shared.error"),
+        description: response.error,
+        variant: "errors",
+      });
+      isDownloading.value = false;
+      return;
     }
 
-    const html = generateContractHtml({ 
-      seller,
-      buyer,
-      property: props.contract.property,
-      price: props.contract.price,
-      isPreview: true,
-    });
+    // Criar um link temporário para download
+    const link = document.createElement("a");
+    link.href = `data:application/pdf;base64,${response.file}`;
+    link.download = `contract-${props.contract.id}.pdf`;
 
-    // Create a temporary div to hold the HTML
-    const element = document.createElement("div");
-    element.innerHTML = html;
-    document.body.appendChild(element);
+    // Criar um evento para detectar quando o download terminar
+    const checkDownloadComplete = () => {
+      setTimeout(() => {
+        isDownloading.value = false;
+        toast({
+          title: $t("contracts.downloadSuccess"),
+          variant: "success",
+        });
+      }, 1000);
+    };
 
-    try {
-      await html2pdfModule
-        .value()
-        .from(element)
-        .save(`contrato_${props.contract.id}.pdf`);
-    } finally {
-      // Clean up the temporary element
-      document.body.removeChild(element);
-    }
+    // Adicionar o evento e iniciar o download
+    link.addEventListener("click", checkDownloadComplete);
+    document.body.appendChild(link);
+    link.click();
+    document.body.removeChild(link);
   } catch (e) {
-    console.error("Error downloading PDF:", e);
-  } finally {
+    toast({
+      title: $t("contracts.errors.downloadFailed"),
+      variant: "errors",
+    });
     isDownloading.value = false;
-  }*/
+  }
 };
 
 const handleDeleteContract = async () => {
@@ -156,7 +171,7 @@ const handleDeleteContract = async () => {
   if (response.success) {
     toast({
       title: $t("shared.deleted"),
-      description: $t("shared.deletedDescription"),
+      description: $t("contracts.deleted"),
       variant: "success",
     });
     navigateTo("/contracts?deleted=" + props.contract.id);

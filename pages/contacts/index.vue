@@ -62,13 +62,8 @@ const loading = ref(false);
 const contacts = ref<Contact[]>([]);
 const isTourActive = ref(false);
 
-const updateContact = (updatedContact: Contact) => {
-  const index = contacts.value.findIndex((c) => c.id === updatedContact.id);
-  if (index !== -1) {
-    contacts.value[index] = updatedContact; // Update the contact in the array
-    // update the array
-    contacts.value = [...contacts.value]; // Trigger reactivity
-  }
+const updateContact = async () => {
+  await fetchContacts();
 };
 
 const columns = createColumns($t, updateContact);

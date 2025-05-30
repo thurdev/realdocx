@@ -4,7 +4,8 @@ import type { Property } from "./_property";
 import DataTableDropdown from "./DataTableDropdown.vue";
 
 export const createColumns = (
-  $t: (key: string) => string
+  $t: (key: string) => string,
+  updateTable: () => Promise<void>
 ): ColumnDef<Property>[] => [
   {
     accessorKey: "image",
@@ -94,6 +95,6 @@ export const createColumns = (
   {
     id: "actions",
     header: () => h("div", { class: "text-left" }, $t("shared.actions.title")),
-    cell: ({ row }) => h(DataTableDropdown, { row: row.original }),
+    cell: ({ row }) => h(DataTableDropdown, { row: row.original, updateTable }),
   },
 ];

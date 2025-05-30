@@ -15,8 +15,10 @@ export type Property = {
   floor: string;
   destination: string;
   matrixRegistration: string;
-  buildingDescriptionNumber: string;
-  buildingDescriptionRegistry: string;
+  neighborhoodMatrixRegistration: string;
+  numberOfDescriptionRegistry: string;
+  neighborhoodDescriptionRegistry: string;
+  conservatoryOfDescriptionRegistry: string;
   luNumber: string;
   luDate: string;
   luIssuer: string;

@@ -88,7 +88,7 @@
             <Input
               class="tour-target-input-name"
               v-model="name"
-              :placeholder="$t('cpcv.contacts.modals.form.inputs.name')"
+              placeholder="Ex: João da Silva"
             />
           </div>
 
@@ -97,7 +97,7 @@
             <Input
               class="tour-target-input-nif"
               v-model="vat"
-              :placeholder="$t('cpcv.contacts.modals.form.inputs.nif')"
+              placeholder="Ex: 1234567890"
             />
           </div>
 
@@ -111,9 +111,7 @@
             <Select v-model="maritalStatus">
               <SelectTrigger class="tour-target-select-marital-status">
                 <SelectValue
-                  :placeholder="
-                    $t('cpcv.contacts.modals.form.inputs.selectMaritalStatus')
-                  "
+                  placeholder="Ex: Solteiro, Casado, Divorciado, Viúvo"
                 />
               </SelectTrigger>
               <SelectContent>
@@ -138,11 +136,7 @@
 
               <Select v-model="marriedUnderRegime">
                 <SelectTrigger>
-                  <SelectValue
-                    :placeholder="
-                      $t('cpcv.contacts.modals.form.inputs.marriedUnderRegime')
-                    "
-                  />
+                  <SelectValue placeholder="Ex: Comunhão de Bens" />
                 </SelectTrigger>
                 <SelectContent>
                   <SelectGroup>
@@ -217,7 +211,7 @@
               <PopoverTrigger
                 class="text-sm w-full text-left border border-gray-200 px-4 py-2 rounded-md bg-white hover:border-gray-300"
               >
-                {{ country || "Selecione ou escreva o país" }}
+                {{ country || "Ex: Portugal" }}
               </PopoverTrigger>
 
               <PopoverContent class="w-full p-0">
@@ -265,7 +259,7 @@
                   :aria-expanded="openSearchDistrict"
                   class="w-full justify-between text-sm font-normal"
                 >
-                  {{ state || "Selecione ou escreva o distrito" }}
+                  {{ state || "Ex: Lisboa" }}
                   <ChevronsUpDown class="ml-2 h-4 w-4 shrink-0 opacity-50" />
                 </Button>
               </PopoverTrigger>
@@ -312,7 +306,7 @@
             <Input
               class="tour-target-input-concelho"
               v-model="city"
-              :placeholder="$t('cpcv.contacts.modals.form.inputs.concelho')"
+              placeholder="Ex: Lisboa"
             />
           </div>
 
@@ -323,7 +317,7 @@
             <Input
               class="tour-target-input-neighborhood"
               v-model="neighborhood"
-              :placeholder="$t('cpcv.contacts.modals.form.inputs.neighborhood')"
+              placeholder="Ex: Graça, Areeiro"
             />
           </div>
 
@@ -332,7 +326,7 @@
             <Input
               class="tour-target-input-address"
               v-model="address"
-              :placeholder="$t('cpcv.contacts.modals.form.inputs.address')"
+              placeholder="Ex: Rua da Graça, 123"
             />
           </div>
 
@@ -341,7 +335,7 @@
             <Input
               class="tour-target-input-zip-code"
               v-model="zipCode"
-              :placeholder="$t('cpcv.contacts.modals.form.inputs.zipCode')"
+              placeholder="Ex: 1234-567"
             />
           </div>
         </div>
@@ -352,7 +346,9 @@
             <Label>Tipo de Documento</Label>
             <Select v-model="identityType">
               <SelectTrigger class="tour-target-select-identity-type">
-                <SelectValue placeholder="Selecione o tipo de documento" />
+                <SelectValue
+                  placeholder="Ex: Cartão de Cidadão, Bilhete de Identidade, Passaporte, Residência, Carta de Condução"
+                />
               </SelectTrigger>
               <SelectContent>
                 <SelectGroup>
@@ -375,7 +371,7 @@
             <Input
               class="tour-target-input-identity-number"
               v-model="identityNumber"
-              placeholder="Introduza o número do documento"
+              placeholder="Ex: 1234567890"
             />
           </div>
 
@@ -385,7 +381,7 @@
               class="tour-target-input-identity-expiration-date"
               type="date"
               v-model="identityExpirationDate"
-              placeholder="Introduza a data de emissão"
+              placeholder="Ex: 2025-01-01"
             />
           </div>
 
@@ -394,7 +390,7 @@
             <Input
               class="tour-target-input-identity-issuer"
               v-model="identityIssuer"
-              placeholder="Introduza o local de emissão"
+              placeholder="Ex: Câmara Municipal de Lisboa"
             />
           </div>
         </div>
@@ -492,8 +488,9 @@ import {
 import type { Contact } from "~/pages/contacts/_contacts";
 
 const props = defineProps<{
-  contact: Contact | null;
-  successMessage: string;
+  contact?: Contact;
+  successMessage?: string;
+  errorMessage?: string;
 }>();
 
 const contacts = ref<Contact[]>([]);
@@ -637,7 +634,8 @@ const handleNextClick = async (func: Function) => {
       companyRCBECode: companyRCBECode.value,
       companySocialCapital: companySocialCapital.value,
       contactType: contactType.value,
-      marriedContactId: marriedContactId.value ?? "",
+      marriedContactId:
+        marriedContactId.value !== null ? marriedContactId.value : undefined,
     };
     const response = await $fetch<{ success?: boolean }>(
       "/api/contacts/create",
@@ -649,8 +647,9 @@ const handleNextClick = async (func: Function) => {
 
     if (response.status === 422) {
       toast({
-        title: "Erro ao criar o contato",
-        description: "Preencha todos os campos obrigatórios",
+        title: "Whoops!",
+        description:
+          props.errorMessage ?? "Preencha todos os campos obrigatórios",
         variant: "errors",
       });
       return;
@@ -711,8 +710,9 @@ watch(
       companyCode.value = contact.companyCode;
       companyRCBECode.value = contact.companyRCBECode;
       companySocialCapital.value = contact.companySocialCapital;
-      console.log(contact.marriedContactId);
-      marriedContactId.value = String(contact.marriedContactId);
+      if (contact.marriedContactId) {
+        marriedContactId.value = String(contact.marriedContactId);
+      }
     }
   },
   { immediate: true }

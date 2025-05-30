@@ -60,6 +60,8 @@ const handleEditDialogClosed = (isOpen: boolean) => {
 };
 
 const handleContactUpdated = (contact: Contact) => {
+  // close the dialog
+  isEditDialogOpen.value = false;
   // Emit an event to notify the parent component that the contact has been updated
   emit("done", contact);
 };

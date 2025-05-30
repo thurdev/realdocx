@@ -134,9 +134,11 @@ model Properties {
   number String? // Numero
   city String? // Localidade
   postalCode String? // Codigo Postal
-  matrixRegistration String? // Inscricao Matricial
-  buildingDescriptionNumber String? // Descrição do Prédio
-  buildingDescriptionRegistry String? // Conservatoria do Registo Predial
+  matrixRegistration String? // Inscrição Matricial
+  neighborhoodMatrixRegistration String? // Inscrição de Matricial da Freguesia
+  numberOfDescriptionRegistry String? // Numero de Inscrição de Descrição
+  neighborhoodDescriptionRegistry String? // Inscrição de Descrição da Freguesia
+  conservatoryOfDescriptionRegistry String? // Inscrição de Descrição da Conservatória
   luNumber String? // Numero de LU (Licença de Utilização)
   luDate DateTime? // Data de LU (Licença de Utilização)
   luIssuer String? // Entidade Emissora da LU (Licença de Utilização)

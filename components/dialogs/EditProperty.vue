@@ -2,12 +2,12 @@
   <Dialog :open="isOpen" @update:open="$emit('update:open', $event)">
     <DialogContent class="max-w-4xl max-h-[90vh] overflow-y-auto">
       <DialogHeader>
-        <DialogTitle>Editar Contato: {{ contact?.name }}</DialogTitle>
+        <DialogTitle>Editar Imóvel: {{ property?.address }}</DialogTitle>
       </DialogHeader>
-      <FormsCreateContact
-        :contact="contact"
-        :successMessage="$t('contacts.editContactSuccess')"
-        @onContactCreate="handleContactUpdated"
+      <FormsCreateProperty
+        :property="property"
+        :successMessage="$t('properties.editPropertySuccess')"
+        @onPropertyCreate="handlePropertyUpdated"
       />
     </DialogContent>
   </Dialog>
@@ -17,27 +17,28 @@
 import {
   Dialog,
   DialogContent,
-  DialogDescription,
   DialogFooter,
   DialogHeader,
   DialogTitle,
 } from "@/components/ui/dialog";
 import { Button } from "@/components/ui/button";
-import type { Contact } from "~/pages/contacts/_contacts";
+import type { Property } from "~/pages/properties/_property";
 
 const props = defineProps<{
   isOpen: boolean;
-  contact?: Contact;
+  property?: Property;
 }>();
 
 const emit = defineEmits<{
   "update:open": [boolean];
-  contact: [Contact];
+  property: [Partial<Property & { id: number }>];
 }>();
 
-const handleContactUpdated = (contact: Contact) => {
+const handlePropertyUpdated = (
+  property: Partial<Property & { id: number }>
+) => {
   // Emit an event to notify the parent component that the contact has been updated
   emit("update:open", false);
-  emit("contact", contact);
+  emit("property", property);
 };
 </script>

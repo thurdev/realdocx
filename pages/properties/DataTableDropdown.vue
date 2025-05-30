@@ -9,7 +9,7 @@
     <DropdownMenuContent align="end">
       <DropdownMenuLabel>{{ $t("shared.actions.title") }}</DropdownMenuLabel>
       <DropdownMenuSeparator />
-      <DropdownMenuItem @click="router.push(`/properties/${row.id}/edit`)">
+      <DropdownMenuItem @click="isEditDialogOpen = true">
         {{ $t("shared.actions.edit") }}
       </DropdownMenuItem>
       <DropdownMenuItem @click="handleDelete">
@@ -17,6 +17,13 @@
       </DropdownMenuItem>
     </DropdownMenuContent>
   </DropdownMenu>
+
+  <DialogsEditProperty
+    :property="row"
+    :is-open="isEditDialogOpen"
+    @update:open="handleEditDialogClosed"
+    @property="handlePropertyUpdated"
+  />
 </template>
 
 <script setup lang="ts">
@@ -39,31 +46,53 @@ const { toast } = useToast();
 
 const props = defineProps<{
   row: Property;
+  updateTable: () => Promise<void>;
 }>();
 
 const emit = defineEmits<{
   (e: "delete"): void;
+  (e: "done", property: Partial<Property & { id: number }>): void;
 }>();
 
 const handleDelete = async () => {
   try {
-    await $fetch(`/api/properties/${props.row.id}`, {
-      method: "DELETE",
+    await $fetch(`/api/properties/delete`, {
+      method: "POST",
+      body: {
+        id: props.row.id,
+      },
     });
-    
+
     toast({
       title: $t("shared.success"),
       description: $t("properties.deleted"),
+      variant: "success",
     });
-    
+
+    await props.updateTable();
+
     emit("delete");
   } catch (error) {
     console.error("Error deleting property:", error);
     toast({
       title: $t("shared.error"),
       description: $t("properties.deleteError"),
-      variant: "destructive",
+      variant: "errors",
     });
   }
+};
+
+const isEditDialogOpen = ref(false);
+const handleEditDialogClosed = (isOpen: boolean) => {
+  isEditDialogOpen.value = isOpen;
+};
+
+const handlePropertyUpdated = (
+  property: Partial<Property & { id: number }>
+) => {
+  // close the dialog
+  isEditDialogOpen.value = false;
+  // Emit an event to notify the parent component that the contact has been updated
+  emit("done", property);
 };
 </script>

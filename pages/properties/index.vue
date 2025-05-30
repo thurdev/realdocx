@@ -40,7 +40,6 @@ definePageMeta({
 import { Card, CardContent } from "@/components/ui/card";
 import { Button } from "@/components/ui/button";
 import DataTable from "@/components/dataTable/DataTable.vue";
-import DataTableDropdown from "./DataTableDropdown.vue";
 import { createColumns } from "./columns";
 import type { Property } from "./_property";
 import { useToast } from "@/components/ui/toast/use-toast";
@@ -51,7 +50,11 @@ const { toast } = useToast();
 const properties = ref<Property[]>([]);
 const loading = ref(true);
 
-const columns = createColumns($t);
+const updateTable = async () => {
+  await fetchProperties();
+};
+
+const columns = createColumns($t, updateTable);
 
 const fetchProperties = async () => {
   loading.value = true;
@@ -62,7 +65,7 @@ const fetchProperties = async () => {
     toast({
       title: "Erro",
       description: "Erro ao carregar propriedades",
-      variant: "destructive",
+      variant: "errors",
     });
   } finally {
     loading.value = false;

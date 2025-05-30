@@ -828,6 +828,10 @@
     }
   },
   "properties": {
+    "editPropertySuccess": {
+      "en": "Property edited successfully",
+      "pt": "Imóvel editado com sucesso"
+    },
     "title": {
       "en": "Properties",
       "pt": "Imóveis"
@@ -940,6 +944,10 @@
     }
   },
   "contracts": {
+    "deleted": {
+      "en": "Contract deleted successfully",
+      "pt": "Contrato excluído com sucesso"
+    },
     "review": {
       "en": "Review Contract",
       "pt": "Revisar Contrato"
@@ -1129,8 +1137,8 @@
       "pt": "Baixar como DOCX"
     },
     "downloadSuccess": {
-      "en": "Download started successfully",
-      "pt": "Download iniciado com sucesso"
+      "en": "Download completed successfully",
+      "pt": "Download concluído com sucesso"
     },
     "errors": {
       "downloadFailed": {

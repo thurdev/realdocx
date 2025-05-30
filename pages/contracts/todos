@@ -54,13 +54,14 @@
 - [x] No ultimo step mostrar o preco do contrato no botao de guardar
 - [x] Wallet page usar o saldo do composable
 - [/] Bloquear o path do nuxt para os meus components / Se nao mover todos os arquivos que nao sao paginas para o /components/
-- [ ] Editar o template somente na pagina de templates ja criado (na lista), o edit do template é completo usar rich text editor.
+- [ ] Editar o template somente na pagina de templates ja criado (na lista), o edit do template é completo usar rich text editor. (V2)
 - [ ] Adicionar search nos contatos na pagina de criar contato, e se nao encontrar texto para adicionar contato.
 
 23/05/20225
 
-- [ ] Terminar edicao do contato (modal fechar, toast bonitinho, reload da tabela)
-- [ ] Edicao do imovel em modal, passar o form de criar imovel para componente.
+- [x] Terminar edicao do contato (modal fechar, toast bonitinho, reload da tabela)
+- [x] Edicao do imovel em modal, passar o form de criar imovel para componente.
 - [ ] Adicionar contato ou imovel na criacao do contrato através de modal com os componentes.
 - [ ] Adicionar header do step no contato e no imovel igual tem no contrato
-- [ ] Todos os inputs ao invés de digite colocar exemplo do que deve ser digitado
+- [/] Todos os inputs ao invés de digite colocar exemplo do que deve ser digitado
+- [ ] Edicao do contrato (v1) é o mesmo form de criar contrato
