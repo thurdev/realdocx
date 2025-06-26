@@ -25,39 +25,39 @@
   />
   <StepDeadlines
     v-if="currentStep === 6"
-    @on-extra-clause-value="handleExtraClauseValue"
+    @on-auto-handle-step="handleAutoHandleStep"
   />
   <StepExpenses
     v-if="currentStep === 7"
-    @on-extra-clause-value="handleExtraClauseValue"
+    @on-auto-handle-step="handleAutoHandleStep"
   />
   <StepTradition
     v-if="currentStep === 8"
-    @on-extra-clause-value="handleExtraClauseValue"
+    @on-auto-handle-step="handleAutoHandleStep"
   />
   <StepNotifications
     v-if="currentStep === 9"
-    @on-extra-clause-value="handleExtraClauseValue"
+    @on-auto-handle-step="handleAutoHandleStep"
   />
   <StepChanges
     v-if="currentStep === 10"
-    @on-extra-clause-value="handleExtraClauseValue"
+    @on-auto-handle-step="handleAutoHandleStep"
   />
   <StepMoneyLaundering
     v-if="currentStep === 11"
-    @on-extra-clause-value="handleExtraClauseValue"
+    @on-auto-handle-step="handleAutoHandleStep"
   />
   <StepDeclarations
     v-if="currentStep === 12"
-    @on-extra-clause-value="handleExtraClauseValue"
+    @on-auto-handle-step="handleAutoHandleStep"
   />
   <StepLaw
     v-if="currentStep === 13"
-    @on-extra-clause-value="handleExtraClauseValue"
+    @on-auto-handle-step="handleAutoHandleStep"
   />
   <StepRecognition
     v-if="currentStep === 14"
-    @on-extra-clause-value="handleExtraClauseValue"
+    @on-auto-handle-step="handleAutoHandleStep"
   />
   <StepExtraClause
     v-if="currentStep === 15"

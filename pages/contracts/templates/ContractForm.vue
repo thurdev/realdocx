@@ -173,8 +173,8 @@ const steps = computed(() => {
         },
         {
           step: 5,
-          title: "7. Prazo",
-          description: "Selecione o imóvel que será utilizado no contrato",
+          title: "7. Escritura de compra e venda",
+          description: "Preencha as informações da escritura de compra e venda",
         },
         {
           step: 6,
