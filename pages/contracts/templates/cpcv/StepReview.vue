@@ -54,9 +54,10 @@ const props = defineProps<{
   data: {
     selectedSeller: Contact[];
     selectedBuyer: Contact[];
-    selectedProperty: Property;
+    selectedProperty: Partial<Property>;
     selectedClauses: Clause[];
     selectedTemplate: ContractTemplate;
+    autoHandleSteps: { name: string; key: string; html: string }[];
   };
 }>();
 

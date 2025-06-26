@@ -14,7 +14,7 @@
     <Button
       class="mt-4"
       :disabled="disabled"
-      @click="() => emits('next', nextStep)"
+      @click="() => emits('next', () => nextStep())"
     >
       <Loader2 v-if="isLoading" class="mr-2 h-4 w-4 animate-spin" />
       {{ buttonNextLabel }}

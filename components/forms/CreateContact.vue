@@ -80,16 +80,30 @@
       <div class="flex-1">
         <!-- Detalhes Pessoais -->
         <div class="flex flex-col flex-1 gap-4" v-if="currentStep === 1">
-          <div>
-            <Label
-              >{{ $t("cpcv.contacts.modals.form.inputs.name") }}
-              <sup class="text-red-500">*</sup></Label
-            >
-            <Input
-              class="tour-target-input-name"
-              v-model="name"
-              placeholder="Ex: João da Silva"
-            />
+          <div class="flex flex-wrap gap-4 items-center justify-between">
+            <div class="flex-1">
+              <Label
+                >{{ $t("cpcv.contacts.modals.form.inputs.name") }}
+                <sup class="text-red-500">*</sup></Label
+              >
+              <Input
+                class="tour-target-input-name"
+                v-model="name"
+                placeholder="Ex: João da Silva"
+              />
+            </div>
+
+            <div class="flex-1 flex flex-col gap-4">
+              <Label>{{ $t("cpcv.contacts.modals.form.inputs.gender") }}</Label>
+              <RadioGroup v-model="gender" class="flex gap-2">
+                <RadioGroupItem id="male" value="male" />
+                <Label for="male">Masculino</Label>
+                <RadioGroupItem id="female" value="female" />
+                <Label for="female">Feminino</Label>
+                <RadioGroupItem id="other" value="other" />
+                <Label for="other">Outro</Label>
+              </RadioGroup>
+            </div>
           </div>
 
           <div>
@@ -466,11 +480,12 @@
             {{ $t("shared.back") }}
           </Button>
           <Button
-            :disabled="currentStep === 1 && !name"
+            :disabled="(currentStep === 1 && !name) || isLoading"
             @click="handleNextClick(nextStep)"
             class="mt-4"
           >
-            {{ buttonNextLabel }}
+            <Loader2 v-if="isLoading" class="w-4 h-4 animate-spin" />
+            <span>{{ buttonNextLabel }}</span>
           </Button>
         </div>
       </div>
@@ -486,6 +501,7 @@ import {
   marriedUnderRegimeData,
 } from "./contacts.config";
 import type { Contact } from "~/pages/contacts/_contacts";
+import { RadioGroup, RadioGroupItem } from "@/components/ui/radio-group";
 
 const props = defineProps<{
   contact?: Contact;
@@ -496,7 +512,9 @@ const props = defineProps<{
 const contacts = ref<Contact[]>([]);
 
 // Customer Data to be Inserted (matches schema)
+const isLoading = ref(false);
 const name = ref("");
+const gender = ref("");
 const vat = ref("");
 const maritalStatus = ref("");
 const marriedUnderRegime = ref("");
@@ -539,7 +557,7 @@ import {
   StepperTrigger,
 } from "@/components/ui/stepper";
 const { $t } = useNuxtApp();
-import { Check, Circle, Dot, ChevronsUpDown } from "lucide-vue-next";
+import { Check, Circle, Dot, ChevronsUpDown, Loader2 } from "lucide-vue-next";
 import { cn } from "@/lib/utils";
 import {
   Command,
@@ -613,9 +631,11 @@ const setNewContactType = (type: ContactType) => {
 
 const handleNextClick = async (func: Function) => {
   if (currentStep.value === steps.value[steps.value.length - 1].step) {
+    isLoading.value = true;
     const payload = {
       id: props.contact?.id,
       name: name.value,
+      gender: gender.value,
       vat: vat.value,
       maritalStatus: maritalStatus.value,
       marriedUnderRegime: marriedUnderRegime.value,
@@ -664,6 +684,7 @@ const handleNextClick = async (func: Function) => {
       emits("onContactCreate", payload);
     }
 
+    isLoading.value = false;
     return;
   }
 

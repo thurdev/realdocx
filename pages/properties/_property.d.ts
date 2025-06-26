@@ -1,8 +1,8 @@
 export type Property = {
   link?: string;
-  side?: string;
+  side: string;
   propertyType?: string;
-  description?: string;
+  description: string;
   id: number;
   price: number;
   country: string;
@@ -14,6 +14,7 @@ export type Property = {
   fraction: string;
   floor: string;
   destination: string;
+  number: string;
   matrixRegistration: string;
   neighborhoodMatrixRegistration: string;
   numberOfDescriptionRegistry: string;
@@ -32,16 +33,4 @@ export type Property = {
   createdAt: string;
   image?: string;
   buildingDescriptionRegistry: string;
-  luNumber: string;
-  luDate: string;
-  luIssuer: string;
-  ecLetter: string;
-  ecNumber: string;
-  ecValidUntil: string;
-  chargesType: string;
-  chargesBank: string;
-  chargesAP: string;
-  chargesDate: string;
-  createdAt: string;
-  image?: string;
 };

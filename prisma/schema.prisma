@@ -65,10 +65,17 @@ enum MaritalStatus {
   widowed
 }
 
+enum Gender {
+  male
+  female
+  other
+}
+
 model Contacts {
   id    Int     @id @default(autoincrement())
   // Contact Info
   name  String
+  gender Gender?
   vat String?
   image String? // Campo de imagem para contatos
 
@@ -146,6 +153,7 @@ model Properties {
   ecNumber String? // Certificado Energético
   ecValidUntil DateTime? // Data do Certificado Energético
   propertyType String? // Tipo de Imóvel
+  description String? // Descrição do Imóvel
 
   // charges (Despesas)
   chargesType String? // Tipo de Despesa

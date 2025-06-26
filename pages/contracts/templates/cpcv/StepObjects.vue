@@ -1,12 +1,12 @@
 <template>
   <div class="flex flex-col flex-1 gap-4">
     <div class="seller-select space-y-2">
-      <Label class="text-sm font-medium text-gray-700"> Vendedor </Label>
+      <Label class="text-sm font-medium text-gray-700"> Vendedor(es) </Label>
       <Select v-model="selectedSellerId" multiple>
         <SelectTrigger
           class="w-full bg-white border-gray-200 hover:border-gray-300"
         >
-          <SelectValue placeholder="Selecione o Vendedor" />
+          <SelectValue placeholder="Selecione o(s) vendedor(es)" />
         </SelectTrigger>
         <SelectContent>
           <SelectGroup v-if="contacts.length > 0">
@@ -42,12 +42,12 @@
     </div>
 
     <div class="buyer-select space-y-2">
-      <Label class="text-sm font-medium text-gray-700"> Comprador </Label>
+      <Label class="text-sm font-medium text-gray-700"> Comprador(es) </Label>
       <Select v-model="selectedBuyerId" multiple>
         <SelectTrigger
           class="w-full bg-white border-gray-200 hover:border-gray-300"
         >
-          <SelectValue placeholder="Selecione o comprador" />
+          <SelectValue placeholder="Selecione o(s) comprador(es)" />
         </SelectTrigger>
         <SelectContent>
           <SelectGroup v-if="contacts.length > 0">

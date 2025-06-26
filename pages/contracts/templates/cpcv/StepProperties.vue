@@ -20,11 +20,17 @@
                 alt="Property image"
               />
               <div class="flex flex-col text-left">
-                <span class="font-medium">[#{{ selectedProperty.id }}]</span>
+                <span class="font-medium">
+                  #{{ selectedProperty.id }} -
+                  {{ selectedProperty.propertyType }}
+                </span>
                 <span class="text-sm text-gray-500">
                   {{ selectedProperty.city }},
                   {{ selectedProperty.neighborhood }},
                   {{ selectedProperty.address }}, {{ selectedProperty.number }}
+                </span>
+                <span class="text-sm text-gray-500">
+                  {{ selectedProperty.description }}
                 </span>
               </div>
             </div>
@@ -32,7 +38,10 @@
             <ChevronsUpDown class="ml-2 h-4 w-4 shrink-0 opacity-50" />
           </Button>
         </PopoverTrigger>
-        <PopoverContent class="w-full p-0">
+        <PopoverContent
+          :style="{ width: `${triggerWidth}px` }"
+          class="w-full p-0"
+        >
           <Command>
             <CommandInput placeholder="Pesquisar imóvel..." />
             <CommandEmpty>Nenhum imóvel encontrado.</CommandEmpty>
@@ -54,10 +63,17 @@
                       alt="Property image"
                     />
                     <div class="flex flex-col">
-                      <span class="font-medium">[#{{ property.id }}]</span>
+                      <span class="font-medium"
+                        >#{{ property.id }} -
+                        {{ property.propertyType }}
+                      </span>
+
                       <span class="text-sm text-gray-500">
                         {{ property.city }}, {{ property.neighborhood }},
                         {{ property.address }}, {{ property.number }}
+                      </span>
+                      <span class="text-sm text-gray-500">
+                        {{ property.description }}
                       </span>
                     </div>
                   </div>

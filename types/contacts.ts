@@ -10,6 +10,7 @@ export interface Contact {
   identityExpirationDate: string;
   identityIssuer: string;
   country: string;
+  district: string;
   address: string;
   neighborhood: string;
   state: string;

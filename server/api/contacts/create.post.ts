@@ -10,6 +10,7 @@ export default defineEventHandler(async (event) => {
   const {
     id,
     name,
+    gender,
     vat,
     maritalStatus,
     marriedUnderRegime,
@@ -41,6 +42,10 @@ export default defineEventHandler(async (event) => {
   }
 
   const extra: Record<string, unknown> = {};
+
+  if (gender) {
+    extra.gender = gender;
+  }
 
   if (vat) {
     extra.vat = vat;

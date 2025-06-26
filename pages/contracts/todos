@@ -59,9 +59,12 @@
 
 23/05/20225
 
+- [ ] Arrumar colunas da tabela do imovel, contact & contract
 - [x] Terminar edicao do contato (modal fechar, toast bonitinho, reload da tabela)
 - [x] Edicao do imovel em modal, passar o form de criar imovel para componente.
 - [ ] Adicionar contato ou imovel na criacao do contrato através de modal com os componentes.
 - [ ] Adicionar header do step no contato e no imovel igual tem no contrato
 - [/] Todos os inputs ao invés de digite colocar exemplo do que deve ser digitado
 - [ ] Edicao do contrato (v1) é o mesmo form de criar contrato
+- [x] Ao lado do nome na criacao do contato adicionar sexo (masculino, feminino)
+- [ ] Arrumar HTML DO contrato

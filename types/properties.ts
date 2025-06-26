@@ -9,6 +9,8 @@ export interface Property {
   neighborhood: string;
   number: string;
   postalCode: string;
+  propertyType?: string;
+  description?: string;
   createdAt?: string;
   updatedAt?: string;
 }
