@@ -1,71 +1,39 @@
 <template>
-  <div class="flex flex-col flex-1 gap-4">
-    <div class="space-y-2">
-      <Label>Condições para Alterações</Label>
-      <div class="flex flex-col gap-2">
-        <div class="flex items-center gap-2">
-          <Checkbox id="writtenDocument" v-model="changes.writtenDocument" />
-          <label for="writtenDocument" class="text-sm">Documento escrito</label>
-        </div>
-        <div class="flex items-center gap-2">
-          <Checkbox id="allSignatures" v-model="changes.allSignatures" />
-          <label for="allSignatures" class="text-sm"
-            >Assinado por todos os Outorgantes</label
-          >
-        </div>
+  <div class="space-y-6">
+    <!-- Preview do texto gerado -->
+    <div v-if="changesText" class="border rounded-lg p-4 bg-muted/50">
+      <h4 class="font-medium mb-2">Preview do texto:</h4>
+      <div class="text-sm leading-relaxed">
+        <p>{{ changesText }}</p>
       </div>
     </div>
   </div>
 </template>
 
 <script setup lang="ts">
-import { ref, watch } from "vue";
-import { Checkbox } from "@/components/ui/checkbox";
-
-const changes = ref({
-  writtenDocument: true,
-  allSignatures: true,
-});
+import { ref, watch, computed } from "vue";
 
 const emit = defineEmits<{
   (
-    e: "on-extra-clause-value",
-    payload: { key: string; value: string; html: string }
+    e: "on-auto-handle-step",
+    payload: { name: string; key: string; html: string }
   ): void;
 }>();
 
+// Computed para gerar o texto de alterações
+const changesText = computed(() => {
+  return `O presente Contrato Promessa traduz e constitui o integral acordo dos Outorgantes relativamente à compra e venda do imóvel identificado na Cláusula Primeira, só podendo ser alterado mediante documento escrito e assinado por todos os Outorgantes.`;
+});
+
+// Watch para emitir o texto gerado
 watch(
-  changes,
-  (newChanges) => {
-    const changesText = Object.entries(newChanges)
-      .filter(([_, value]) => value)
-      .map(([key]) => {
-        switch (key) {
-          case "writtenDocument":
-            return "documento escrito";
-          case "allSignatures":
-            return "assinado por todos os Outorgantes";
-          default:
-            return "";
-        }
-      })
-      .filter(Boolean)
-      .join(" e ");
-
-    // Se não houver nenhuma condição selecionada, não emitimos o evento
-    if (!changesText) {
-      emit("on-extra-clause-value", {
-        key: "changes",
-        value: "",
-        html: "",
-      });
-      return;
-    }
-
-    emit("on-extra-clause-value", {
+  [changesText],
+  ([newChangesText]) => {
+    // Emit para o texto completo de alterações
+    emit("on-auto-handle-step", {
+      name: "changes",
       key: "changes",
-      value: changesText,
-      html: `<h2>10.º Cláusula (Alterações)</h2><p>O presente Contrato Promessa só poderá ser alterado mediante ${changesText}.</p>`,
+      html: newChangesText,
     });
   },
   { immediate: true }

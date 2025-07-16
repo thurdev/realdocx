@@ -43,7 +43,7 @@
 
     <!-- Preview do texto gerado -->
     <div v-if="deadlinesText" class="border rounded-lg p-4 bg-muted/50">
-      <h4 class="font-medium mb-2">Preview do texto de prazos:</h4>
+      <h4 class="font-medium mb-2">Preview:</h4>
       <div class="text-sm leading-relaxed space-y-4">
         <p><strong>1.</strong> {{ deadlinesText.first }}</p>
         <p><strong>2.</strong> {{ deadlinesText.second }}</p>

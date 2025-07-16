@@ -1,76 +1,39 @@
 <template>
-  <div class="flex flex-col flex-1 gap-4">
-    <div class="space-y-2">
-      <Label>Reconhecimento de Assinaturas</Label>
-      <div class="flex flex-col gap-2">
-        <div class="flex items-center gap-2">
-          <Checkbox
-            id="mutualRecognition"
-            v-model="recognition.mutualRecognition"
-          />
-          <label for="mutualRecognition" class="text-sm"
-            >Reconhecimento mútuo das assinaturas</label
-          >
-        </div>
-        <div class="flex items-center gap-2">
-          <Checkbox id="noNotary" v-model="recognition.noNotary" />
-          <label for="noNotary" class="text-sm"
-            >Dispensa do reconhecimento notarial</label
-          >
-        </div>
+  <div class="space-y-6">
+    <!-- Preview do texto gerado -->
+    <div v-if="recognitionText" class="border rounded-lg p-4 bg-muted/50">
+      <h4 class="font-medium mb-2">Preview do texto:</h4>
+      <div class="text-sm leading-relaxed">
+        <p>{{ recognitionText }}</p>
       </div>
     </div>
   </div>
 </template>
 
 <script setup lang="ts">
-import { ref, watch } from "vue";
-import { Checkbox } from "@/components/ui/checkbox";
-
-const recognition = ref({
-  mutualRecognition: true,
-  noNotary: true,
-});
+import { watch, computed } from "vue";
 
 const emit = defineEmits<{
   (
-    e: "on-extra-clause-value",
-    payload: { key: string; value: string; html: string }
+    e: "on-auto-handle-step",
+    payload: { name: string; key: string; html: string }
   ): void;
 }>();
 
+// Computed para gerar o texto de reconhecimento
+const recognitionText = computed(() => {
+  return `Nos termos e para os efeitos do disposto do artigo 410.º do Código Civil, as assinaturas apostas no presente Contrato gozarão de reconhecimento presencial por entidade legalmente habilitada para o efeito.`;
+});
+
+// Watch para emitir o texto gerado
 watch(
-  recognition,
-  (newRecognition) => {
-    const recognitionText = Object.entries(newRecognition)
-      .filter(([_, value]) => value)
-      .map(([key]) => {
-        switch (key) {
-          case "mutualRecognition":
-            return "reconhecem entre si as assinaturas apostas no presente Contrato";
-          case "noNotary":
-            return "prescindindo do reconhecimento notarial";
-          default:
-            return "";
-        }
-      })
-      .filter(Boolean)
-      .join(", ");
-
-    // Se não houver nenhum reconhecimento selecionado, não emitimos o evento
-    if (!recognitionText) {
-      emit("on-extra-clause-value", {
-        key: "recognition",
-        value: "",
-        html: "",
-      });
-      return;
-    }
-
-    emit("on-extra-clause-value", {
+  [recognitionText],
+  ([newRecognitionText]) => {
+    // Emit para o texto completo de reconhecimento
+    emit("on-auto-handle-step", {
+      name: "recognition",
       key: "recognition",
-      value: recognitionText,
-      html: `<h2>15.º Cláusula (Reconhecimentos)</h2><p>Os Outorgantes ${recognitionText}.</p>`,
+      html: newRecognitionText,
     });
   },
   { immediate: true }

@@ -1,144 +1,52 @@
 <template>
-  <div class="flex flex-col flex-1 gap-4">
-    <div class="space-y-2">
-      <Label>Despesas do Comprador</Label>
-      <div class="flex flex-col gap-2">
-        <div class="flex items-center gap-2">
-          <Checkbox id="notary" v-model="buyerExpenses.notary" />
-          <label for="notary" class="text-sm">Despesas notariais</label>
-        </div>
-        <div class="flex items-center gap-2">
-          <Checkbox id="registry" v-model="buyerExpenses.registry" />
-          <label for="registry" class="text-sm">Despesas registrais</label>
-        </div>
-        <div class="flex items-center gap-2">
-          <Checkbox id="tax" v-model="buyerExpenses.tax" />
-          <label for="tax" class="text-sm">Despesas tributárias</label>
-        </div>
-      </div>
-    </div>
+  <div class="space-y-6">
+    <!-- Seção de Despesas -->
 
-    <div class="space-y-2">
-      <Label>Despesas do Vendedor</Label>
-      <div class="flex flex-col gap-2">
-        <div class="flex items-center gap-2">
-          <Checkbox id="expenses" v-model="sellerExpenses.expenses" />
-          <label for="expenses" class="text-sm">Despesas de utilização</label>
-        </div>
-        <div class="flex items-center gap-2">
-          <Checkbox id="charges" v-model="sellerExpenses.charges" />
-          <label for="charges" class="text-sm">Encargos</label>
-        </div>
-        <div class="flex items-center gap-2">
-          <Checkbox id="taxes" v-model="sellerExpenses.taxes" />
-          <label for="taxes" class="text-sm">Impostos</label>
-        </div>
-        <div class="flex items-center gap-2">
-          <Checkbox id="rates" v-model="sellerExpenses.rates" />
-          <label for="rates" class="text-sm">Taxas</label>
-        </div>
-        <div class="flex items-center gap-2">
-          <Checkbox id="consumption" v-model="sellerExpenses.consumption" />
-          <label for="consumption" class="text-sm">Consumos</label>
-        </div>
+    <!-- Preview do texto gerado -->
+    <div v-if="expensesText" class="border rounded-lg p-4 bg-muted/50">
+      <h4 class="font-medium mb-2">Preview do texto:</h4>
+      <div class="text-sm leading-relaxed space-y-4">
+        <p><strong>1.</strong> {{ expensesText.first }}</p>
+        <p><strong>2.</strong> {{ expensesText.second }}</p>
+        <p><strong>3.</strong> {{ expensesText.third }}</p>
+        <p><strong>4.</strong> {{ expensesText.fourth }}</p>
       </div>
     </div>
   </div>
 </template>
 
 <script setup lang="ts">
-import { ref, watch } from "vue";
-import { Checkbox } from "@/components/ui/checkbox";
-
-const buyerExpenses = ref({
-  notary: true,
-  registry: true,
-  tax: true,
-});
-
-const sellerExpenses = ref({
-  expenses: true,
-  charges: true,
-  taxes: true,
-  rates: true,
-  consumption: true,
-});
+import { ref, watch, computed } from "vue";
 
 const emit = defineEmits<{
   (
-    e: "on-extra-clause-value",
-    payload: { key: string; value: string; html: string }
+    e: "on-auto-handle-step",
+    payload: { name: string; key: string; html: string }
   ): void;
 }>();
 
+// Computed para gerar o texto das despesas
+const expensesText = computed(() => {
+  return {
+    first: `Correm por conta da Parte Compradora o pagamento de todas as despesas e encargos notariais, registais e tributários decorrentes do presente Contrato Promessa e da celebração do Contrato Definitivo de Compra e Venda, designadamente, custo da escritura, registos provisórios ou definitivos, Imposto do Selo e IMT - Imposto Municipal sobre Transmissões Onerosas de Imóveis, se houver lugar ao seu pagamento.`,
+
+    second: `Correm por conta da Parte Vendedora todas as despesas, encargos, impostos, taxas e consumos decorrentes da utilização do imóvel objeto deste contrato, correspondentes ao período em que o mesmo estiver na sua posse, ainda que se vençam em data posterior a esse período. Após a tomada de posse do imóvel pela Parte Compradora, será esta a responsável pelo pagamento de todas as despesas, encargos, impostos, taxas e consumos.`,
+
+    third: `É da inteira responsabilidade da Parte Vendedora a execução das diligências relativas à obtenção dos documentos legalmente ou convencionalmente necessários à outorga do Contrato Definitivo de Compra e Venda do imóvel prometido junto das entidades competentes, nomeadamente Conservatória do Registo Predial, Finanças, DGPC, Bancos e Câmara Municipal, entre outras, bem como eventuais uniformizações entre tais documentos que se mostrem necessárias à outorga do Contrato Definitivo de Compra e Venda, cancelamento de quaisquer hipotecas, penhoras ou outros ónus registados sobre o imóvel, devendo suportar os respectivos custos e despesas.`,
+
+    fourth: `A Parte Vendedora obriga-se a entregar à Parte Compradora, no dia da celebração do Contrato Definitivo de Compra e Venda prometido, uma Declaração da Administração do Condomínio, nos termos e para os efeitos do disposto no artigo 1424.º-A do Código Civil, caso o imóvel prometido esteja inserido em prédio com condomínio organizado.`,
+  };
+});
+
+// Watch para emitir o texto gerado
 watch(
-  [buyerExpenses, sellerExpenses],
-  ([newBuyerExpenses, newSellerExpenses]) => {
-    const buyerText = Object.entries(newBuyerExpenses)
-      .filter(([_, value]) => value)
-      .map(([key]) => {
-        switch (key) {
-          case "notary":
-            return "despesas notariais";
-          case "registry":
-            return "despesas registrais";
-          case "tax":
-            return "despesas tributárias";
-          default:
-            return "";
-        }
-      })
-      .filter(Boolean)
-      .join(", ");
-
-    const sellerText = Object.entries(newSellerExpenses)
-      .filter(([_, value]) => value)
-      .map(([key]) => {
-        switch (key) {
-          case "expenses":
-            return "despesas de utilização";
-          case "charges":
-            return "encargos";
-          case "taxes":
-            return "impostos";
-          case "rates":
-            return "taxas";
-          case "consumption":
-            return "consumos";
-          default:
-            return "";
-        }
-      })
-      .filter(Boolean)
-      .join(", ");
-
-    // Se não houver nenhuma despesa selecionada, não emitimos o evento
-    if (!buyerText && !sellerText) {
-      emit("on-extra-clause-value", {
-        key: "expenses",
-        value: "",
-        html: "",
-      });
-      return;
-    }
-
-    emit("on-extra-clause-value", {
+  [expensesText],
+  ([newExpensesText]) => {
+    // Emit para o texto completo das despesas
+    emit("on-auto-handle-step", {
+      name: "expenses",
       key: "expenses",
-      value: JSON.stringify({
-        buyer: buyerText,
-        seller: sellerText,
-      }),
-      html: `<h2>5.º Cláusula (Despesas e Encargos)</h2>
-        ${
-          buyerText
-            ? `<p>Correm por conta da Parte Compradora o pagamento de ${buyerText} decorrentes do presente Contrato Promessa e da celebração do Contrato Definitivo de Compra e Venda.</p>`
-            : ""
-        }
-        ${
-          sellerText
-            ? `<p>Correm por conta da Parte Vendedora ${sellerText} decorrentes da utilização do imóvel objeto deste contrato até à transmissão da posse.</p>`
-            : ""
-        }`,
+      html: `${newExpensesText.first} ${newExpensesText.second} ${newExpensesText.third} ${newExpensesText.fourth}`,
     });
   },
   { immediate: true }

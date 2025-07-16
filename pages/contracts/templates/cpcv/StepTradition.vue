@@ -1,76 +1,47 @@
 <template>
-  <div class="flex flex-col flex-1 gap-4">
-    <div class="space-y-2">
-      <Label>Condições para Tradição do Imóvel</Label>
-      <div class="flex flex-col gap-2">
-        <div class="flex items-center gap-2">
-          <Checkbox id="fullPayment" v-model="conditions.fullPayment" />
-          <label for="fullPayment" class="text-sm"
-            >Liquidação total do preço</label
-          >
-        </div>
-        <div class="flex items-center gap-2">
-          <Checkbox
-            id="definitiveContract"
-            v-model="conditions.definitiveContract"
-          />
-          <label for="definitiveContract" class="text-sm"
-            >Realização do Contrato Definitivo de Compra e Venda</label
-          >
-        </div>
+  <div class="space-y-6">
+    <!-- Preview do texto gerado -->
+    <div v-if="traditionText" class="border rounded-lg p-4 bg-muted/50">
+      <h4 class="font-medium mb-2">Preview do texto:</h4>
+      <div class="text-sm leading-relaxed space-y-4">
+        <p><strong>1.</strong> {{ traditionText.first }}</p>
+        <p><strong>2.</strong> {{ traditionText.second }}</p>
+        <p><strong>3.</strong> {{ traditionText.third }}</p>
       </div>
     </div>
   </div>
 </template>
 
 <script setup lang="ts">
-import { ref, watch } from "vue";
-import { Checkbox } from "@/components/ui/checkbox";
-
-const conditions = ref({
-  fullPayment: true,
-  definitiveContract: true,
-});
+import { ref, watch, computed } from "vue";
 
 const emit = defineEmits<{
   (
-    e: "on-extra-clause-value",
-    payload: { key: string; value: string; html: string }
+    e: "on-auto-handle-step",
+    payload: { name: string; key: string; html: string }
   ): void;
 }>();
 
+// Computed para gerar o texto da tradição
+const traditionText = computed(() => {
+  return {
+    first: `À Parte Compradora só será concedida plena posse, fruição e gozo do imóvel prometido com a total liquidação do preço e com a realização do Contrato Definitivo de Compra e Venda, através de Cartório Notarial ou em Balcão Casa Pronta ou entidade equiparada, fornecendo a Parte Vendedora, nessa data, à Parte Compradora, todas as chaves de acesso ao imóvel e partes comuns.`,
+
+    second: `A Parte Vendedora compromete-se a manter o imóvel nas condições atualmente existentes, até à data de realização do contrato ora prometido, ressalvadas as deteriorações normais e inerentes a uma prudente utilização.`,
+
+    third: `A Parte Compradora declara que previamente à assinatura do presente contrato visitou o imóvel, pelo que conhece o estado físico e de conservação do mesmo.`,
+  };
+});
+
+// Watch para emitir o texto gerado
 watch(
-  conditions,
-  (newConditions) => {
-    const conditionsText = Object.entries(newConditions)
-      .filter(([_, value]) => value)
-      .map(([key]) => {
-        switch (key) {
-          case "fullPayment":
-            return "liquidação total do preço";
-          case "definitiveContract":
-            return "realização do Contrato Definitivo de Compra e Venda";
-          default:
-            return "";
-        }
-      })
-      .filter(Boolean)
-      .join(" e com a ");
-
-    // Se não houver nenhuma condição selecionada, não emitimos o evento
-    if (!conditionsText) {
-      emit("on-extra-clause-value", {
-        key: "tradition",
-        value: "",
-        html: "",
-      });
-      return;
-    }
-
-    emit("on-extra-clause-value", {
+  [traditionText],
+  ([newTraditionText]) => {
+    // Emit para o texto completo da tradição
+    emit("on-auto-handle-step", {
+      name: "tradition",
       key: "tradition",
-      value: conditionsText,
-      html: `<h2>6.º Cláusula (Tradição)</h2><p>À Parte Compradora só será concedida plena posse, fruição e gozo do imóvel prometido com a ${conditionsText}.</p>`,
+      html: `${newTraditionText.first} ${newTraditionText.second} ${newTraditionText.third}`,
     });
   },
   { immediate: true }

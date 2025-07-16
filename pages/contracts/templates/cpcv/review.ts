@@ -288,7 +288,11 @@ export const generateContractHtml = (data: {
   // Auto handle steps
   data.autoHandleSteps.forEach((step) => {
     const regex = new RegExp(`{{ ${step.key} }}`, "g");
-    html = html.replace(regex, step.html);
+    html = html.replace(
+      regex,
+      step.html ??
+        `<span style="background-color: orange;">{{ ${step.key} }}</span>`
+    );
   });
 
   return html;

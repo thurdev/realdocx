@@ -1,74 +1,47 @@
 <template>
-  <div class="flex flex-col flex-1 gap-4">
-    <div class="space-y-2">
-      <Label>Lei Aplicável e Foro Competente</Label>
-      <div class="flex flex-col gap-2">
-        <div class="flex items-center gap-2">
-          <Checkbox id="portugueseLaw" v-model="law.portugueseLaw" />
-          <label for="portugueseLaw" class="text-sm">Lei Portuguesa</label>
-        </div>
-        <div class="flex items-center gap-2">
-          <Checkbox
-            id="propertyJurisdiction"
-            v-model="law.propertyJurisdiction"
-          />
-          <label for="propertyJurisdiction" class="text-sm"
-            >Tribunal da Comarca do imóvel</label
-          >
-        </div>
+  <div class="space-y-6">
+    <!-- Preview do texto gerado -->
+    <div v-if="lawText" class="border rounded-lg p-4 bg-muted/50">
+      <h4 class="font-medium mb-2">Preview do texto:</h4>
+      <div class="text-sm leading-relaxed space-y-4">
+        <p><strong>1.</strong> {{ lawText.first }}</p>
+        <p><strong>2.</strong> {{ lawText.second }}</p>
+        <p><strong>3.</strong> {{ lawText.third }}</p>
       </div>
     </div>
   </div>
 </template>
 
 <script setup lang="ts">
-import { ref, watch } from "vue";
-import { Checkbox } from "@/components/ui/checkbox";
-
-const law = ref({
-  portugueseLaw: true,
-  propertyJurisdiction: true,
-});
+import { watch, computed } from "vue";
 
 const emit = defineEmits<{
   (
-    e: "on-extra-clause-value",
-    payload: { key: string; value: string; html: string }
+    e: "on-auto-handle-step",
+    payload: { name: string; key: string; html: string }
   ): void;
 }>();
 
+// Computed para gerar o texto de lei aplicável
+const lawText = computed(() => {
+  return {
+    first: `O presente Contrato Promessa de Compra e Venda é exclusivamente regulado pela Lei Portuguesa. No omisso, aplicar-se-ão as disposições legais reguladoras do contrato promessa.`,
+
+    second: `Em caso de desacordo ou litígio relativamente à interpretação, integração e execução do presente Contrato, os Outorgantes diligenciarão no sentido de alcançar, por acordo, uma solução adequada e equitativa.`,
+
+    third: `No caso de não ser possível uma solução negociada e amigável nos termos previstos no número anterior, os Outorgantes acordam que será exclusivamente competente o Tribunal da Comarca da situação do imóvel prometido, cujo foro os Outorgantes aqui convencionam com expressa renúncia a qualquer outro.`,
+  };
+});
+
+// Watch para emitir o texto gerado
 watch(
-  law,
-  (newLaw) => {
-    const lawText = Object.entries(newLaw)
-      .filter(([_, value]) => value)
-      .map(([key]) => {
-        switch (key) {
-          case "portugueseLaw":
-            return "Lei Portuguesa";
-          case "propertyJurisdiction":
-            return "Tribunal da Comarca do imóvel";
-          default:
-            return "";
-        }
-      })
-      .filter(Boolean)
-      .join(". Para resolução de conflitos será competente o ");
-
-    // Se não houver nenhuma lei selecionada, não emitimos o evento
-    if (!lawText) {
-      emit("on-extra-clause-value", {
-        key: "law",
-        value: "",
-        html: "",
-      });
-      return;
-    }
-
-    emit("on-extra-clause-value", {
+  [lawText],
+  ([newLawText]) => {
+    // Emit para o texto completo de lei aplicável
+    emit("on-auto-handle-step", {
+      name: "law",
       key: "law",
-      value: lawText,
-      html: `<h2>14.º Cláusula (Lei aplicável e Foro competente)</h2><p>O presente Contrato é regulado pela ${lawText}.</p>`,
+      html: `${newLawText.first} ${newLawText.second} ${newLawText.third}`,
     });
   },
   { immediate: true }

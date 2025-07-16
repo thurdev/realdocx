@@ -35,42 +35,54 @@
     v-if="currentStep === 8"
     @on-auto-handle-step="handleAutoHandleStep"
   />
-  <StepNotifications
+  <StepPreference
     v-if="currentStep === 9"
     @on-auto-handle-step="handleAutoHandleStep"
   />
-  <StepChanges
+  <StepNonAcompliance
     v-if="currentStep === 10"
     @on-auto-handle-step="handleAutoHandleStep"
   />
-  <StepMoneyLaundering
+  <StepNotifications
     v-if="currentStep === 11"
     @on-auto-handle-step="handleAutoHandleStep"
   />
-  <StepDeclarations
+  <StepChanges
     v-if="currentStep === 12"
     @on-auto-handle-step="handleAutoHandleStep"
   />
-  <StepLaw
+  <StepRGPD
     v-if="currentStep === 13"
     @on-auto-handle-step="handleAutoHandleStep"
   />
-  <StepRecognition
+  <StepMoneyLaundering
     v-if="currentStep === 14"
     @on-auto-handle-step="handleAutoHandleStep"
   />
-  <StepExtraClause
+  <StepDeclarations
     v-if="currentStep === 15"
+    @on-auto-handle-step="handleAutoHandleStep"
+  />
+  <StepLaw
+    v-if="currentStep === 16"
+    @on-auto-handle-step="handleAutoHandleStep"
+  />
+  <StepRecognition
+    v-if="currentStep === 17"
+    @on-auto-handle-step="handleAutoHandleStep"
+  />
+  <!--<StepExtraClause
+    v-if="currentStep === 18"
     @on-select-clauses="handleSelectClause"
   />
   <template v-for="(clause, index) in extraClauses" :key="index">
     <component
-      v-if="currentStep === 16 + index"
+      v-if="currentStep === 19 + index"
       :is="clause.component"
       :clause="clause"
       @on-extra-clause-value="handleExtraClauseValue"
     />
-  </template>
+  </template>-->
   <StepReview
     v-if="isLastStep"
     :data="data"
@@ -90,7 +102,7 @@ import StepDeadlines from "./StepDeadlines.vue";
 import StepExpenses from "./StepExpenses.vue";
 import StepTradition from "./StepTradition.vue";
 import StepNotifications from "./StepNotifications.vue";
-import StepChanges from "./StepChanges.vue";
+import StepPreference from "./StepPreference.vue";
 import StepMoneyLaundering from "./StepMoneyLaundering.vue";
 import StepDeclarations from "./StepDeclarations.vue";
 import StepLaw from "./StepLaw.vue";
@@ -100,6 +112,9 @@ import StepReview from "./StepReview.vue";
 import StepObjecto from "./StepObjecto.vue";
 import StepOnus from "./StepOnus.vue";
 import StepBankFinancing from "./StepBankFinancing.vue";
+import StepNonAcompliance from "./StepNonAcompliance.vue";
+import StepRGPD from "./StepRGPD.vue";
+import StepChanges from "./StepChanges.vue";
 
 export interface Clause {
   name: string;

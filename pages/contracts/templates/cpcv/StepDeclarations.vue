@@ -1,82 +1,47 @@
 <template>
-  <div class="flex flex-col flex-1 gap-4">
-    <div class="space-y-2">
-      <Label>Declarações do Vendedor</Label>
-      <div class="flex flex-col gap-2">
-        <div class="flex items-center gap-2">
-          <Checkbox id="noDisputes" v-model="declarations.noDisputes" />
-          <label for="noDisputes" class="text-sm"
-            >Não existem litígios sobre o imóvel</label
-          >
-        </div>
-        <div class="flex items-center gap-2">
-          <Checkbox id="noCharges" v-model="declarations.noCharges" />
-          <label for="noCharges" class="text-sm"
-            >Não existem ónus sobre o imóvel</label
-          >
-        </div>
-        <div class="flex items-center gap-2">
-          <Checkbox id="noAffect" v-model="declarations.noAffect" />
-          <label for="noAffect" class="text-sm"
-            >Nenhum litígio ou ónus pode afetar o presente Contrato</label
-          >
-        </div>
+  <div class="space-y-6">
+    <!-- Preview do texto gerado -->
+    <div v-if="declarationsText" class="border rounded-lg p-4 bg-muted/50">
+      <h4 class="font-medium mb-2">Preview do texto:</h4>
+      <div class="text-sm leading-relaxed space-y-4">
+        <p><strong>1.</strong> {{ declarationsText.first }}</p>
+        <p><strong>2.</strong> {{ declarationsText.second }}</p>
+        <p><strong>3.</strong> {{ declarationsText.third }}</p>
       </div>
     </div>
   </div>
 </template>
 
 <script setup lang="ts">
-import { ref, watch } from "vue";
-import { Checkbox } from "@/components/ui/checkbox";
-
-const declarations = ref({
-  noDisputes: true,
-  noCharges: true,
-  noAffect: true,
-});
+import { watch, computed } from "vue";
 
 const emit = defineEmits<{
   (
-    e: "on-extra-clause-value",
-    payload: { key: string; value: string; html: string }
+    e: "on-auto-handle-step",
+    payload: { name: string; key: string; html: string }
   ): void;
 }>();
 
+// Computed para gerar o texto de declarações
+const declarationsText = computed(() => {
+  return {
+    first: `O presente contrato é assinado por ambas as Partes na sua boa-fé, declarando a Parte Vendedora, que, relativamente ao imóvel em causa, não existe, nem se prevê que venha a existir qualquer litígio judicial ou extrajudicial.`,
+
+    second: `A Parte Vendedora declara que não existem notificações, municipais ou outras, motivadas por quaisquer intervenções no imóvel prometido, que possam afetar ou comprometer a plena validade e eficácia do presente contrato promessa, o valor do imóvel, seu uso ou a sua atual composição, nem quaisquer ónus, encargos, contratos ou direitos de terceiros que afetem ou possam afetar o futuro direito de propriedade plena da Parte Compradora, além dos referidos no presente contrato.`,
+
+    third: `Declaram as Partes que têm conhecimento que a existência de qualquer dívida para com a Administração Pública, impedirá a emissão das guias dos impostos necessárias para a realização do contrato ora prometido.`,
+  };
+});
+
+// Watch para emitir o texto gerado
 watch(
-  declarations,
-  (newDeclarations) => {
-    const declarationsText = Object.entries(newDeclarations)
-      .filter(([_, value]) => value)
-      .map(([key]) => {
-        switch (key) {
-          case "noDisputes":
-            return "não existem litígios sobre o imóvel";
-          case "noCharges":
-            return "não existem ónus sobre o imóvel";
-          case "noAffect":
-            return "nenhum litígio ou ónus pode afetar o presente Contrato";
-          default:
-            return "";
-        }
-      })
-      .filter(Boolean)
-      .join(", ");
-
-    // Se não houver nenhuma declaração selecionada, não emitimos o evento
-    if (!declarationsText) {
-      emit("on-extra-clause-value", {
-        key: "declarations",
-        value: "",
-        html: "",
-      });
-      return;
-    }
-
-    emit("on-extra-clause-value", {
+  [declarationsText],
+  ([newDeclarationsText]) => {
+    // Emit para o texto completo de declarações
+    emit("on-auto-handle-step", {
+      name: "declarations",
       key: "declarations",
-      value: declarationsText,
-      html: `<h2>13.º Cláusula (Declarações)</h2><p>A Parte Vendedora declara que ${declarationsText}.</p>`,
+      html: `${newDeclarationsText.first} ${newDeclarationsText.second} ${newDeclarationsText.third}`,
     });
   },
   { immediate: true }

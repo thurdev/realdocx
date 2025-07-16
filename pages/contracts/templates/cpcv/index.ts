@@ -1,5 +1,5 @@
 // Extra
-import StepRGPDClause from "./clauses/StepRGPDClause.vue";
+import StepRGPDClause from "./StepRGPD.vue";
 import StepInterventionClause from "./clauses/StepInterventionClause.vue";
 
 export const clauses = [

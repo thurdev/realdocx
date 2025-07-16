@@ -179,54 +179,64 @@ const steps = computed(() => {
         {
           step: 6,
           title: "8. Despesas e Encargos",
-          description: "Selecione o imóvel que será utilizado no contrato",
+          description: "Preencha as informações das despesas e encargos",
         },
         {
           step: 7,
           title: "9. Tradição do imóvel",
-          description: "Selecione o imóvel que será utilizado no contrato",
+          description: "Revise as informações da tradição do imóvel",
         },
         {
           step: 8,
-          title: "10. Incumprimento Definitivo",
-          description: "Clausula automaticamente preenchida pelo advogado.",
+          title: "10. Preferência",
+          description: "Preencha as informações da preferência",
         },
         {
           step: 9,
-          title: "11. Notificações",
-          description: "Selecione a forma de notificação",
+          title: "11. Incumprimento Definitivo",
+          description: "Preencha as informações do incumprimento definitivo",
         },
         {
           step: 10,
-          title: "12. Alterações",
-          description: "Selecione o imóvel que será utilizado no contrato",
+          title: "12. Notificações",
+          description: "Revise as informações das notificações",
         },
         {
           step: 11,
-          title: "13. Branqueamento de Capitais",
-          description: "Selecione o imóvel que será utilizado no contrato",
+          title: "13. Alterações",
+          description: "Preencha as informações das alterações",
         },
         {
           step: 12,
-          title: "14. Declarações",
-          description: "Selecione o imóvel que será utilizado no contrato",
+          title: "14. RGPD",
+          description: "Revise as informações do RGPD",
         },
         {
           step: 13,
-          title: "15. Lei aplicável e Foro competente",
-          description: "Selecione o imóvel que será utilizado no contrato",
+          title: "15. Branqueamento de Capitais",
+          description: "Preencha as informações do branqueamento de capitais",
         },
         {
           step: 14,
-          title: "16. Reconhecimentos",
-          description: "Selecione o imóvel que será utilizado no contrato",
+          title: "16. Declarações",
+          description: "Preencha as informações das declarações",
         },
         {
           step: 15,
-          title: "17. Cláusulas (Opcional)",
+          title: "17. Lei aplicável e Foro competente",
           description:
-            "Selecione as cláusulas adicionais que desejas incluir no contrato",
+            "Preencha as informações da lei aplicável e foro competente",
         },
+        {
+          step: 16,
+          title: "18. Reconhecimentos",
+          description: "Preencha as informações dos reconhecimentos",
+        },
+        /*{
+          step: 17,
+          title: "19. Cláusulas (Opcional)",
+          description: "Preencha as informações das cláusulas adicionais",
+        },*/
       ];
 
       const reviewStep = {

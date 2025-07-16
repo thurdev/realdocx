@@ -1,67 +1,44 @@
 <template>
-  <div class="flex flex-col flex-1 gap-4">
-    <div class="space-y-2">
-      <Label>Declaração de Branqueamento de Capitais</Label>
-      <div class="flex flex-col gap-2">
-        <div class="flex items-center gap-2">
-          <Checkbox
-            id="noIllegalActivity"
-            v-model="declaration.noIllegalActivity"
-          />
-          <label for="noIllegalActivity" class="text-sm"
-            >Os montantes entregues não provêm de actividade ilícita</label
-          >
-        </div>
+  <div class="space-y-6">
+    <!-- Preview do texto gerado -->
+    <div v-if="moneyLaunderingText" class="border rounded-lg p-4 bg-muted/50">
+      <h4 class="font-medium mb-2">Preview do texto:</h4>
+      <div class="text-sm leading-relaxed space-y-4">
+        <p><strong>1.</strong> {{ moneyLaunderingText.first }}</p>
+        <p><strong>2.</strong> {{ moneyLaunderingText.second }}</p>
       </div>
     </div>
   </div>
 </template>
 
 <script setup lang="ts">
-import { ref, watch } from "vue";
-import { Checkbox } from "@/components/ui/checkbox";
-
-const declaration = ref({
-  noIllegalActivity: true,
-});
+import { watch, computed } from "vue";
 
 const emit = defineEmits<{
   (
-    e: "on-extra-clause-value",
-    payload: { key: string; value: string; html: string }
+    e: "on-auto-handle-step",
+    payload: { name: string; key: string; html: string }
   ): void;
 }>();
 
+// Computed para gerar o texto de branqueamento de capitais
+const moneyLaunderingText = computed(() => {
+  return {
+    first: `A Parte Compradora declara que qualquer quantia entregue por si no âmbito do presente Contrato, quer a título de reserva, quer a título de sinal ou de pagamento do remanescente do preço, não tem proveniência de qualquer actividade ilícita.`,
+
+    second: `As Partes obrigam-se, no âmbito das disposições legais aplicáveis de natureza preventiva e repressiva do combate ao branqueamento de capitais e ao financiamento do terrorismo, e em relação a todos os actos e operações abrangidas pelo presente Contrato, a prestar a informação relevante, designadamente sobre a identidade dos Outorgantes, dos seus representantes ou dos seus beneficiários efectivos, se aplicável, e dos meios de pagamento das transacções.`,
+  };
+});
+
+// Watch para emitir o texto gerado
 watch(
-  declaration,
-  (newDeclaration) => {
-    const declarationText = Object.entries(newDeclaration)
-      .filter(([_, value]) => value)
-      .map(([key]) => {
-        switch (key) {
-          case "noIllegalActivity":
-            return "os montantes entregues não provêm de actividade ilícita";
-          default:
-            return "";
-        }
-      })
-      .filter(Boolean)
-      .join(", ");
-
-    // Se não houver nenhuma declaração selecionada, não emitimos o evento
-    if (!declarationText) {
-      emit("on-extra-clause-value", {
-        key: "moneyLaundering",
-        value: "",
-        html: "",
-      });
-      return;
-    }
-
-    emit("on-extra-clause-value", {
-      key: "moneyLaundering",
-      value: declarationText,
-      html: `<h2>12.º Cláusula (Branqueamento de Capitais)</h2><p>A Parte Compradora declara que ${declarationText}.</p>`,
+  [moneyLaunderingText],
+  ([newMoneyLaunderingText]) => {
+    // Emit para o texto completo de branqueamento de capitais
+    emit("on-auto-handle-step", {
+      name: "money-laundering",
+      key: "money-laundering",
+      html: `${newMoneyLaunderingText.first} ${newMoneyLaunderingText.second}`,
     });
   },
   { immediate: true }
