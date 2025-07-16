@@ -2,7 +2,6 @@
   <div
     class="flex justify-end self-end gap-2 fixed right-[1rem] bottom-[1rem] p-2 rounded"
   >
-    {{ currentStep }}
     <Button
       v-if="currentStep >= 0"
       class="mt-4"

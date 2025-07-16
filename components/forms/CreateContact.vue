@@ -80,8 +80,19 @@
       <div class="flex-1">
         <!-- Detalhes Pessoais -->
         <div class="flex flex-col flex-1 gap-4" v-if="currentStep === 1">
-          <div class="flex flex-wrap gap-4 items-center justify-between">
-            <div class="flex-1">
+          <div
+            class="flex gap-4"
+            :class="{
+              'flex-col justify-start items-start': !isButtonsFixed,
+              'flex-wrap justify-between items-center': isButtonsFixed,
+            }"
+          >
+            <div
+              class="flex-1"
+              :class="{
+                'w-full': !isButtonsFixed,
+              }"
+            >
               <Label
                 >{{ $t("cpcv.contacts.modals.form.inputs.name") }}
                 <sup class="text-red-500">*</sup></Label
@@ -461,7 +472,8 @@
         </div>
 
         <div
-          class="flex justify-end self-end gap-2 fixed right-[1rem] bottom-[1rem] p-2 rounded"
+          class="flex justify-end self-end gap-2 p-2 rounded right-[1rem] bottom-[1rem]"
+          :class="{ fixed: isButtonsFixed }"
         >
           <Button
             variant="ghost"
@@ -503,11 +515,17 @@ import {
 import type { Contact } from "~/pages/contacts/_contacts";
 import { RadioGroup, RadioGroupItem } from "@/components/ui/radio-group";
 
-const props = defineProps<{
-  contact?: Contact;
-  successMessage?: string;
-  errorMessage?: string;
-}>();
+const props = withDefaults(
+  defineProps<{
+    contact?: Contact;
+    successMessage?: string;
+    errorMessage?: string;
+    isButtonsFixed?: boolean;
+  }>(),
+  {
+    isButtonsFixed: true,
+  }
+);
 
 const contacts = ref<Contact[]>([]);
 

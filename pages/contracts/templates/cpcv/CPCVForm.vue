@@ -4,11 +4,13 @@
     :contacts="contacts"
     @on-select-seller="handleSelectSeller"
     @on-select-buyer="handleSelectBuyer"
+    @on-refresh-contacts="handleRefreshContacts"
   />
   <StepProperties
     v-if="currentStep === 1"
     :properties="properties"
     @on-select-property="handleSelectProperty"
+    @on-refresh-properties="handleRefreshProperties"
   />
   <StepObjecto v-if="currentStep === 2" />
   <StepOnus
@@ -143,7 +145,7 @@ const emits = defineEmits<{
   };
 }>();
 
-defineProps<{
+const props = defineProps<{
   currentStep: number;
   extraClauses: Clause[];
   isLastStep: boolean;
@@ -196,5 +198,17 @@ const handleAutoHandleStep = (step: {
   html: string;
 }) => {
   emits("onAutoHandleStep", step);
+};
+
+const handleRefreshContacts = () => {
+  $fetch<Contact[]>("/api/contacts").then((newContacts) => {
+    contacts.value = newContacts;
+  });
+};
+
+const handleRefreshProperties = () => {
+  $fetch<Property[]>("/api/properties").then((newProperties) => {
+    properties.value = newProperties;
+  });
 };
 </script>

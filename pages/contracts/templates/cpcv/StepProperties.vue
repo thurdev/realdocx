@@ -39,7 +39,7 @@
           </Button>
         </PopoverTrigger>
         <PopoverContent
-          :style="{ width: `${triggerWidth}px` }"
+          style="width: var(--radix-popover-trigger-width)"
           class="w-full p-0"
         >
           <Command>
@@ -78,21 +78,59 @@
                     </div>
                   </div>
                 </CommandItem>
+
+                <!-- Opção Criar Propriedade -->
+                <CommandItem
+                  value="create-property"
+                  @select="handleCreateProperty"
+                >
+                  <div class="flex items-center gap-4 w-full">
+                    <div
+                      class="w-8 h-8 rounded-lg bg-primary/10 flex items-center justify-center"
+                    >
+                      <Plus class="w-4 h-4 text-primary" />
+                    </div>
+                    <div class="flex flex-col flex-1">
+                      <span class="font-medium text-primary"
+                        >Criar Propriedade</span
+                      >
+                      <span class="text-sm text-gray-500"
+                        >Adicionar novo imóvel</span
+                      >
+                    </div>
+                  </div>
+                </CommandItem>
               </CommandGroup>
               <div v-else class="p-4 text-center">
                 <p class="text-gray-500 mb-2">Nenhum imóvel cadastrado</p>
-                <NuxtLink
-                  to="/properties/create"
+                <button
+                  @click="handleCreateProperty"
                   class="text-primary hover:underline font-medium"
                 >
                   Clique aqui para adicionar um imóvel
-                </NuxtLink>
+                </button>
               </div>
             </CommandList>
           </Command>
         </PopoverContent>
       </Popover>
     </div>
+
+    <!-- Modal para criar propriedade -->
+    <Dialog v-model:open="showCreatePropertyModal">
+      <DialogContent class="max-w-4xl max-h-[90vh] overflow-y-auto">
+        <DialogHeader>
+          <DialogTitle>Criar Nova Propriedade</DialogTitle>
+          <DialogDescription>
+            Preencha os dados do novo imóvel
+          </DialogDescription>
+        </DialogHeader>
+        <CreateProperty
+          @onPropertyCreate="handlePropertyCreated"
+          successMessage="Propriedade criada com sucesso!"
+        />
+      </DialogContent>
+    </Dialog>
   </div>
 </template>
 
@@ -113,7 +151,15 @@ import {
   PopoverContent,
   PopoverTrigger,
 } from "@/components/ui/popover";
-import { ChevronsUpDown } from "lucide-vue-next";
+import {
+  Dialog,
+  DialogContent,
+  DialogDescription,
+  DialogHeader,
+  DialogTitle,
+} from "@/components/ui/dialog";
+import { ChevronsUpDown, Plus } from "lucide-vue-next";
+import CreateProperty from "@/components/forms/CreateProperty.vue";
 
 const props = defineProps<{
   properties: Property[];
@@ -121,14 +167,31 @@ const props = defineProps<{
 
 const open = ref(false);
 const selectedProperty = ref<Property | null>(null);
+const showCreatePropertyModal = ref(false);
 
 const emit = defineEmits<{
   onSelectProperty: [number];
+  onRefreshProperties: [];
 }>();
 
 const handleSelect = (property: Property) => {
   selectedProperty.value = property;
   emit("onSelectProperty", property.id);
   open.value = false;
+};
+
+const handleCreateProperty = () => {
+  showCreatePropertyModal.value = true;
+  open.value = false;
+};
+
+const handlePropertyCreated = async (
+  newProperty: Partial<Property & { id: number }>
+) => {
+  // Fecha o modal
+  showCreatePropertyModal.value = false;
+
+  // Solicita refresh da lista de propriedades
+  emit("onRefreshProperties");
 };
 </script>

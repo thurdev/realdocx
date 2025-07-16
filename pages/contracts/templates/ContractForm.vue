@@ -338,6 +338,11 @@ const handleAutoHandleStep = (step: {
 };
 
 const isNextButtonDisabled = computed(() => {
+  // Sempre desabilitar se estiver carregando
+  if (isLoading.value) {
+    return true;
+  }
+
   // Disable the next button if the current step is 0 and no template is selected
   if (currentStep.value === -1) {
     // If has template selected
@@ -369,6 +374,11 @@ const handleHTMLGenerated = (html: string) => {
 };
 
 const handleNextClick = async (func: Function) => {
+  // Proteção contra cliques múltiplos
+  if (isLoading.value) {
+    return;
+  }
+
   if (currentStep.value === -1) {
     currentStep.value = 0;
     return;
@@ -378,7 +388,9 @@ const handleNextClick = async (func: Function) => {
   if (isLastStep.value) {
     if (!selectedProperty.value) return;
 
+    // Bloquear imediatamente para evitar cliques múltiplos
     isLoading.value = true;
+
     try {
       await saveContract(
         {
@@ -390,6 +402,9 @@ const handleNextClick = async (func: Function) => {
         htmlContent.value,
         selectedTemplate.value?.id ?? 0
       );
+
+      // Atualizar o saldo do wallet após criar o contrato
+      await wallet.fetchBalance();
 
       toast({
         title: $t("shared.success"),

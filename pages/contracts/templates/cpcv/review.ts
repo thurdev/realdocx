@@ -31,10 +31,16 @@ export const generateContractHtml = (data: {
   let html = data.selectedTemplate.html;
 
   let sellersHtml = "";
+  let sellerSignature = ``;
 
   // First we loop thorugh the sellers
   for (const [index, seller] of data.selectedSeller.entries()) {
     let sellerHtml = `${index + 1}. `;
+    sellerSignature += `_____________________________________________________<br/>
+${seller.name}
+<br/><br/>
+EMAIL: _____________________________________________________<br/><br/><br/>
+`;
     sellerHtml += data.selectedTemplate.objectsHtml.seller;
     // Replace the placeholders with the actual values
     sellerHtml = sellerHtml.replace(
@@ -113,7 +119,13 @@ export const generateContractHtml = (data: {
 
   // Do the same for the buyers
   let buyersHtml = "";
+  let buyerSignature = ``;
   for (const [index, buyer] of data.selectedBuyer.entries()) {
+    buyerSignature += `_____________________________________________________<br/>
+${buyer.name}
+<br/><br/>
+EMAIL: _____________________________________________________<br/><br/><br/>
+`;
     let buyerHtml = `${index + 1}. `;
     buyerHtml += data.selectedTemplate.objectsHtml.buyer;
     buyerHtml = buyerHtml.replace(
@@ -273,6 +285,8 @@ export const generateContractHtml = (data: {
     data.selectedProperty.ecLetter ??
       '<span style="background-color: orange;">{{ property.ecLetter }}</span>'
   );
+  html = html.replace("{{ sellerSignature }}", sellerSignature);
+  html = html.replace("{{ buyerSignature }}", buyerSignature);
   // TODO:  Vai vir dos steps
   //html = html.replace("{{ property.onus }}", data.selectedProperty.onus);
 

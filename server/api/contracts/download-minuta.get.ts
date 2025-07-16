@@ -2,6 +2,7 @@ import prisma from "~/lib/prisma";
 import puppeteer from "puppeteer";
 import templates from "./templates/data.json";
 import { getWalletBalance, registerDebit } from "~/server/utils/wallet";
+import { TransactionSubType } from "~/server/utils/types";
 
 export default defineEventHandler(async (event) => {
   const session = await getUserSession(event);

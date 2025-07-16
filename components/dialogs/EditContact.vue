@@ -7,6 +7,7 @@
       <FormsCreateContact
         :contact="contact"
         :successMessage="$t('contacts.editContactSuccess')"
+        :is-buttons-fixed="false"
         @onContactCreate="handleContactUpdated"
       />
     </DialogContent>
