@@ -9,6 +9,7 @@ export default defineNuxtConfig({
     "nuxt-auth-utils",
     "@prisma/nuxt",
     "nuxt-vue3-google-signin",
+    "@nuxt/test-utils/module",
   ],
   colorMode: {
     classSuffix: "",

@@ -9,14 +9,15 @@
     "preview": "nuxt preview",
     "postinstall": "nuxt prepare",
     "deploy": "git push && git push second",
-    "seed": "node prisma/seed.js"
+    "seed": "node prisma/seed.js",
+    "test": "vitest"
   },
   "dependencies": {
     "@heroicons/vue": "^2.2.0",
     "@internationalized/date": "^3.7.0",
     "@nuxtjs/color-mode": "^3.5.2",
     "@nuxtjs/tailwindcss": "^6.12.2",
-    "@prisma/client": "^6.12.0",
+    "@prisma/client": "^6.14.0",
     "@prisma/nuxt": "0.2.0",
     "@splinetool/runtime": "^1.9.59",
     "@stripe/stripe-js": "^7.0.0",
@@ -58,8 +59,13 @@
   },
   "packageManager": "yarn@1.22.22+sha1.ac34549e6aa8e7ead463a7407e1c7390f61a6610",
   "devDependencies": {
+    "@nuxt/test-utils": "^3.19.2",
+    "@vue/test-utils": "^2.4.6",
+    "happy-dom": "^18.0.1",
+    "playwright-core": "^1.55.0",
     "prisma": "^6.5.0",
     "ts-node": "^10.9.2",
-    "typescript": "^5.7.2"
+    "typescript": "^5.7.2",
+    "vitest": "^3.2.4"
   }
 }
