@@ -72,6 +72,7 @@ import {
 } from "vue3-google-signin";
 
 import { useToast } from "@/components/ui/toast/use-toast";
+import { login } from "./login.functions";
 
 const { toast } = useToast();
 const { $t } = useNuxtApp();
@@ -86,10 +87,7 @@ const canSubmit = computed(() => email.value && password.value);
 
 // Methods
 const handleLogin = async () => {
-  const response = await $fetch<string>("/api/auth/", {
-    method: "POST",
-    body: JSON.stringify({ email: email.value, password: password.value }),
-  }).catch((err) => err.response);
+  const response = await login(email.value, password.value);
 
   let alertType: "success" | "errors" = "errors";
   if (response.includes("success")) {

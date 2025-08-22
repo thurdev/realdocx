@@ -2,6 +2,7 @@ import { AuthGoogleRequest } from "./auth";
 import { hashPassword } from "@/helpers/auth";
 import prisma from "~/lib/prisma";
 import { customerAuth } from "~/server/utils/stripe";
+import { sendEmail } from "~/server/utils/email";
 
 export default defineEventHandler(async (event) => {
   const { email, email_verified, name, picture, credential } =
@@ -13,6 +14,8 @@ export default defineEventHandler(async (event) => {
       email,
     },
   });
+
+  let isNewUser = false;
 
   // If user does not exist
   if (!user) {
@@ -26,6 +29,7 @@ export default defineEventHandler(async (event) => {
         isEmailVerified: email_verified,
       },
     });
+    isNewUser = true;
   } else {
     // update image
     await prisma.users.update({
@@ -55,6 +59,22 @@ export default defineEventHandler(async (event) => {
     });
   }
 
+  // Send welcome email only for new users
+  if (isNewUser) {
+    try {
+      await sendEmail(
+        "welcome",
+        user.email,
+        user.name || user.email.split("@")[0],
+        {},
+        "pt"
+      );
+    } catch (error) {
+      console.error("Failed to send welcome email for Google user:", error);
+      // Don't fail authentication if email fails
+    }
+  }
+
   await setUserSession(event, {
     // User data
     user: {
@@ -68,7 +88,7 @@ export default defineEventHandler(async (event) => {
     // Private data accessible only on server/ routes
     secure: {
       userId: user.id,
-      stripeCustomerId: user.stripeCustomerId as string,
+      stripeCustomerId: customer.id as string,
     },
     // Any extra fields for the session data
     loggedInAt: new Date(),

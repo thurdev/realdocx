@@ -1,6 +1,7 @@
 import prisma from "~/lib/prisma";
 import { TransactionType } from "@prisma/client";
 import stripe from "stripe";
+import { sendEmail } from "~/server/utils/email";
 
 const controllerStripe = new stripe(process.env.STRIPE_SECRET_KEY ?? "");
 
@@ -75,6 +76,46 @@ export default defineEventHandler(async (event) => {
         userId: session.secure.userId,
       },
     });
+
+    // Calculate new balance
+    const credits = await prisma.transactions.aggregate({
+      where: {
+        userId: session.secure.userId,
+        type: "credit",
+      },
+      _sum: {
+        amount: true,
+      },
+    });
+
+    const debits = await prisma.transactions.aggregate({
+      where: {
+        userId: session.secure.userId,
+        type: "debit",
+      },
+      _sum: {
+        amount: true,
+      },
+    });
+
+    const newBalance = (credits._sum.amount || 0) - (debits._sum.amount || 0);
+
+    // Send top-up email
+    try {
+      await sendEmail(
+        "topup",
+        user.email,
+        user.name || user.email.split("@")[0],
+        {
+          amount: amount.toFixed(2),
+          balance: newBalance.toFixed(2),
+        },
+        "pt"
+      );
+    } catch (error) {
+      console.error("Failed to send top-up email:", error);
+      // Don't fail transaction if email fails
+    }
 
     return {
       success: true,

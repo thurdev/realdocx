@@ -14,10 +14,10 @@
         <span>{{ $t("shared.actions.view") }}</span>
       </DropdownMenuItem>
 
-      <DropdownMenuItem @click="navigateToEdit">
+      <!-- <DropdownMenuItem @click="navigateToEdit">
         <Edit class="mr-2 h-4 w-4" />
         <span>{{ $t("shared.actions.edit") }}</span>
-      </DropdownMenuItem>
+      </DropdownMenuItem> -->
       <DropdownMenuItem @click="handleShare">
         <Share2 class="mr-2 h-4 w-4" />
         <span>{{ $t("contracts.share.button") }}</span>

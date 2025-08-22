@@ -3,6 +3,7 @@ import { createDebitTransaction } from "~/server/config/prices";
 import { TransactionSubType } from "~/server/utils/types";
 import { ContractType } from "@prisma/client";
 import templates from "./templates/data.json";
+import { sendEmail } from "~/server/utils/email";
 // TODO FIX CHANGE TO ANOTHER FILE THE TEMPLATES INSTEAD OF THE ENDPOINT OF GETTING TEMPLATES
 // THEN UPDATE THE FRONTEND TO GET THE TEMPLATES FROM THE ENDPOINT OF GETTING TEMPLATES
 
@@ -68,6 +69,11 @@ export default defineEventHandler(async (event) => {
   const cType = contractType === "CPCV" ? "SALE" : "RENT";
 
   try {
+    // Get user info for email
+    const user = await prisma.users.findUnique({
+      where: { id: session.secure.userId },
+    });
+
     // Criar o contrato
     const createdContract = await prisma.contracts.create({
       data: {
@@ -109,6 +115,25 @@ export default defineEventHandler(async (event) => {
       subType: TransactionSubType.contractCreation,
       customAmount: template.price,
     });
+
+    // Send contract creation email
+    if (user) {
+      try {
+        await sendEmail(
+          "contract",
+          user.email,
+          user.name || user.email.split("@")[0],
+          {
+            contractType: cType,
+            amount: template.price.toFixed(2),
+          },
+          "pt"
+        );
+      } catch (error) {
+        console.error("Failed to send contract creation email:", error);
+        // Don't fail contract creation if email fails
+      }
+    }
 
     return {
       success: true,

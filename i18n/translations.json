@@ -1376,8 +1376,120 @@
         "pt": "Nesta seção você pode gerenciar seu portfólio de imóveis - adicionar novos, atualizar informações e visualizar todos os detalhes"
       },
       "contracts": {
-        "en": "Here you manage all your contracts - from creation to complete monitoring",
+        "en": "Here you manage all your contracts - from creation to complete tracking",
         "pt": "Aqui você gerencia todos os seus contratos - desde a criação até o acompanhamento completo"
+      }
+    }
+  },
+  "emails": {
+    "welcome": {
+      "subject": {
+        "en": "Welcome to RealDOCX! 🎉",
+        "pt": "Bem-vindo ao RealDOCX! 🎉"
+      },
+      "title": {
+        "en": "🎉 Welcome to RealDOCX!",
+        "pt": "🎉 Bem-vindo ao RealDOCX!"
+      },
+      "greeting": {
+        "en": "Hello {name}!",
+        "pt": "Olá {name}!"
+      },
+      "message": {
+        "en": "Your account has been successfully created. You can now start creating professional contracts simply and efficiently.",
+        "pt": "A sua conta foi criada com sucesso. Agora pode começar a criar contratos profissionais de forma simples e eficiente."
+      },
+      "cta": {
+        "en": "Get Started",
+        "pt": "Começar a Usar"
+      }
+    },
+    "contract": {
+      "subject": {
+        "en": "Contract created successfully 📄",
+        "pt": "Contrato criado com sucesso 📄"
+      },
+      "title": {
+        "en": "📄 Contract Created Successfully!",
+        "pt": "📄 Contrato Criado com Sucesso!"
+      },
+      "message": {
+        "en": "Your contract has been created and is ready to be used.",
+        "pt": "O seu contrato foi criado e está pronto para ser utilizado."
+      },
+      "amount": {
+        "en": "Amount debited: €{amount}",
+        "pt": "Valor debitado: €{amount}"
+      }
+    },
+    "topup": {
+      "subject": {
+        "en": "Balance added to your wallet 💰",
+        "pt": "Saldo adicionado à sua carteira 💰"
+      },
+      "title": {
+        "en": "💰 Balance Added Successfully!",
+        "pt": "💰 Saldo Adicionado com Sucesso!"
+      },
+      "message": {
+        "en": "Your balance has been successfully topped up.",
+        "pt": "O seu saldo foi recarregado com sucesso."
+      },
+      "amount": {
+        "en": "Amount added: €{amount}",
+        "pt": "Valor adicionado: €{amount}"
+      },
+      "balance": {
+        "en": "Current balance: €{balance}",
+        "pt": "Saldo atual: €{balance}"
+      }
+    },
+    "card": {
+      "subject": {
+        "en": "New card added 💳",
+        "pt": "Novo cartão adicionado 💳"
+      },
+      "title": {
+        "en": "💳 Card Added Successfully!",
+        "pt": "💳 Cartão Adicionado com Sucesso!"
+      },
+      "message": {
+        "en": "Your new payment method has been added to your account.",
+        "pt": "O seu novo método de pagamento foi adicionado à sua conta."
+      },
+      "security": {
+        "en": "Your data is safe and protected.",
+        "pt": "Os seus dados estão seguros e protegidos."
+      }
+    },
+    "cardRemoval": {
+      "subject": {
+        "en": "Card removed 💳",
+        "pt": "Cartão removido 💳"
+      },
+      "title": {
+        "en": "💳 Card Removed Successfully!",
+        "pt": "💳 Cartão Removido com Sucesso!"
+      },
+      "message": {
+        "en": "Your payment method has been removed successfully.",
+        "pt": "O seu método de pagamento foi removido com sucesso."
+      }
+    },
+    "common": {
+      "footer": {
+        "copyright": {
+          "en": "© {year} RealDOCX. All rights reserved.",
+          "pt": "© {year} RealDOCX. Todos os direitos reservados."
+        },
+        "automatic": {
+          "en": "This email was sent automatically by the RealDOCX system.",
+          "pt": "Este email foi enviado automaticamente pelo sistema RealDOCX."
+        }
+      },
+      "tagline": {
+        "en": "Professional Document Management",
+        "pt": "Gestão Documental Profissional"
       }
     }
   }
